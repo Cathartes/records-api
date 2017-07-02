@@ -1,0 +1,34 @@
+AllCops:
+  Exclude:
+    - "db/schema.rb"
+  TargetRubyVersion: 2.3
+Metrics/AbcSize:
+  Enabled: false
+Metrics/BlockLength:
+  Enabled: false
+Metrics/ClassLength:
+  Enabled: false
+Metrics/CyclomaticComplexity:
+  Enabled: false
+Metrics/ModuleLength:
+  Enabled: false
+Metrics/LineLength:
+  Max: 130
+Metrics/MethodLength:
+  Enabled: false
+Metrics/ParameterLists:
+  Enabled: false
+Metrics/PerceivedComplexity:
+  Enabled: false
+Rails:
+  Enabled: true
+Style/AndOr:
+  EnforcedStyle: conditionals
+Style/Documentation:
+  Enabled: false
+Style/IfUnlessModifier:
+  MaxLineLength: 100
+
+## TODO: In upgrading to Ruby 3.0, this will need to be enabled
+Style/FrozenStringLiteralComment:
+  Enabled: false
