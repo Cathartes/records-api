@@ -1,24 +1,17 @@
-# README
+# Cathartes Records API
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+### Dependencies
+- Ruby:     v2.4.1
+- Postgres: v9.5
 
-Things you may want to cover:
+### Setup Instructions
+1. Install dependencies
+2. Run `bundle install`
+3. Ensure `config/database.yml` contains your Postgresql username / password
+4. Run `rake db:create`
+5. Run `rake db:migrate`
+6. Run `rake db:seed` (optionally)
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+### Common Commands
+- Start Rails server using Puma: `rails s`
+- Run RSpec test suite: `rspec`
