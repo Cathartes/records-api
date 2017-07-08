@@ -1,5 +1,5 @@
 module V1
-  class SessionsController < ApplicationController
+  class SessionsController < V1::ApplicationController
     skip_after_action :verify_authorized
 
     def create
@@ -7,9 +7,9 @@ module V1
       user = User.find_by email: login_params[:email]
       return render_login_invalid unless user&.authenticate login_params[:password]
 
-      token = user.create_authentication_token
+      token = user.authentication_tokens.create!
       response.headers['X-USER-EMAIL'] = user.email
-      response.headers['X-USER-TOKEN'] = token
+      response.headers['X-USER-TOKEN'] = token.body
 
       render json: user
     end

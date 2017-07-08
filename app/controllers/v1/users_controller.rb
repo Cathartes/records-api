@@ -1,5 +1,5 @@
 module V1
-  class UsersController < ApplicationController
+  class UsersController < V1::ApplicationController
     before_action :authenticate_user!
 
     def create

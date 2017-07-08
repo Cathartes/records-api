@@ -17,3 +17,6 @@
 
 # Ignore environment configuration
 .env
+
+# Ignore rspec temporary files
+/spec/examples.txt

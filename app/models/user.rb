@@ -9,10 +9,6 @@ class User < ApplicationRecord
   validates :password, length: { minimum: 6, maximum: 72 }, on: :create
   validates :password, length: { minimum: 6, maximum: 72 }, if: :password, on: :update
 
-  def create_authentication_token
-    authentication_tokens.create!.body
-  end
-
   def find_token(token_body)
     authentication_tokens.detect do |token|
       ActiveSupport::SecurityUtils.secure_compare token.body, token_body
