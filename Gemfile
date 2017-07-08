@@ -38,6 +38,7 @@ end
 group :test do
   gem 'database_cleaner'
   gem 'mocha'
+  gem 'pundit-matchers'
   gem 'shoulda-matchers'
 end
 
