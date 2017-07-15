@@ -2,6 +2,9 @@ module V1
   class ApplicationController < ::ApplicationController
     prepend_before_action :check_current_user
 
+    rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
+    rescue_from Pundit::NotAuthorizedError, with: :pundit_denied
+
     protected
 
     attr_reader :current_user
@@ -29,10 +32,19 @@ module V1
       locale_name = "#{policy_name}.#{exception.query}"
       render json: {
         errors: [{
-          title: 'Access denied',
+          title: 'Access Denied',
           details: I18n.t(locale_name, scope: 'pundit', default: :default)
         }]
       }, status: :forbidden
+    end
+
+    def record_not_found(exception)
+      render json: {
+        errors: [{
+          title: 'Not Found',
+          details: exception.message
+        }]
+      }, status: :not_found
     end
 
     def unprocessable_entity(model)
