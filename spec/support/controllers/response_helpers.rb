@@ -18,8 +18,16 @@ RSpec.shared_examples 'authentication required' do |http_method, action_name, pa
   end
 end
 
-RSpec.shared_examples 'not found' do |http_method, action_name, object_name = 'Model'|
-  context "when the #{object_name} is not found" do
+RSpec.shared_examples 'created' do
+  it { is_expected.to respond_with 201 }
+end
+
+RSpec.shared_examples 'no content' do
+  it { is_expected.to respond_with 204 }
+end
+
+RSpec.shared_examples 'not found' do |http_method, action_name, model: 'Model'|
+  context "when the #{model} is not found" do
     before(:each) { method(http_method).call action_name, params: { id: -1 } }
     it            { is_expected.to respond_with 404 }
   end
