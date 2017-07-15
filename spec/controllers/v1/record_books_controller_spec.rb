@@ -183,7 +183,8 @@ RSpec.describe V1::RecordBooksController, type: :controller do
             let(:data) { { attributes: { name: '' } } }
 
             it 'is expected to not update the Record Book' do
-              expect(record_book.reload.name).to eq record_book.name
+              original_name = record_book.name
+              expect(record_book.reload.name).to eq original_name
             end
 
             it { is_expected.to respond_with 422 }
