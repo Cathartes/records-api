@@ -7,7 +7,7 @@ module V1
       @user.assign_attributes user_params
       authorize @user
       return unprocessable_entity @user unless @user.save
-      render json: @user
+      render json: @user, status: :created
     end
 
     def update
