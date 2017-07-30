@@ -22,6 +22,9 @@ Metrics/PerceivedComplexity:
   Enabled: false
 Rails:
   Enabled: true
+Rails/Output:
+  Exclude:
+    - "db/seeds.rb"
 Style/AndOr:
   EnforcedStyle: conditionals
 Style/Documentation:
