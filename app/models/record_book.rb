@@ -1,4 +1,6 @@
 class RecordBook < ApplicationRecord
+  has_many :challenges, dependent: :destroy
+
   validates :name, length: { minimum: 2, maximum: 24 }
   validates :published, boolean: true
   validates :time_zone, time_zone: true

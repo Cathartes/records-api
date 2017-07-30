@@ -5,6 +5,6 @@ class ApplicationController < ActionController::API
 
   def index
     skip_authorization
-    render json: {}
+    head :no_content
   end
 end

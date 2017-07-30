@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   namespace :v1, defaults: { format: 'json' } do
+    resources :challenges
+
     resources :record_books
 
     resources :users, only: %i[create update]
