@@ -3,6 +3,8 @@ class Participation < ApplicationRecord
   belongs_to :team
   belongs_to :user
 
+  has_many :completions, dependent: :destroy
+
   enum participation_type: { member: 0, applicant: 1 }
 
   validates :record_book, :team, :user, :participation_type, presence: true
