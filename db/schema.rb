@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170715065421) do
+ActiveRecord::Schema.define(version: 20170808212254) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,6 +34,17 @@ ActiveRecord::Schema.define(version: 20170715065421) do
     t.index ["record_book_id"], name: "index_challenges_on_record_book_id"
   end
 
+  create_table "completions", force: :cascade do |t|
+    t.bigint "challenge_id", null: false
+    t.bigint "user_id", null: false
+    t.integer "rank", null: false
+    t.integer "points", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["challenge_id"], name: "index_completions_on_challenge_id"
+    t.index ["user_id"], name: "index_completions_on_user_id"
+  end
+
   create_table "record_books", force: :cascade do |t|
     t.string "name", null: false
     t.boolean "published", default: false, null: false
@@ -42,6 +53,12 @@ ActiveRecord::Schema.define(version: 20170715065421) do
     t.datetime "end_time"
     t.datetime "rush_start_time"
     t.datetime "rush_end_time"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "teams", force: :cascade do |t|
+    t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
