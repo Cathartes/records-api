@@ -5,7 +5,7 @@ module V1
 
     def create
       @record_book = RecordBook.new
-      @record_book.assign_attributes user_params
+      @record_book.assign_attributes record_book_params
       authorize @record_book
       return unprocessable_entity @record_book unless @record_book.save
       render json: @record_book, status: :created
@@ -31,7 +31,7 @@ module V1
     end
 
     def update
-      return unprocessable_entity @record_book unless @record_book.update_attributes user_params
+      return unprocessable_entity @record_book unless @record_book.update_attributes record_book_params
       render json: @record_book
     end
 
@@ -42,7 +42,7 @@ module V1
       authorize @record_book
     end
 
-    def user_params
+    def record_book_params
       params.require(:data).require(:attributes).permit policy(@record_book).permitted_attributes
     end
   end

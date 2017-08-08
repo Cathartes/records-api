@@ -3,9 +3,9 @@ module V1
     skip_after_action :verify_authorized
 
     def create
-      return render_login_invalid if login_params[:email].blank?
-      user = User.find_by email: login_params[:email]
-      return render_login_invalid unless user&.authenticate login_params[:password]
+      return render_login_invalid if session_params[:email].blank?
+      user = User.find_by email: session_params[:email]
+      return render_login_invalid unless user&.authenticate session_params[:password]
 
       token = user.authentication_tokens.create!
       response.headers['X-USER-EMAIL'] = user.email
@@ -21,7 +21,7 @@ module V1
 
     private
 
-    def login_params
+    def session_params
       params.require(:data).require(:attributes).permit %i[email password]
     end
 
