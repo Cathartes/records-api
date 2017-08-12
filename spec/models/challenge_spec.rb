@@ -6,7 +6,7 @@ RSpec.describe Challenge, type: :model do
   end
 
   describe 'enums' do
-    it { is_expected.to define_enum_for(:challenge_type).with %i[members applicants everyone] }
+    it { is_expected.to define_enum_for(:challenge_type).with %i[member applicant everyone] }
   end
 
   describe 'validations' do

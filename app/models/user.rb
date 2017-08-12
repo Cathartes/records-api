@@ -2,6 +2,7 @@ class User < ApplicationRecord
   has_secure_password
 
   has_many :authentication_tokens, dependent: :destroy
+  has_many :participations, dependent: :destroy
 
   validates :admin, boolean: true
   validates :discord_name, length: { minimum: 6, maximum: 72 }, uniqueness: true

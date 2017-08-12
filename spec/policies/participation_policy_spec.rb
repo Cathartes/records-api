@@ -1,10 +1,10 @@
 require 'rails_helper'
 require 'pundit/matchers'
 
-RSpec.describe ChallengePolicy, type: :policy do
-  subject { described_class.new user, challenge }
+RSpec.describe ParticipationPolicy, type: :policy do
+  subject { described_class.new user, participation }
 
-  let(:challenge) { Challenge.new }
+  let(:participation) { Participation.new }
 
   context 'when logged out' do
     let(:user) { nil }
@@ -16,7 +16,7 @@ RSpec.describe ChallengePolicy, type: :policy do
     it { is_expected.to forbid_action :update }
 
     context 'when the Record Book is published' do
-      let(:challenge) { Challenge.new record_book: RecordBook.new(published: true) }
+      let(:participation) { Participation.new record_book: RecordBook.new(published: true) }
 
       it { is_expected.to permit_action :show }
     end

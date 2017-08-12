@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
-  namespace :v1, defaults: { format: 'json' } do
+  namespace :v1, defaults: { format: :json } do
     resources :challenges
+
+    resources :participations
 
     resources :record_books
 

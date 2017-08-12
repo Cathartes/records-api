@@ -1,7 +1,7 @@
 class Challenge < ApplicationRecord
   belongs_to :record_book
 
-  enum challenge_type: { members: 0, applicants: 1, everyone: 2 }
+  enum challenge_type: { member: 0, applicant: 1, everyone: 2 }
 
   validates :challenge_type, :points, :record_book, presence: true
   validates :name, length: { minimum: 2, maximum: 24 }

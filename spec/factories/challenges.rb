@@ -4,9 +4,9 @@ FactoryGirl.define do
     name { Faker::Name.first_name }
     points { { 0 => 1 } }
 
-    trait(:applicants) { challenge_type :applicants }
-    trait(:everyone)   { challenge_type :everyone }
-    trait(:members)    { challenge_type :members }
-    trait(:published)  { association :record_book, :published }
+    trait(:applicant) { challenge_type :applicant }
+    trait(:everyone)  { challenge_type :everyone }
+    trait(:member)    { challenge_type :member }
+    trait(:published) { association :record_book, :published }
   end
 end
