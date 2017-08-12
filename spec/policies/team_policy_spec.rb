@@ -2,9 +2,9 @@ require 'rails_helper'
 require 'pundit/matchers'
 
 RSpec.describe TeamPolicy, type: :policy do
-  subject { described_class.new user, record_book }
+  subject { described_class.new user, team }
 
-  let(:record_book) { Team.new }
+  let(:team) { Team.new }
 
   context 'when logged out' do
     let(:user) { nil }
@@ -25,6 +25,13 @@ RSpec.describe TeamPolicy, type: :policy do
       it { is_expected.to permit_action :index }
       it { is_expected.to permit_action :show }
       it { is_expected.to permit_action :update }
+
+      context 'when the Team has Participations' do
+        let(:team) { Team.new participations: [Participation.new] }
+
+        it { is_expected.to forbid_action :destroy }
+        it { is_expected.to forbid_action :update }
+      end
     end
   end
 end

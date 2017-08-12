@@ -4,7 +4,7 @@ class TeamPolicy < ApplicationPolicy
   end
 
   def destroy?
-    user&.admin?
+    user&.admin? && record.participations.empty?
   end
 
   def index?
@@ -16,7 +16,7 @@ class TeamPolicy < ApplicationPolicy
   end
 
   def update?
-    user&.admin?
+    user&.admin? && record.participations.empty?
   end
 
   def permitted_attributes

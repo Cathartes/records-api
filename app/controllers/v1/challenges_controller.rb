@@ -22,16 +22,16 @@ module V1
 
       scope = scope.for_record_book params[:record_book_id] if params[:record_book_id].present?
 
-      if params[:challenge_type].present?
-        scope = case params[:challenge_type]
-                when 'members'
-                  scope.members
-                when 'applicants'
-                  scope.applicants
-                when 'everyone'
-                  scope.everyone
-                end
-      end
+      scope = case params[:challenge_type]
+              when 'member'
+                scope.member
+              when 'applicant'
+                scope.applicant
+              when 'everyone'
+                scope.everyone
+              else
+                scope
+              end
 
       @challenges = scope.page params[:page]
       render json: @challenges
