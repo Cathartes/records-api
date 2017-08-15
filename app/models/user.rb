@@ -10,9 +10,17 @@ class User < ApplicationRecord
   validates :password, length: { minimum: 6, maximum: 72 }, on: :create
   validates :password, length: { minimum: 6, maximum: 72 }, if: :password, on: :update
 
+  before_validation :generate_password, unless: :email
+
   def find_token(token_body)
     authentication_tokens.detect do |token|
       ActiveSupport::SecurityUtils.secure_compare token.body, token_body
     end
+  end
+
+  private
+
+  def generate_password
+    self.password ||= SecureRandom.hex 16
   end
 end

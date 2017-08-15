@@ -28,7 +28,7 @@ RSpec.describe V1::UsersController, type: :controller do
         end
 
         context 'when the User successfully saves' do
-          let(:data) { { attributes: { discord_name: Faker::Name.name, password: Faker::Internet.password(8, 72) } } }
+          let(:data) { { attributes: { discord_name: Faker::Name.name } } }
 
           include_examples 'created'
 
