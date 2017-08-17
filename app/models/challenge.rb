@@ -1,11 +1,9 @@
 class Challenge < ApplicationRecord
   belongs_to :record_book
 
-  enum challenge_type: { member: 0, applicant: 1, everyone: 2 }
-
-  validates :challenge_type, :points, :record_book, presence: true
+  validates :points, :record_book, presence: true
   validates :name, length: { minimum: 2, maximum: 24 }
-  validates :repeatable, boolean: true
+  validates :max_completions, numericality: { greater_than_or_equal_to: 0 }
 
   scope :for_record_book, (->(record_book_id) { where record_book_id: record_book_id })
   scope :published,       (->                 { joins(:record_book).where record_books: { published: true } })

@@ -34,7 +34,7 @@ RSpec.describe V1::ChallengesController, type: :controller do
               attributes: {
                 name: Faker::Name.first_name,
                 record_book_id: record_book.id,
-                challenge_type: :member,
+                max_completions: Faker::Number.between(0, 10),
                 points: { 0 => 1 }
               }
             }
@@ -66,7 +66,7 @@ RSpec.describe V1::ChallengesController, type: :controller do
       include_examples 'not found', :delete, :destroy, model: 'Challenge'
 
       context 'when the Challenge is found' do
-        let(:challenge) { create :challenge, :member }
+        let(:challenge) { create :challenge }
         before(:each)   { delete :destroy, params: { id: challenge.id } }
 
         context 'when the User does not have permission' do
@@ -88,8 +88,8 @@ RSpec.describe V1::ChallengesController, type: :controller do
 
   describe 'GET #index' do
     context 'when no params are passed' do
-      let!(:published_challenge)   { create :challenge, :member, :published }
-      let!(:unpublished_challenge) { create :challenge, :member }
+      let!(:published_challenge)   { create :challenge, :published }
+      let!(:unpublished_challenge) { create :challenge }
 
       context 'when the User is not an admin' do
         before(:each) { get :index }
@@ -126,8 +126,8 @@ RSpec.describe V1::ChallengesController, type: :controller do
     end
 
     context 'when "record_book_id" is passed' do
-      let!(:challenge)       { create :challenge, :member, :published }
-      let!(:other_challenge) { create :challenge, :member, :published }
+      let!(:challenge)       { create :challenge, :published }
+      let!(:other_challenge) { create :challenge, :published }
       before(:each)          { get :index, params: { record_book_id: challenge.record_book_id } }
 
       include_examples 'ok'
@@ -142,60 +142,6 @@ RSpec.describe V1::ChallengesController, type: :controller do
         expect(challenge_ids).to include challenge.id.to_s
       end
     end
-
-    context 'when "challenge_type" is passed' do
-      let!(:member_challenge)    { create :challenge, :member, :published }
-      let!(:applicant_challenge) { create :challenge, :applicant, :published }
-      let!(:everyone_challenge)  { create :challenge, :everyone, :published }
-
-      context 'when "challenge_type" is "member"' do
-        before(:each) { get :index, params: { challenge_type: :member } }
-
-        include_examples 'ok'
-
-        it 'is expected to return member Challenges' do
-          json = extract_response
-          expect(json['data'].length).to eq 1
-          json['data'].each do |challenge|
-            expect(challenge['type']).to eq 'challenges'
-          end
-          challenge_ids = json['data'].map { |challenge| challenge['id'] }
-          expect(challenge_ids).to include member_challenge.id.to_s
-        end
-      end
-
-      context 'when "challenge_type" is "applicant"' do
-        before(:each) { get :index, params: { challenge_type: :applicant } }
-
-        include_examples 'ok'
-
-        it 'is expected to return applicant Challenges' do
-          json = extract_response
-          expect(json['data'].length).to eq 1
-          json['data'].each do |challenge|
-            expect(challenge['type']).to eq 'challenges'
-          end
-          challenge_ids = json['data'].map { |challenge| challenge['id'] }
-          expect(challenge_ids).to include applicant_challenge.id.to_s
-        end
-      end
-
-      context 'when "challenge_type" is "everyone"' do
-        before(:each) { get :index, params: { challenge_type: :everyone } }
-
-        include_examples 'ok'
-
-        it 'is expected to return everyone Challenges' do
-          json = extract_response
-          expect(json['data'].length).to eq 1
-          json['data'].each do |challenge|
-            expect(challenge['type']).to eq 'challenges'
-          end
-          challenge_ids = json['data'].map { |challenge| challenge['id'] }
-          expect(challenge_ids).to include everyone_challenge.id.to_s
-        end
-      end
-    end
   end
 
   describe 'GET #show' do
@@ -205,12 +151,12 @@ RSpec.describe V1::ChallengesController, type: :controller do
       before(:each) { get :show, params: { id: challenge.id } }
 
       context 'when the User does not have permission' do
-        let(:challenge) { create :challenge, :member }
+        let(:challenge) { create :challenge }
         it              { is_expected.to respond_with 403 }
       end
 
       context 'when the User has permission' do
-        let(:challenge) { create :challenge, :member, :published }
+        let(:challenge) { create :challenge, :published }
 
         include_examples 'ok'
 
@@ -233,7 +179,7 @@ RSpec.describe V1::ChallengesController, type: :controller do
       include_examples 'not found', :patch, :update, model: 'Challenge'
 
       context 'when the Challenge is found' do
-        let(:challenge) { create :challenge, :member }
+        let(:challenge) { create :challenge }
         before(:each)   { patch :update, params: { id: challenge.id, data: data } }
 
         context 'when the User does not have permission' do
