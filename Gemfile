@@ -24,6 +24,7 @@ gem 'bcrypt', '~> 3.1.11'
 # gem 'rack-cors'
 
 gem 'active_model_serializers'
+gem 'apipie-rails'
 gem 'kaminari'
 gem 'pundit'
 gem 'validates_timeliness'

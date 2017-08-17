@@ -43,5 +43,7 @@ module V1
       @completion = Completion.find params[:id]
       authorize @completion
     end
+
+    include CompletionsDoc
   end
 end

@@ -33,5 +33,7 @@ module V1
         }]
       }, status: :unauthorized
     end
+
+    include SessionsDoc
   end
 end

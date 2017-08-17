@@ -18,9 +18,7 @@ module V1
 
     def index
       authorize RecordBook
-      scope = RecordBook.all
-
-      scope = current_user&.admin? && params[:unpublished].present? ? scope.unpublished : scope.published
+      scope = policy_scope RecordBook
 
       @record_books = scope.page params[:page]
       render json: @record_books
@@ -45,5 +43,7 @@ module V1
     def record_book_params
       params.require(:data).require(:attributes).permit policy(@record_book).permitted_attributes
     end
+
+    include RecordBooksDoc
   end
 end

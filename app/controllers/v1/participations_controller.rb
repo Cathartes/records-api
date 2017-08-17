@@ -58,5 +58,7 @@ module V1
     def participation_params
       params.require(:data).require(:attributes).permit policy(@participation).permitted_attributes
     end
+
+    include ParticipationsDoc
   end
 end

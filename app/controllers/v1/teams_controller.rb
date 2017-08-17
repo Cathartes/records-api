@@ -43,5 +43,7 @@ module V1
     def team_params
       params.require(:data).require(:attributes).permit policy(@team).permitted_attributes
     end
+
+    include TeamsDoc
   end
 end
