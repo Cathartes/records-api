@@ -9,6 +9,9 @@ RSpec.describe Challenge, type: :model do
     it { is_expected.to validate_presence_of :points }
     it { is_expected.to validate_presence_of :record_book }
     it { is_expected.to validate_length_of(:name).is_at_least(2).is_at_most 24 }
-    it { is_expected.to validate_numericality_of(:max_completions).is_greater_than_or_equal_to 0 }
+    it do
+      is_expected.to validate_numericality_of(:max_completions)
+        .is_greater_than_or_equal_to(0).is_less_than_or_equal_to(100).only_integer
+    end
   end
 end
