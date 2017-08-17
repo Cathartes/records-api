@@ -28,7 +28,7 @@ RSpec.describe V1::CompletionsController, type: :controller do
         end
 
         context 'when the Completion successfully saves' do
-          let(:challenge)     { create :challenge, :member }
+          let(:challenge)     { create :challenge }
           let(:participation) { create :participation, :member }
           let(:data) do
             {

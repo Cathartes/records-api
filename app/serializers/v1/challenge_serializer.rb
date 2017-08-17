@@ -1,6 +1,6 @@
 module V1
   class ChallengeSerializer < ApplicationSerializer
-    attributes :challenge_type, :name, :points, :repeatable
+    attributes :max_completions, :name, :points
 
     belongs_to :record_book
   end

@@ -1,14 +1,9 @@
 FactoryGirl.define do
   factory :completion do
+    challenge
     rank { Faker::Number.between 1, 100 }
 
-    trait(:applicant) do
-      association :challenge, :applicant
-      association :participation, :applicant
-    end
-    trait(:member) do
-      association :challenge, :member
-      association :participation, :member
-    end
+    trait(:applicant) { association :participation, :applicant }
+    trait(:member)    { association :participation, :member }
   end
 end
