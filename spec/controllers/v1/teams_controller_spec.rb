@@ -16,7 +16,7 @@ RSpec.describe V1::TeamsController, type: :controller do
       context 'when the User does not have permission' do
         let(:user) { create :user, :claimed }
         let(:data) { { attributes: { name: '' } } }
-        it         { is_expected.to respond_with 403 }
+        include_examples 'forbidden'
       end
 
       context 'when the User has permission' do
@@ -60,17 +60,17 @@ RSpec.describe V1::TeamsController, type: :controller do
         before(:each) { delete :destroy, params: { id: team.id } }
 
         context 'when the User does not have permission' do
-          it { is_expected.to respond_with 403 }
+          include_examples 'forbidden'
         end
 
         context 'when the User has permission' do
           let(:user) { create :user, :admin }
 
+          include_examples 'no content'
+
           it 'is expected to destroy the Team' do
             expect(Team.count).to eq 0
           end
-
-          it { is_expected.to respond_with 204 }
         end
       end
     end
@@ -135,12 +135,12 @@ RSpec.describe V1::TeamsController, type: :controller do
           context 'when the Team fails to save' do
             let(:data) { { attributes: { name: '' } } }
 
+            include_examples 'unprocessable entity'
+
             it 'is expected to not update the Team' do
               original_name = team.name
               expect(team.reload.name).to eq original_name
             end
-
-            it { is_expected.to respond_with 422 }
           end
 
           context 'when the Team successfully saves' do

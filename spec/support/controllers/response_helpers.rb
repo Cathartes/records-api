@@ -22,6 +22,10 @@ RSpec.shared_examples 'created' do
   it { is_expected.to respond_with 201 }
 end
 
+RSpec.shared_examples 'forbidden' do
+  it { is_expected.to respond_with 403 }
+end
+
 RSpec.shared_examples 'no content' do
   it { is_expected.to respond_with 204 }
 end

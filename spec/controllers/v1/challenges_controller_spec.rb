@@ -16,7 +16,7 @@ RSpec.describe V1::ChallengesController, type: :controller do
       context 'when the User does not have permission' do
         let(:user) { create :user, :claimed }
         let(:data) { { attributes: { name: '' } } }
-        it         { is_expected.to respond_with 403 }
+        include_examples 'forbidden'
       end
 
       context 'when the User has permission' do
@@ -70,17 +70,17 @@ RSpec.describe V1::ChallengesController, type: :controller do
         before(:each)   { delete :destroy, params: { id: challenge.id } }
 
         context 'when the User does not have permission' do
-          it { is_expected.to respond_with 403 }
+          include_examples 'forbidden'
         end
 
         context 'when the User has permission' do
           let(:user) { create :user, :admin }
 
+          include_examples 'no content'
+
           it 'is expected to destroy the Challenge' do
             expect(Challenge.count).to eq 0
           end
-
-          it { is_expected.to respond_with 204 }
         end
       end
     end
@@ -152,7 +152,7 @@ RSpec.describe V1::ChallengesController, type: :controller do
 
       context 'when the User does not have permission' do
         let(:challenge) { create :challenge }
-        it              { is_expected.to respond_with 403 }
+        include_examples 'forbidden'
       end
 
       context 'when the User has permission' do
@@ -184,7 +184,7 @@ RSpec.describe V1::ChallengesController, type: :controller do
 
         context 'when the User does not have permission' do
           let(:data) { nil }
-          it         { is_expected.to respond_with 403 }
+          include_examples 'forbidden'
         end
 
         context 'when the User has permission' do
@@ -193,12 +193,12 @@ RSpec.describe V1::ChallengesController, type: :controller do
           context 'when the Challenge fails to save' do
             let(:data) { { attributes: { name: '' } } }
 
+            include_examples 'unprocessable entity'
+
             it 'is expected to not update the Challenge' do
               original_name = challenge.name
               expect(challenge.reload.name).to eq original_name
             end
-
-            it { is_expected.to respond_with 422 }
           end
 
           context 'when the Challenge successfully saves' do

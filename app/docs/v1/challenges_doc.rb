@@ -28,7 +28,6 @@ module V1
     doc_for :index do
       api! 'Get a list of challenges'
       param :record_book_id, Integer, 'Record book ID to filter results by'
-      param :challenge_type, ::Challenge.challenge_types.keys, 'Challenge type to filter results by'
     end
 
     doc_for :show do

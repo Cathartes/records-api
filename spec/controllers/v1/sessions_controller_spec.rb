@@ -37,10 +37,10 @@ RSpec.describe V1::SessionsController, type: :controller do
       delete :destroy
     end
 
+    include_examples 'no content'
+
     it 'is expected to destroy the current Authentication Token' do
       expect(AuthenticationToken.count).to eq 0
     end
-
-    it { is_expected.to respond_with 204 }
   end
 end

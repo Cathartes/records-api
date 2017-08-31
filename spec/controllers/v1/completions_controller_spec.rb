@@ -16,7 +16,7 @@ RSpec.describe V1::CompletionsController, type: :controller do
       context 'when the User does not have permission' do
         let(:user) { create :user, :claimed }
         let(:data) { { attributes: { rank: -1 } } }
-        it         { is_expected.to respond_with 403 }
+        include_examples 'forbidden'
       end
 
       context 'when the User has permission' do
@@ -70,17 +70,17 @@ RSpec.describe V1::CompletionsController, type: :controller do
         before(:each)    { delete :destroy, params: { id: completion.id } }
 
         context 'when the User does not have permission' do
-          it { is_expected.to respond_with 403 }
+          include_examples 'forbidden'
         end
 
         context 'when the User has permission' do
           let(:user) { create :user, :admin }
 
+          include_examples 'no content'
+
           it 'is expected to destroy the Completion' do
             expect(Completion.count).to eq 0
           end
-
-          it { is_expected.to respond_with 204 }
         end
       end
     end
@@ -191,7 +191,7 @@ RSpec.describe V1::CompletionsController, type: :controller do
 
         context 'when the User does not have permission' do
           let(:data) { nil }
-          it         { is_expected.to respond_with 403 }
+          include_examples 'forbidden'
         end
 
         context 'when the User has permission' do
@@ -200,12 +200,12 @@ RSpec.describe V1::CompletionsController, type: :controller do
           context 'when the Completion fails to save' do
             let(:data) { { attributes: { rank: -1 } } }
 
+            include_examples 'unprocessable entity'
+
             it 'is expected to not update the Completion' do
               original_rank = completion.rank
               expect(completion.reload.rank).to eq original_rank
             end
-
-            it { is_expected.to respond_with 422 }
           end
 
           context 'when the Completion successfully saves' do
