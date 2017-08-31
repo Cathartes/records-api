@@ -22,7 +22,7 @@ module V1
     private
 
     def session_params
-      params.require(:data).require(:attributes).permit %i[email password]
+      params.require(:data).require(:attributes).permit :email, :password
     end
 
     def render_login_invalid

@@ -8,6 +8,8 @@ Rails.application.routes.draw do
 
     resources :participations
 
+    resource :passwords, only: %i[create update]
+
     resources :record_books
 
     resources :teams

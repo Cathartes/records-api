@@ -31,7 +31,8 @@ RSpec.describe V1::SessionsController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    let(:token)   { create :authentication_token }
+    let(:token) { create :authentication_token }
+
     before(:each) do
       authenticate_user token.user
       delete :destroy
