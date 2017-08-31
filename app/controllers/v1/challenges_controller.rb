@@ -45,5 +45,7 @@ module V1
       @challenge = Challenge.find params[:id]
       authorize @challenge
     end
+
+    include ChallengesDoc
   end
 end

@@ -22,4 +22,10 @@ class RecordBookPolicy < ApplicationPolicy
   def permitted_attributes
     %i[end_time name published rush_end_time rush_start_time start_time time_zone]
   end
+
+  class Scope < Scope
+    def resolve
+      user&.admin? ? scope.all : scope.published
+    end
+  end
 end

@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  apipie
+
   namespace :v1, defaults: { format: :json } do
     resources :challenges
 

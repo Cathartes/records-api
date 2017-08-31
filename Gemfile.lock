@@ -43,6 +43,8 @@ GEM
       i18n (~> 0.7)
       minitest (~> 5.1)
       tzinfo (~> 1.1)
+    apipie-rails (0.5.2)
+      rails (>= 4.1)
     arel (8.0.0)
     bcrypt (3.1.11)
     builder (3.2.3)
@@ -186,6 +188,7 @@ PLATFORMS
 
 DEPENDENCIES
   active_model_serializers
+  apipie-rails
   bcrypt (~> 3.1.11)
   byebug
   database_cleaner

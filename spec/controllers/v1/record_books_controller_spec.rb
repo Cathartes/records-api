@@ -81,23 +81,8 @@ RSpec.describe V1::RecordBooksController, type: :controller do
     let!(:unpublished_record_book) { create :record_book }
 
     context 'when no params are passed' do
-      before(:each) { get :index }
-
-      include_examples 'ok'
-
-      it 'is expected to return published Record Books' do
-        json = extract_response
-        expect(json['data'].length).to eq 1
-        json['data'].each do |record_book|
-          expect(record_book['type']).to eq 'record_books'
-          expect(record_book['attributes']['published']).to be true
-        end
-      end
-    end
-
-    context 'when "unpublished" is passed' do
       context 'when the User is not an admin' do
-        before(:each) { get :index, params: { unpublished: true } }
+        before(:each) { get :index }
 
         include_examples 'ok'
 
@@ -116,17 +101,16 @@ RSpec.describe V1::RecordBooksController, type: :controller do
 
         before(:each) do
           authenticate_user user
-          get :index, params: { unpublished: true }
+          get :index
         end
 
         include_examples 'ok'
 
-        it 'is expected to return unpublished Record Books' do
+        it 'is expected to return all Record Books' do
           json = extract_response
-          expect(json['data'].length).to eq 1
+          expect(json['data'].length).to eq 2
           json['data'].each do |record_book|
             expect(record_book['type']).to eq 'record_books'
-            expect(record_book['attributes']['published']).to be false
           end
         end
       end
