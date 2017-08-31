@@ -1,6 +1,6 @@
 module V1
   class ApplicationController < ::ApplicationController
-    prepend_before_action :check_current_user
+    prepend_before_action :set_current_user
 
     rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
     rescue_from Pundit::NotAuthorizedError, with: :pundit_denied
@@ -17,14 +17,6 @@ module V1
           details: 'You must be logged in to perform this action.'
         }]
       }, status: :unauthorized
-    end
-
-    def check_current_user
-      @current_user = nil
-      email = request.headers['X-USER-EMAIL']
-      return if email.blank?
-      user = User.find_by email: email
-      @current_user = user if user&.find_token(request.headers['X-USER-TOKEN']).present?
     end
 
     def pundit_denied(exception)
@@ -45,6 +37,14 @@ module V1
           details: exception.message
         }]
       }, status: :not_found
+    end
+
+    def set_current_user
+      @current_user = nil
+      email = request.headers['X-USER-EMAIL']
+      return if email.blank?
+      user = User.find_by email: email
+      @current_user = user if user&.find_token(request.headers['X-USER-TOKEN']).present?
     end
 
     def unprocessable_entity(model)
