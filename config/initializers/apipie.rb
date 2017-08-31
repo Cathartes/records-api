@@ -6,10 +6,7 @@ Apipie.configure do |config|
   config.default_locale          = nil
   config.app_info                = 'The official Cathartes Record Book API.'
   config.validate                = !Rails.env.test?
-
-  ## rubocop:disable Rails/FilePath
-  config.api_controllers_matcher = "#{Rails.root}/app/controllers/{[!concerns/]**/*,*}.rb"
-  ## rubocop:enable Rails/FilePath
+  config.api_controllers_matcher = "#{Rails.root}/app/controllers/{[!concerns/]**/*,*}.rb" ## rubocop:disable Rails/FilePath
 end
 
 class CommaArrayValidator < Apipie::Validator::BaseValidator
