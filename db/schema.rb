@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170817064947) do
+ActiveRecord::Schema.define(version: 20170830234824) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -77,7 +77,7 @@ ActiveRecord::Schema.define(version: 20170817064947) do
   create_table "users", force: :cascade do |t|
     t.string "email"
     t.string "discord_name", null: false
-    t.string "password_digest", null: false
+    t.string "password_digest"
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.string "confirmation_token"
@@ -87,6 +87,7 @@ ActiveRecord::Schema.define(version: 20170817064947) do
     t.boolean "admin", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "password_updated_at"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["discord_name"], name: "index_users_on_discord_name", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
