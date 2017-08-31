@@ -3,6 +3,7 @@ Apipie.configure do |config|
   config.api_base_url            = nil
   config.doc_base_url            = '/docs'
   config.default_version         = 'v1'
+  config.default_locale          = nil
   config.app_info                = 'The official Cathartes Record Book API.'
   config.validate                = !Rails.env.test?
 
