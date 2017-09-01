@@ -12,4 +12,8 @@ class Participation < ApplicationRecord
   scope :for_record_book, (->(record_book_id) { where record_book_id: record_book_id })
   scope :for_team,        (->(team_id)        { where team_id: team_id })
   scope :for_user,        (->(user_id)        { where user_id: user_id })
+
+  def total_points
+    completions.sum :points
+  end
 end

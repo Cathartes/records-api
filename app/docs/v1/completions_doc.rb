@@ -11,7 +11,8 @@ module V1
         param :challenge_id, Integer, 'ID of the challenge being completed', required: true, action_aware: true
         param :participation_id, Integer, 'ID of the participation completing this challenge', required: true, action_aware: true
         param :rank, Integer, 'Rank this participation achieved in this challenge', required: true, action_aware: true
-        param :points, Integer, 'Custom points value (if different than the rank would normally give)', allow_nil: true
+        param :points, Integer, 'Custom points value (if different than the rank would normally give)',
+              required: true, action_aware: true
       end
     end
 

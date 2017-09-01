@@ -12,4 +12,12 @@ RSpec.describe Participation, type: :model do
     it { is_expected.to validate_presence_of :team }
     it { is_expected.to validate_presence_of :user }
   end
+
+  describe '.total_points' do
+    let(:completion) { create :completion, :member }
+
+    it 'is expected to return the total points the participant has' do
+      expect(completion.participation.total_points).to eq completion.points
+    end
+  end
 end
