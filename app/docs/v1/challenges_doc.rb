@@ -18,24 +18,33 @@ module V1
 
     doc_for :create do
       api! 'Create a single challenge'
+      authentication_headers
+      unprocessable_entity_error Challenge
       param_group :challenge_params
     end
 
     doc_for :destroy do
       api! 'Destroy a single challenge'
+      not_found_error Challenge
+      authentication_headers
     end
 
     doc_for :index do
       api! 'Get a list of challenges'
+      authentication_headers required: false
       param :record_book_id, Integer, 'Record book ID to filter results by'
     end
 
     doc_for :show do
       api! 'Get a single challenge'
+      not_found_error Challenge
     end
 
     doc_for :update do
       api! 'Update a single challenge'
+      authentication_headers
+      not_found_error Challenge
+      unprocessable_entity_error Challenge
       param_group :challenge_params
     end
   end

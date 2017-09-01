@@ -16,11 +16,16 @@ module V1
 
     doc_for :create do
       api! 'Create a single user'
+      authentication_headers
+      unprocessable_entity_error User
       param_group :user_params
     end
 
     doc_for :update do
       api! 'Update a single user'
+      authentication_headers
+      not_found_error User
+      unprocessable_entity_error User
       param_group :user_params
     end
   end

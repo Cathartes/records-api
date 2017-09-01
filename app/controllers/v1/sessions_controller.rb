@@ -10,7 +10,7 @@ module V1
       return render_login_invalid unless user&.authenticate session_params[:password]
 
       token = user.authentication_tokens.create!
-      response.headers['X-USER-EMAIL'] = user.email
+      response.headers['X-USER-UID']   = user.email
       response.headers['X-USER-TOKEN'] = token.body
 
       render json: user

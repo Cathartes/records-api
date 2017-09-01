@@ -41,7 +41,14 @@ RSpec.describe V1::PasswordsController, type: :controller do
       end
 
       context 'when the User successfully saves' do
-        let(:data) { { attributes: { password: user.password + ' New', reset_password_token: user.reset_password_token } } }
+        let(:data) do
+          {
+            attributes: {
+              password: Faker::Internet.password(6, 72),
+              reset_password_token: user.reset_password_token
+            }
+          }
+        end
 
         include_examples 'ok'
 
@@ -50,7 +57,7 @@ RSpec.describe V1::PasswordsController, type: :controller do
         end
 
         it 'is expected to return auth headers' do
-          expect(response.headers['X-USER-EMAIL']).to eq user.email
+          expect(response.headers['X-USER-UID']).to eq user.email
           expect(response.headers['X-USER-TOKEN']).to be_present
         end
 

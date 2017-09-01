@@ -19,7 +19,7 @@ RSpec.describe V1::SessionsController, type: :controller do
       include_examples 'ok'
 
       it 'is expected to return auth headers' do
-        expect(response.headers['X-USER-EMAIL']).to eq user.email
+        expect(response.headers['X-USER-UID']).to eq user.email
         expect(response.headers['X-USER-TOKEN']).to be_present
       end
 

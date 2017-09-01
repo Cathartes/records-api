@@ -40,4 +40,18 @@ module ApplicationDoc
       end
     end
   end
+
+  def authentication_headers(required: true)
+    header :'X-USER-UID', 'Unique identifier for the current user', required: required
+    header :'X-USER-TOKEN', 'Authentication token to verify the current user', required: required
+    error :unauthorized, 'Unauthorized' if required
+  end
+
+  def not_found_error(klass)
+    error :not_found, "#{klass} with given ID was not found"
+  end
+
+  def unprocessable_entity_error(klass)
+    error :unprocessable_entity, "#{klass} failed to save with the given parameters"
+  end
 end
