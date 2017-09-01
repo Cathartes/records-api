@@ -16,11 +16,13 @@ module V1
 
     doc_for :create do
       api! 'Create a single user'
+      authentication_headers
       param_group :user_params
     end
 
     doc_for :update do
       api! 'Update a single user'
+      authentication_headers
       param_group :user_params
     end
   end

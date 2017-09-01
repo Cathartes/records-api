@@ -19,11 +19,13 @@ module V1
 
     doc_for :create do
       api! 'Create a single participation'
+      authentication_headers
       param_group :participation_params
     end
 
     doc_for :destroy do
       api! 'Destroy a single participation'
+      authentication_headers
     end
 
     doc_for :index do
@@ -40,6 +42,7 @@ module V1
 
     doc_for :update do
       api! 'Update a single participation'
+      authentication_headers
       param_group :participation_params
     end
   end

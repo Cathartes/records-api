@@ -17,25 +17,25 @@ module V1
 
     doc_for :create do
       api! 'Create a single completion'
+      authentication_headers
       param_group :completion_params
     end
 
     doc_for :destroy do
       api! 'Destroy a single completion'
+      authentication_headers
     end
 
     doc_for :index do
       api! 'Get a list of completions'
+      authentication_headers required: false
       param :participation_id, Integer, 'Participation ID to filter results by'
       param :user_id, Integer, 'User ID to filter results by'
     end
 
-    doc_for :show do
-      api! 'Get a single completion'
-    end
-
     doc_for :update do
       api! 'Update a single completion'
+      authentication_headers
       param_group :completion_params
     end
   end

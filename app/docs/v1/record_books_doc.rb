@@ -20,11 +20,13 @@ module V1
 
     doc_for :create do
       api! 'Create a single record book'
+      authentication_headers
       param_group :record_book_params
     end
 
     doc_for :destroy do
       api! 'Destroy a single record book'
+      authentication_headers
     end
 
     doc_for :index do
@@ -37,6 +39,7 @@ module V1
 
     doc_for :update do
       api! 'Update a single record book'
+      authentication_headers
       param_group :record_book_params
     end
   end

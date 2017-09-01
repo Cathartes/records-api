@@ -20,6 +20,7 @@ module V1
 
     doc_for :show do
       api! 'Retrieve the currently signed in user'
+      authentication_headers
     end
   end
 end

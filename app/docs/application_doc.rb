@@ -40,4 +40,10 @@ module ApplicationDoc
       end
     end
   end
+
+  def authentication_headers(required: true)
+    header :'X-USER-UID', 'Unique identifier for the current user', required: required
+    header :'X-USER-TOKEN', 'Authentication token to verify the current user', required: true
+    error 401, 'Unauthorized' if required
+  end
 end
