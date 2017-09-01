@@ -1,5 +1,7 @@
 module V1
   class ApplicationController < ::ApplicationController
+    include PaginationHelpers
+
     prepend_before_action :set_current_user
 
     rescue_from ActiveRecord::RecordNotFound, with: :record_not_found

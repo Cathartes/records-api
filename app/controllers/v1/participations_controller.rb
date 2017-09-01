@@ -35,8 +35,8 @@ module V1
                 scope
               end
 
-      @participations = scope.page params[:page]
-      render json: @participations
+      @participations = scope.page(client_page_number).per client_page_size
+      render json: @participations, meta: render_pagination_meta(@participations)
     end
 
     def show

@@ -20,8 +20,8 @@ module V1
       authorize Team
       scope = Team.all
 
-      @teams = scope.page params[:page]
-      render json: @teams
+      @teams = scope.page(client_page_number).per client_page_size
+      render json: @teams, meta: render_pagination_meta(@teams)
     end
 
     def show

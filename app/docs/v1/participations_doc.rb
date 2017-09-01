@@ -36,6 +36,7 @@ module V1
       param :team_id, Integer, 'Team ID to filter results by'
       param :user_id, Integer, 'User ID to filter results by'
       param :participation_type, ::Participation.participation_types.keys, 'Participation type to filter results by'
+      pagination_params
     end
 
     doc_for :show do

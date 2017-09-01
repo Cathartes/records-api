@@ -28,6 +28,7 @@ module V1
 
     doc_for :index do
       api! 'Get a list of teams'
+      pagination_params
     end
 
     doc_for :show do

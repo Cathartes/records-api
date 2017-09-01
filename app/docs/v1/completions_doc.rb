@@ -34,6 +34,7 @@ module V1
       authentication_headers required: false
       param :participation_id, Integer, 'Participation ID to filter results by'
       param :user_id, Integer, 'User ID to filter results by'
+      pagination_params
     end
 
     doc_for :update do

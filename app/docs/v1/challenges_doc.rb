@@ -33,6 +33,7 @@ module V1
       api! 'Get a list of challenges'
       authentication_headers required: false
       param :record_book_id, Integer, 'Record book ID to filter results by'
+      pagination_params
     end
 
     doc_for :show do

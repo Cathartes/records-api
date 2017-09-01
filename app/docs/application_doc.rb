@@ -51,6 +51,13 @@ module ApplicationDoc
     error :not_found, "#{klass} with given ID was not found"
   end
 
+  def pagination_params
+    param :page, Hash, 'Hash og pagination parameters' do
+      param :number, Integer, 'Page number to return', required: true
+      param :size, Integer, 'Number of results to return in each page'
+    end
+  end
+
   def unprocessable_entity_error(klass)
     error :unprocessable_entity, "#{klass} failed to save with the given parameters"
   end
