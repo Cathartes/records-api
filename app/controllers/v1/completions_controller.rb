@@ -24,8 +24,8 @@ module V1
 
       scope = scope.for_user params[:user_id] if params[:user_id].present?
 
-      @completions = scope.page params[:page]
-      render json: @completions
+      @completions = scope.page(client_page_number).per client_page_size
+      render json: @completions, meta: render_pagination_meta(@completions)
     end
 
     def update

@@ -22,8 +22,8 @@ module V1
 
       scope = scope.for_record_book params[:record_book_id] if params[:record_book_id].present?
 
-      @challenges = scope.page params[:page]
-      render json: @challenges
+      @challenges = scope.page(client_page_number).per client_page_size
+      render json: @challenges, meta: render_pagination_meta(@challenges)
     end
 
     def show
