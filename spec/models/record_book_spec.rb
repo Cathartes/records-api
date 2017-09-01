@@ -4,6 +4,7 @@ RSpec.describe RecordBook, type: :model do
   describe 'associations' do
     it { is_expected.to have_many(:challenges).dependent :destroy }
     it { is_expected.to have_many(:participations).dependent :destroy }
+    it { is_expected.to have_many :teams }
   end
 
   describe 'validations' do
