@@ -1,5 +1,7 @@
 module V1
   class SessionsController < V1::ApplicationController
+    before_action :authenticate_user!, only: :show
+
     skip_after_action :verify_authorized
 
     def create
@@ -17,6 +19,10 @@ module V1
     def destroy
       current_user.find_token(request.headers['X-USER-TOKEN']).try(:destroy) if current_user.present?
       head :no_content
+    end
+
+    def show
+      render json: current_user
     end
 
     private

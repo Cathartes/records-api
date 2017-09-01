@@ -44,4 +44,25 @@ RSpec.describe V1::SessionsController, type: :controller do
       expect(AuthenticationToken.count).to eq 0
     end
   end
+
+  describe 'GET #show' do
+    include_examples 'authentication required', :get, :show
+
+    context 'when the User is logged in' do
+      let(:user) { create :user, :claimed }
+
+      before(:each) do
+        authenticate_user user
+        get :show
+      end
+
+      include_examples 'ok'
+
+      it 'is expected to return the current User' do
+        json = extract_response
+        expect(json['data']['type']).to eq 'users'
+        expect(json['data']['id']).to eq user.id.to_s
+      end
+    end
+  end
 end
