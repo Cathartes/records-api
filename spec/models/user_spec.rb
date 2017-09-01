@@ -29,4 +29,24 @@ RSpec.describe User, type: :model do
       end
     end
   end
+
+  describe '.send_reset_password_instructions!' do
+    let(:user) { create :user, :claimed }
+
+    before(:each) do
+      AuthMailer.expects(:reset_password_instructions).with(user, nil).returns stub deliver: true
+      Timecop.freeze
+      user.send_reset_password_instructions!
+    end
+
+    after(:each) { Timecop.return }
+
+    it 'is expected to create a reset password token' do
+      expect(user.reset_password_token).to be_present
+    end
+
+    it 'is expected to set reset password sent at to now' do
+      expect(user.reset_password_sent_at).to eq Time.now.utc
+    end
+  end
 end

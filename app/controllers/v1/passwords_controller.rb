@@ -5,7 +5,7 @@ module V1
     def create
       user = User.find_by! email: password_create_params[:email]
       user.reset_password_redirect_url = password_create_params[:reset_password_redirect_url]
-      user.send_reset_password_instructions
+      user.send_reset_password_instructions!
       head :no_content
     end
 

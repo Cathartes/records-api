@@ -19,7 +19,7 @@ class User < ApplicationRecord
     end
   end
 
-  def send_reset_password_instructions
+  def send_reset_password_instructions!
     token = loop do
       token = SecureRandom.urlsafe_base64 nil, false
       break token unless self.class.exists? reset_password_token: token
