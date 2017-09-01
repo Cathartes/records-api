@@ -12,12 +12,11 @@ Rails.application.routes.draw do
 
     resources :record_books
 
+    resource :sessions, except: %i[update]
+
     resources :teams
 
     resources :users, only: %i[create update]
-
-    post   '/login'  => 'sessions#create'
-    delete '/logout' => 'sessions#destroy'
   end
 
   root 'application#index'

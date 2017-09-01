@@ -17,5 +17,9 @@ module V1
     doc_for :destroy do
       api! 'Destroy a single session'
     end
+
+    doc_for :show do
+      api! 'Retrieve the currently signed in user'
+    end
   end
 end
