@@ -20,12 +20,14 @@ module V1
     doc_for :create do
       api! 'Create a single participation'
       authentication_headers
+      unprocessable_entity_error Participation
       param_group :participation_params
     end
 
     doc_for :destroy do
       api! 'Destroy a single participation'
       authentication_headers
+      not_found_error Participation
     end
 
     doc_for :index do
@@ -38,11 +40,14 @@ module V1
 
     doc_for :show do
       api! 'Get a single participation'
+      not_found_error Participation
     end
 
     doc_for :update do
       api! 'Update a single participation'
       authentication_headers
+      not_found_error Participation
+      unprocessable_entity_error Participation
       param_group :participation_params
     end
   end

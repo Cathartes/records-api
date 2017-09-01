@@ -15,12 +15,15 @@ module V1
     doc_for :create do
       api! 'Create a single team'
       authentication_headers
+      not_found_error Team
+      unprocessable_entity_error Team
       param_group :team_params
     end
 
     doc_for :destroy do
       api! 'Destroy a single team'
       authentication_headers
+      not_found_error Team
     end
 
     doc_for :index do
@@ -29,11 +32,14 @@ module V1
 
     doc_for :show do
       api! 'Get a single team'
+      not_found_error Team
     end
 
     doc_for :update do
       api! 'Update a single team'
       authentication_headers
+      not_found_error Team
+      unprocessable_entity_error Team
       param_group :team_params
     end
   end
