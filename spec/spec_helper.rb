@@ -13,6 +13,15 @@
 # it.
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
+
+require 'simplecov'
+SimpleCov.start 'rails'
+SimpleCov.add_group 'Channels', 'app/channels'
+SimpleCov.add_group 'Docs', 'app/docs'
+SimpleCov.add_group 'Policies', 'app/policies'
+SimpleCov.add_group 'Serializers', 'app/serializers'
+SimpleCov.add_group 'Validators', 'app/validators'
+
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest

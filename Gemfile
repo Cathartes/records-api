@@ -43,6 +43,7 @@ group :test do
   gem 'mocha'
   gem 'pundit-matchers'
   gem 'shoulda-matchers'
+  gem 'simplecov', require: false
   gem 'timecop'
 end
 
