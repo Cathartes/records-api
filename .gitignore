@@ -20,3 +20,6 @@
 
 # Ignore rspec temporary files
 /spec/examples.txt
+
+# Ignore rspec test coverage
+/coverage
