@@ -30,6 +30,7 @@ gem 'pundit'
 gem 'validates_timeliness'
 
 group :development, :test do
+  gem 'bullet'
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'dotenv-rails'
@@ -48,7 +49,6 @@ group :test do
 end
 
 group :development do
-  gem 'bullet'
   gem 'guard-rspec', require: false
   gem 'letter_opener'
   gem 'listen', '>= 3.0.5', '< 3.2'
