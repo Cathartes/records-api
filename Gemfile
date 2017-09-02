@@ -46,6 +46,7 @@ group :test do
 end
 
 group :development do
+  gem 'annotate'
   gem 'guard-rspec', require: false
   gem 'letter_opener'
   gem 'listen', '>= 3.0.5', '< 3.2'

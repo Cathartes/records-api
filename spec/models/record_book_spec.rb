@@ -1,3 +1,19 @@
+# == Schema Information
+#
+# Table name: record_books
+#
+#  id              :integer          not null, primary key
+#  name            :string           not null
+#  published       :boolean          default(FALSE), not null
+#  time_zone       :string           default("UTC"), not null
+#  start_time      :datetime
+#  end_time        :datetime
+#  rush_start_time :datetime
+#  rush_end_time   :datetime
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#
+
 require 'rails_helper'
 
 RSpec.describe RecordBook, type: :model do
