@@ -50,6 +50,9 @@ GEM
     arel (8.0.0)
     bcrypt (3.1.11)
     builder (3.2.3)
+    bullet (5.6.1)
+      activesupport (>= 3.0.0)
+      uniform_notifier (~> 1.10.0)
     byebug (9.1.0)
     case_transform (0.2)
       activesupport
@@ -223,6 +226,7 @@ GEM
     timeliness (0.3.8)
     tzinfo (1.2.3)
       thread_safe (~> 0.1)
+    uniform_notifier (1.10.0)
     validates_timeliness (4.0.2)
       timeliness (~> 0.3.7)
     websocket-driver (0.6.5)
@@ -236,6 +240,7 @@ DEPENDENCIES
   active_model_serializers
   apipie-rails
   bcrypt (~> 3.1.11)
+  bullet
   byebug
   database_cleaner
   dotenv-rails
