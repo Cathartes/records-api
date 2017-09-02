@@ -8,78 +8,68 @@
 
 print 'Seeding Users...'
 
-User.create! [
-  {
+users = []
+unless User.exists? discord_name: 'Agthor#8442'
+  users << {
     email:        'tybot204@gmail.com',
     discord_name: 'Agthor#8442',
     password:     'password',
     admin:        true
-  }, {
+  }
+end
+unless User.exists? discord_name: 'iDreamPixels#3186'
+  users << {
     email:        'justinrlaforge@gmail.com',
     discord_name: 'iDreamPixels#3186',
     password:     'password',
     admin:        true
-  }, {
-    discord_name: 'Best 2hu#0550',
-    password:     Faker::Internet.password(6, 72)
-  }, {
-    discord_name: 'Jibbers#2487',
-    password:     Faker::Internet.password(6, 72)
-  }, {
-    discord_name: 'NicksPatties#4392',
-    password:     Faker::Internet.password(6, 72)
-  }, {
-    discord_name: 'rebble#3220',
-    password:     Faker::Internet.password(6, 72)
-  }, {
-    discord_name: 'RescuePenguin#8507',
-    password:     Faker::Internet.password(6, 72)
-  }, {
-    discord_name: 'Sloth#6910',
-    password:     Faker::Internet.password(6, 72)
   }
-]
+end
+users << { discord_name: 'Best 2hu#0550' }      unless User.exists? discord_name: 'Best 2hu#0550'
+users << { discord_name: 'Jibbers#2487' }       unless User.exists? discord_name: 'Jibbers#2487'
+users << { discord_name: 'NicksPatties#4392' }  unless User.exists? discord_name: 'NicksPatties#4392'
+users << { discord_name: 'rebble#3220' }        unless User.exists? discord_name: 'rebble#3220'
+users << { discord_name: 'RescuePenguin#8507' } unless User.exists? discord_name: 'RescuePenguin#8507'
+users << { discord_name: 'Sloth#6910' }         unless User.exists? discord_name: 'Sloth#6910'
+User.create! users
 
 puts 'done'
 
 print 'Seeding Teams...'
 
-Team.create! [
-  {
-    name: 'Alpha Team'
-  }, {
-    name: 'Bravo Team'
-  }
-]
+teams = []
+teams << { name: 'Alpha Team' } unless Team.exists? name: 'Alpha Team'
+teams << { name: 'Beta Team' }  unless Team.exists? name: 'Beta Team'
+Team.create! teams
 
 puts 'done'
 
 print 'Seeding Record Books...'
 
-RecordBook.create! [
-  {
+record_books = []
+unless RecordBook.exists? name: 'Season 2'
+  record_books << {
     name:            'Season 1',
     published:       true,
     start_time:      2.weeks.ago,
     end_time:        2.weeks.from_now,
     rush_start_time: 1.week.from_now,
     rush_end_time:   2.weeks.from_now
-  }, {
-    name:            'Season 2'
   }
-]
+end
+record_books << { name: 'Season 2' } unless RecordBook.exists? name: 'Season 2'
+RecordBook.create! record_books
 
 season_one        = RecordBook.find_by! name: 'Season 1'
-member_challenges = [
-  'First to Die',
-  'Complete the Story',
-  'Reach Max Level',
-  'Reach Max Light Level',
-  'First Exotic Kinetic',
-  'First Exotic Elemental',
-  'First Exotic Power',
-  'First Exotic Armor'
-]
+member_challenges = []
+member_challenges << 'First to Die'           unless season_one.challenges.exists? name: 'First to Die'
+member_challenges << 'Complete the Story'     unless season_one.challenges.exists? name: 'Complete the Story'
+member_challenges << 'Reach Max Level'        unless season_one.challenges.exists? name: 'Reach Max Level'
+member_challenges << 'Reach Max Light Level'  unless season_one.challenges.exists? name: 'Reach Max Light Level'
+member_challenges << 'First Exotic Kinetic'   unless season_one.challenges.exists? name: 'First Exotic Kinetic'
+member_challenges << 'First Exotic Elemental' unless season_one.challenges.exists? name: 'First Exotic Elemental'
+member_challenges << 'First Exotic Power'     unless season_one.challenges.exists? name: 'First Exotic Power'
+member_challenges << 'First Exotic Armor'     unless season_one.challenges.exists? name: 'First Exotic Armor'
 Challenge.create!(member_challenges.map do |challenge|
   {
     record_book:     season_one,
@@ -95,14 +85,14 @@ Challenge.create!(member_challenges.map do |challenge|
 end)
 
 teams = Team.all
-users = User.all
-Participation.create!(users.each_with_index.map do |user, index|
-  {
+User.all.each_with_index do |user, index|
+  next unless user.participations.for_record_book(season_one).any?
+  Participation.create!(
     record_book:        season_one,
     team:               teams[index % 2],
     user:               user,
     participation_type: :member
-  }
-end)
+  )
+end
 
 puts 'done'
