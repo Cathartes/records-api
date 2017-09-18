@@ -16,7 +16,7 @@ RSpec.describe V1::UsersController, type: :controller do
       context 'when the User does not have permission' do
         let(:user) { create :user, :claimed }
         let(:data) { { attributes: { discord_name: '' } } }
-        it         { is_expected.to respond_with 403 }
+        include_examples 'forbidden'
       end
 
       context 'when the User has permission' do
@@ -28,7 +28,7 @@ RSpec.describe V1::UsersController, type: :controller do
         end
 
         context 'when the User successfully saves' do
-          let(:data) { { attributes: { discord_name: Faker::Name.name, password: Faker::Internet.password(8, 72) } } }
+          let(:data) { { attributes: { discord_name: Faker::Name.name } } }
 
           include_examples 'created'
 
@@ -61,7 +61,7 @@ RSpec.describe V1::UsersController, type: :controller do
 
         context 'when the User does not have permission' do
           let(:data) { nil }
-          it         { is_expected.to respond_with 403 }
+          include_examples 'forbidden'
         end
 
         context 'when the User has permission' do
@@ -70,12 +70,12 @@ RSpec.describe V1::UsersController, type: :controller do
           context 'when the User fails to save' do
             let(:data) { { attributes: { discord_name: '' } } }
 
+            include_examples 'unprocessable entity'
+
             it 'is expected to not update the User' do
               original_name = other_user.discord_name
               expect(other_user.reload.discord_name).to eq original_name
             end
-
-            it { is_expected.to respond_with 422 }
           end
 
           context 'when the User successfully saves' do

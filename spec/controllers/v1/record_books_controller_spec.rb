@@ -16,7 +16,7 @@ RSpec.describe V1::RecordBooksController, type: :controller do
       context 'when the User does not have permission' do
         let(:user) { create :user, :claimed }
         let(:data) { { attributes: { name: '' } } }
-        it         { is_expected.to respond_with 403 }
+        include_examples 'forbidden'
       end
 
       context 'when the User has permission' do
@@ -60,17 +60,17 @@ RSpec.describe V1::RecordBooksController, type: :controller do
         before(:each)     { delete :destroy, params: { id: record_book.id } }
 
         context 'when the User does not have permission' do
-          it { is_expected.to respond_with 403 }
+          include_examples 'forbidden'
         end
 
         context 'when the User has permission' do
           let(:user) { create :user, :admin }
 
+          include_examples 'no content'
+
           it 'is expected to destroy the Record Book' do
             expect(RecordBook.count).to eq 0
           end
-
-          it { is_expected.to respond_with 204 }
         end
       end
     end
@@ -81,23 +81,8 @@ RSpec.describe V1::RecordBooksController, type: :controller do
     let!(:unpublished_record_book) { create :record_book }
 
     context 'when no params are passed' do
-      before(:each) { get :index }
-
-      include_examples 'ok'
-
-      it 'is expected to return published Record Books' do
-        json = extract_response
-        expect(json['data'].length).to eq 1
-        json['data'].each do |record_book|
-          expect(record_book['type']).to eq 'record_books'
-          expect(record_book['attributes']['published']).to be true
-        end
-      end
-    end
-
-    context 'when "unpublished" is passed' do
       context 'when the User is not an admin' do
-        before(:each) { get :index, params: { unpublished: true } }
+        before(:each) { get :index }
 
         include_examples 'ok'
 
@@ -116,17 +101,16 @@ RSpec.describe V1::RecordBooksController, type: :controller do
 
         before(:each) do
           authenticate_user user
-          get :index, params: { unpublished: true }
+          get :index
         end
 
         include_examples 'ok'
 
-        it 'is expected to return unpublished Record Books' do
+        it 'is expected to return all Record Books' do
           json = extract_response
-          expect(json['data'].length).to eq 1
+          expect(json['data'].length).to eq 2
           json['data'].each do |record_book|
             expect(record_book['type']).to eq 'record_books'
-            expect(record_book['attributes']['published']).to be false
           end
         end
       end
@@ -141,7 +125,7 @@ RSpec.describe V1::RecordBooksController, type: :controller do
 
       context 'when the User does not have permission' do
         let(:record_book) { create :record_book }
-        it                { is_expected.to respond_with 403 }
+        include_examples 'forbidden'
       end
 
       context 'when the User has permission' do
@@ -173,7 +157,7 @@ RSpec.describe V1::RecordBooksController, type: :controller do
 
         context 'when the User does not have permission' do
           let(:data) { nil }
-          it         { is_expected.to respond_with 403 }
+          include_examples 'forbidden'
         end
 
         context 'when the User has permission' do
@@ -182,12 +166,12 @@ RSpec.describe V1::RecordBooksController, type: :controller do
           context 'when the Record Book fails to save' do
             let(:data) { { attributes: { name: '' } } }
 
+            include_examples 'unprocessable entity'
+
             it 'is expected to not update the Record Book' do
               original_name = record_book.name
               expect(record_book.reload.name).to eq original_name
             end
-
-            it { is_expected.to respond_with 422 }
           end
 
           context 'when the Record Book successfully saves' do

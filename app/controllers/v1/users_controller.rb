@@ -20,9 +20,9 @@ module V1
     private
 
     def user_params
-      attrs = %i[discord_name email password]
-      attrs << :admin if current_user&.admin?
       params.require(:data).require(:attributes).permit policy(@user).permitted_attributes
     end
+
+    include UsersDoc
   end
 end

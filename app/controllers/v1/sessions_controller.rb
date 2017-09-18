@@ -1,14 +1,16 @@
 module V1
   class SessionsController < V1::ApplicationController
+    before_action :authenticate_user!, only: :show
+
     skip_after_action :verify_authorized
 
     def create
-      return render_login_invalid if login_params[:email].blank?
-      user = User.find_by email: login_params[:email]
-      return render_login_invalid unless user&.authenticate login_params[:password]
+      return render_login_invalid if session_params[:email].blank?
+      user = User.find_by email: session_params[:email]
+      return render_login_invalid unless user&.authenticate session_params[:password]
 
       token = user.authentication_tokens.create!
-      response.headers['X-USER-EMAIL'] = user.email
+      response.headers['X-USER-UID']   = user.email
       response.headers['X-USER-TOKEN'] = token.body
 
       render json: user
@@ -19,10 +21,14 @@ module V1
       head :no_content
     end
 
+    def show
+      render json: current_user
+    end
+
     private
 
-    def login_params
-      params.require(:data).require(:attributes).permit %i[email password]
+    def session_params
+      params.require(:data).require(:attributes).permit :email, :password
     end
 
     def render_login_invalid
@@ -33,5 +39,7 @@ module V1
         }]
       }, status: :unauthorized
     end
+
+    include SessionsDoc
   end
 end

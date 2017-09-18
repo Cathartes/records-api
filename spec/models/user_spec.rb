@@ -1,8 +1,36 @@
+# == Schema Information
+#
+# Table name: users
+#
+#  id                     :integer          not null, primary key
+#  email                  :string
+#  discord_name           :string           not null
+#  password_digest        :string
+#  reset_password_token   :string
+#  reset_password_sent_at :datetime
+#  confirmation_token     :string
+#  confirmed_at           :datetime
+#  confirmation_sent_at   :datetime
+#  unconfirmed_email      :string
+#  admin                  :boolean          default(FALSE), not null
+#  created_at             :datetime         not null
+#  updated_at             :datetime         not null
+#  password_updated_at    :datetime
+#
+# Indexes
+#
+#  index_users_on_confirmation_token    (confirmation_token) UNIQUE
+#  index_users_on_discord_name          (discord_name) UNIQUE
+#  index_users_on_email                 (email) UNIQUE
+#  index_users_on_reset_password_token  (reset_password_token) UNIQUE
+#
+
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
   describe 'associations' do
     it { is_expected.to have_many(:authentication_tokens).dependent :destroy }
+    it { is_expected.to have_many(:participations).dependent :destroy }
   end
 
   describe 'validations' do
@@ -26,6 +54,26 @@ RSpec.describe User, type: :model do
       it 'is expected to return nil' do
         expect(user.find_token('fake')).to be nil
       end
+    end
+  end
+
+  describe '.send_reset_password_instructions!' do
+    let(:user) { create :user, :claimed }
+
+    before(:each) do
+      AuthMailer.expects(:reset_password_instructions).with(user, nil).returns stub deliver: true
+      Timecop.freeze
+      user.send_reset_password_instructions!
+    end
+
+    after(:each) { Timecop.return }
+
+    it 'is expected to create a reset password token' do
+      expect(user.reset_password_token).to be_present
+    end
+
+    it 'is expected to set reset password sent at to now' do
+      expect(user.reset_password_sent_at).to eq Time.now.utc
     end
   end
 end

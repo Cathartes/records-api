@@ -19,7 +19,7 @@ RSpec.describe V1::SessionsController, type: :controller do
       include_examples 'ok'
 
       it 'is expected to return auth headers' do
-        expect(response.headers['X-USER-EMAIL']).to eq user.email
+        expect(response.headers['X-USER-UID']).to eq user.email
         expect(response.headers['X-USER-TOKEN']).to be_present
       end
 
@@ -31,16 +31,38 @@ RSpec.describe V1::SessionsController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    let(:token)   { create :authentication_token }
+    let(:token) { create :authentication_token }
+
     before(:each) do
       authenticate_user token.user
       delete :destroy
     end
 
+    include_examples 'no content'
+
     it 'is expected to destroy the current Authentication Token' do
       expect(AuthenticationToken.count).to eq 0
     end
+  end
 
-    it { is_expected.to respond_with 204 }
+  describe 'GET #show' do
+    include_examples 'authentication required', :get, :show
+
+    context 'when the User is logged in' do
+      let(:user) { create :user, :claimed }
+
+      before(:each) do
+        authenticate_user user
+        get :show
+      end
+
+      include_examples 'ok'
+
+      it 'is expected to return the current User' do
+        json = extract_response
+        expect(json['data']['type']).to eq 'users'
+        expect(json['data']['id']).to eq user.id.to_s
+      end
+    end
   end
 end
