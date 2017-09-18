@@ -17,6 +17,9 @@
 
 PreCommit:
 
+  BundlerAudit:
+    enabled: true
+
   RailsSchemaUpToDate:
     enabled: true
 
