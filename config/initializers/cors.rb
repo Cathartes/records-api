@@ -5,12 +5,16 @@
 
 # Read more: https://github.com/cyu/rack-cors
 
-# Rails.application.config.middleware.insert_before 0, Rack::Cors do
-#   allow do
-#     origins 'example.com'
-#
-#     resource '*',
-#       headers: :any,
-#       methods: [:get, :post, :put, :patch, :delete, :options, :head]
-#   end
-# end
+Rails.application.config.middleware.insert_before 0, Rack::Cors do
+  allow do
+    allowed_origins = %w[http://localhost:3001] if Rails.env.development?
+    allowed_origins ||= []
+
+    origins allowed_origins
+
+    resource '*',
+             headers: :any,
+             expose: %w[X-USER-UID X-USER-TOKEN],
+             methods: %i[get post put patch delete options head]
+  end
+end
