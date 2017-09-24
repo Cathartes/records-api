@@ -7,6 +7,13 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
+    allowed_origins = case ENV['DEPLOYMENT_LEVEL']
+                      when 'production'
+                        []
+                      when 'staging'
+                        %w[https://records-spa-staging.firebaseapp.com]
+                      end
+
     allowed_origins = %w[http://localhost:3001] if Rails.env.development?
     allowed_origins ||= []
 
