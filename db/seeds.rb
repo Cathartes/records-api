@@ -47,7 +47,7 @@ puts 'done'
 print 'Seeding Record Books...'
 
 record_books = []
-unless RecordBook.exists? name: 'Season 2'
+unless RecordBook.exists? name: 'Season 1'
   record_books << {
     name:            'Season 1',
     published:       true,
