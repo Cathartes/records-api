@@ -1,0 +1,9 @@
+/.circleci
+/log
+/spec
+/tmp
+
+.codeclimate.yml
+.overcommit.yml
+.rspec
+.rubocop.yml
