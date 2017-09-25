@@ -39,7 +39,7 @@ print 'Seeding Teams...'
 
 teams = []
 teams << { name: 'Alpha Team' } unless Team.exists? name: 'Alpha Team'
-teams << { name: 'Beta Team' }  unless Team.exists? name: 'Beta Team'
+teams << { name: 'Bravo Team' } unless Team.exists? name: 'Bravo Team'
 Team.create! teams
 
 puts 'done'

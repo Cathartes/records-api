@@ -1,0 +1,100 @@
+version: 2
+jobs:
+  test:
+    parallelism: 2
+    working_directory: ~/records-api
+
+    docker:
+      - image: circleci/ruby:2.4.1-node
+        environment:
+          RAILS_ENV: test
+      - image: circleci/postgres:9.6
+
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+          - records-api-{{ checksum "Gemfile.lock" }}
+          - records-api-
+      - run:
+          name: Install Ruby Dependencies
+          command: bundle check --path=vendor/bundle || bundle install --path=vendor/bundle --jobs=4 --retry=3
+      - save_cache:
+          key: records-api-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+      - run:
+          name: Create Database
+          command: bundle exec rake db:create
+      - run:
+          name: Load Database Schema
+          command: bundle exec rake db:schema:load
+      - run:
+          name: Run RSpec Test Suite
+          command: |
+            TESTFILES=$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+            bundle exec rspec --profile 10 --format RspecJunitFormatter --out /tmp/test-results/rspec.xml --format progress -- ${TESTFILES}
+      - store_test_results:
+          path: /tmp/test-results
+      - store_artifacts:
+          path: /tmp/test-results
+
+  deploy_staging:
+    working_directory: ~/records-api
+
+    docker:
+      - image: ruby:2.4.1
+
+    steps:
+      - checkout
+      - run:
+          name: Setup Heroku Connection
+          command: bash .circleci/setup-heroku.sh
+      - deploy:
+          name: Deploy "develop" to Heorku Application "records-api-staging"
+          command: |
+            heroku maintenance:on --app records-api-staging
+            [[ ! -s \"$(git rev-parse --git-dir)/shallow\" ]] || git fetch --unshallow
+            git push heroku ${CIRCLE_BRANCH}:master
+            heroku run rake db:migrate --app records-api-staging
+            heroku restart --app records-api-staging
+            heroku maintenance:off --app records-api-staging
+
+  deploy_production:
+    working_directory: ~/records-api
+
+    docker:
+      - image: ruby:2.4.1
+
+    steps:
+      - checkout
+      - run:
+          name: Setup Heroku Connection
+          command: bash .circleci/setup-heroku.sh
+      - deploy:
+          name: Deploy "develop" to Heorku Application "records-api-production"
+          command: |
+            heroku maintenance:on --app records-api-production
+            [[ ! -s \"$(git rev-parse --git-dir)/shallow\" ]] || git fetch --unshallow
+            git push heroku ${CIRCLE_BRANCH}:master
+            heroku run rake db:migrate --app records-api-production
+            heroku restart --app records-api-production
+            heroku maintenance:off --app records-api-production
+
+workflows:
+  version: 2
+  test_deploy:
+    jobs:
+      - test
+      - deploy_staging:
+          requires:
+            - test
+          filters:
+            branches:
+              only: develop
+      - deploy_production:
+          requires:
+            - test
+          filters:
+            branches:
+              only: master
