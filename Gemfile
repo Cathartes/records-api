@@ -40,6 +40,7 @@ group :test do
   gem 'database_cleaner'
   gem 'mocha'
   gem 'pundit-matchers'
+  gem 'rspec_junit_formatter'
   gem 'shoulda-matchers'
   gem 'simplecov', require: false
   gem 'timecop'
