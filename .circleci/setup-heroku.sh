@@ -2,7 +2,7 @@
 if [[ "${CIRCLE_BRANCH}" == "master" ]]; then
   git remote add heroku https://git.heroku.com/records-api-production.git
 else
-  git remote add heroku https://git.heroku.com/records-api-alpha.git
+  git remote add heroku https://git.heroku.com/records-api-staging.git
 fi
 wget https://cli-assets.heroku.com/branches/stable/heroku-linux-amd64.tar.gz
 mkdir -p /usr/local/lib /usr/local/bin
