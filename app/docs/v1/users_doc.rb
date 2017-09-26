@@ -21,6 +21,11 @@ module V1
       param_group :user_params
     end
 
+    doc_for :index do
+      api! 'Get a list of users'
+      pagination_params
+    end
+
     doc_for :update do
       api! 'Update a single user'
       authentication_headers
