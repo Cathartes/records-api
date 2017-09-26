@@ -46,6 +46,24 @@ RSpec.describe V1::UsersController, type: :controller do
     end
   end
 
+  describe 'GET #index' do
+    let!(:user) { create :user }
+
+    context 'when no params are passed' do
+      before(:each) { get :index }
+
+      include_examples 'ok'
+
+      it 'is expected to return all Users' do
+        json = extract_response
+        expect(json['data'].length).to eq 1
+        json['data'].each do |user|
+          expect(user['type']).to eq 'users'
+        end
+      end
+    end
+  end
+
   describe 'PATCH #update' do
     include_examples 'authentication required', :patch, :update, params: { id: -1 }
 

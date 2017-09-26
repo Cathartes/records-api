@@ -40,6 +40,8 @@ class User < ApplicationRecord
 
   before_validation :set_password_updated_at, if: :password
 
+  scope :admin, (-> { where admin: true })
+
   def find_token(token_body)
     authentication_tokens.detect do |token|
       ActiveSupport::SecurityUtils.secure_compare token.body, token_body

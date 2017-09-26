@@ -12,11 +12,11 @@ Rails.application.routes.draw do
 
     resources :record_books
 
-    resource :sessions, except: %i[update]
+    resource :sessions, except: :update
 
     resources :teams
 
-    resources :users, only: %i[create update]
+    resources :users, except: :destroy
   end
 
   root 'application#index'
