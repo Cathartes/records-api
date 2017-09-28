@@ -18,7 +18,7 @@ module V1
 
     def index
       authorize RecordBook
-      scope = policy_scope RecordBook
+      scope = policy_scope RecordBook.includes(:participations, :teams)
 
       @record_books = scope.page(client_page_number).per client_page_size
       render json: @record_books, meta: render_pagination_meta(@record_books)
