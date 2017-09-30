@@ -27,12 +27,19 @@
 #
 
 class User < ApplicationRecord
+  include Trackable
+
   attr_accessor :reset_password_redirect_url
 
   has_secure_password validations: false
 
   has_many :authentication_tokens, dependent: :destroy
   has_many :participations, dependent: :destroy
+
+  has_one :active_participation, (lambda do
+    joins(:record_book).where 'start_time <= :now AND end_time >= :now', now: Time.zone.now
+  end), class_name: 'Participation'
+  has_one :active_record_book, through: :active_participation, source: :record_book
 
   enum membership_type: { applicant: 0, member: 1 }
 
@@ -63,6 +70,11 @@ class User < ApplicationRecord
   end
 
   private
+
+  def on_update_moment
+    return unless membership_type_changed? && member? && active_record_book.present?
+    build_moment moment_type: :new_member, record_book: active_record_book
+  end
 
   def set_password_updated_at
     self.password_updated_at = Time.now.utc

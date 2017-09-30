@@ -18,9 +18,12 @@
 #
 
 class Completion < ApplicationRecord
+  include Trackable
+
   belongs_to :challenge
   belongs_to :participation
 
+  has_one :record_book, through: :participation
   has_one :user, through: :participation
 
   enum status: { pending: 0, approved: 1, declined: 2 }
@@ -31,4 +34,10 @@ class Completion < ApplicationRecord
 
   scope :for_participation, (->(participation_id) { where participation_id: participation_id })
   scope :for_user,          (->(user_id)          { joins(:participation).where participations: { user_id: user_id } })
+
+  private
+
+  def on_create_moment
+    build_moment moment_type: :completion, record_book: record_book
+  end
 end
