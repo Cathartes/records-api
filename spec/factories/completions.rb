@@ -9,6 +9,7 @@
 #  points           :integer          default(0), not null
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
+#  status           :integer          default("pending"), not null
 #
 # Indexes
 #
@@ -19,11 +20,12 @@
 FactoryGirl.define do
   factory :completion do
     challenge
+    participation
 
     rank   { Faker::Number.between 1, 100 }
     points { Faker::Number.between 1, 100 }
 
-    trait(:applicant) { association :participation, :applicant }
-    trait(:member)    { association :participation, :member }
+    trait(:approved) { status :approved }
+    trait(:declined) { status :declined }
   end
 end

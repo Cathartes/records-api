@@ -12,7 +12,7 @@ class UserPolicy < ApplicationPolicy
   end
 
   def permitted_attributes
-    attrs = %i[discord_name email password]
+    attrs = %i[discord_name email membership_type password]
     attrs << :admin if user&.admin?
     attrs
   end

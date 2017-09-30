@@ -47,9 +47,9 @@ RSpec.describe V1::UsersController, type: :controller do
   end
 
   describe 'GET #index' do
-    let!(:user) { create :user }
-
     context 'when no params are passed' do
+      let!(:user) { create :user }
+
       before(:each) { get :index }
 
       include_examples 'ok'
@@ -59,6 +59,43 @@ RSpec.describe V1::UsersController, type: :controller do
         expect(json['data'].length).to eq 1
         json['data'].each do |user|
           expect(user['type']).to eq 'users'
+        end
+      end
+    end
+
+    context 'when "membership_type" is passed' do
+      let!(:applicant_user) { create :user }
+      let!(:member_user)    { create :user, :member }
+
+      context 'when "membership_type" is "applicant"' do
+        before(:each) { get :index, params: { membership_type: 'applicant' } }
+
+        include_examples 'ok'
+
+        it 'is expected to return applicant Users' do
+          json = extract_response
+          expect(json['data'].length).to eq 1
+          json['data'].each do |user|
+            expect(user['type']).to eq 'users'
+          end
+          user_ids = json['data'].map { |user| user['id'] }
+          expect(user_ids).to include applicant_user.id.to_s
+        end
+      end
+
+      context 'when "membership_type" is "member"' do
+        before(:each) { get :index, params: { membership_type: 'member' } }
+
+        include_examples 'ok'
+
+        it 'is expected to return member Users' do
+          json = extract_response
+          expect(json['data'].length).to eq 1
+          json['data'].each do |user|
+            expect(user['type']).to eq 'users'
+          end
+          user_ids = json['data'].map { |user| user['id'] }
+          expect(user_ids).to include member_user.id.to_s
         end
       end
     end

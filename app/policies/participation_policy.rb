@@ -20,6 +20,6 @@ class ParticipationPolicy < ApplicationPolicy
   end
 
   def permitted_attributes
-    %i[participation_type record_book_id team_id user_id]
+    %i[record_book_id team_id user_id]
   end
 end

@@ -11,18 +11,20 @@ print 'Seeding Users...'
 users = []
 unless User.exists? discord_name: 'Agthor#8442'
   users << {
-    email:        'tybot204@gmail.com',
-    discord_name: 'Agthor#8442',
-    password:     'password',
-    admin:        true
+    email:           'tybot204@gmail.com',
+    discord_name:    'Agthor#8442',
+    password:        'password',
+    membership_type: :member,
+    admin:           true
   }
 end
 unless User.exists? discord_name: 'iDreamPixels#3186'
   users << {
-    email:        'justinrlaforge@gmail.com',
-    discord_name: 'iDreamPixels#3186',
-    password:     'password',
-    admin:        true
+    email:           'justinrlaforge@gmail.com',
+    discord_name:    'iDreamPixels#3186',
+    password:        'password',
+    membership_type: :member,
+    admin:           true
   }
 end
 users << { discord_name: 'Best 2hu#0550' }      unless User.exists? discord_name: 'Best 2hu#0550'
@@ -90,8 +92,7 @@ User.all.each_with_index do |user, index|
   Participation.create!(
     record_book:        season_one,
     team:               teams[index % 2],
-    user:               user,
-    participation_type: :member
+    user:               user
   )
 end
 

@@ -16,7 +16,7 @@ class CompletionPolicy < ApplicationPolicy
   end
 
   def permitted_attributes
-    %i[challenge_id participation_id points rank]
+    %i[challenge_id participation_id points status rank]
   end
 
   class Scope < Scope

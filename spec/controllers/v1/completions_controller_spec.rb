@@ -29,7 +29,7 @@ RSpec.describe V1::CompletionsController, type: :controller do
 
         context 'when the Completion successfully saves' do
           let(:challenge)     { create :challenge }
-          let(:participation) { create :participation, :member }
+          let(:participation) { create :participation }
           let(:data) do
             {
               attributes: {
@@ -66,7 +66,7 @@ RSpec.describe V1::CompletionsController, type: :controller do
       include_examples 'not found', :delete, :destroy, model: 'Completion'
 
       context 'when the Completion is found' do
-        let(:completion) { create :completion, :member }
+        let(:completion) { create :completion }
         before(:each)    { delete :destroy, params: { id: completion.id } }
 
         context 'when the User does not have permission' do
@@ -88,9 +88,9 @@ RSpec.describe V1::CompletionsController, type: :controller do
 
   describe 'GET #index' do
     context 'when no params are passed' do
-      let(:participation)     { create :participation, :member, user: create(:user, :claimed) }
-      let!(:completion)       { create :completion, :member, participation: participation }
-      let!(:other_completion) { create :completion, :member }
+      let(:participation)     { create :participation, user: create(:user, :claimed) }
+      let!(:completion)       { create :completion, participation: participation }
+      let!(:other_completion) { create :completion }
 
       context 'when the User is not an admin' do
         before(:each) do
@@ -129,10 +129,74 @@ RSpec.describe V1::CompletionsController, type: :controller do
       end
     end
 
+    context 'when "status" is passed' do
+      let(:user)                 { create :user, :admin }
+      let!(:pending_completion)  { create :completion }
+      let!(:approved_completion) { create :completion, :approved }
+      let!(:declined_completion) { create :completion, :declined }
+
+      context 'when "status" is "pending"' do
+        before(:each) do
+          authenticate_user user
+          get :index, params: { status: 'pending' }
+        end
+
+        include_examples 'ok'
+
+        it 'is expected to return pending Completions' do
+          json = extract_response
+          expect(json['data'].length).to eq 1
+          json['data'].each do |completion|
+            expect(completion['type']).to eq 'completions'
+          end
+          completion_ids = json['data'].map { |completion| completion['id'] }
+          expect(completion_ids).to include pending_completion.id.to_s
+        end
+      end
+
+      context 'when "status" is "approved"' do
+        before(:each) do
+          authenticate_user user
+          get :index, params: { status: 'approved' }
+        end
+
+        include_examples 'ok'
+
+        it 'is expected to return approved Completions' do
+          json = extract_response
+          expect(json['data'].length).to eq 1
+          json['data'].each do |completion|
+            expect(completion['type']).to eq 'completions'
+          end
+          completion_ids = json['data'].map { |completion| completion['id'] }
+          expect(completion_ids).to include approved_completion.id.to_s
+        end
+      end
+
+      context 'when "status" is "declined"' do
+        before(:each) do
+          authenticate_user user
+          get :index, params: { status: 'declined' }
+        end
+
+        include_examples 'ok'
+
+        it 'is expected to return declined Completions' do
+          json = extract_response
+          expect(json['data'].length).to eq 1
+          json['data'].each do |completion|
+            expect(completion['type']).to eq 'completions'
+          end
+          completion_ids = json['data'].map { |completion| completion['id'] }
+          expect(completion_ids).to include declined_completion.id.to_s
+        end
+      end
+    end
+
     context 'when "participation_id" is passed' do
       let(:user)              { create :user, :admin }
-      let!(:completion)       { create :completion, :member }
-      let!(:other_completion) { create :completion, :member }
+      let!(:completion)       { create :completion }
+      let!(:other_completion) { create :completion }
 
       before(:each) do
         authenticate_user user
@@ -154,8 +218,8 @@ RSpec.describe V1::CompletionsController, type: :controller do
 
     context 'when "user_id" is passed' do
       let(:user)              { create :user, :admin }
-      let!(:completion)       { create :completion, :member }
-      let!(:other_completion) { create :completion, :member }
+      let!(:completion)       { create :completion }
+      let!(:other_completion) { create :completion }
 
       before(:each) do
         authenticate_user user
@@ -186,7 +250,7 @@ RSpec.describe V1::CompletionsController, type: :controller do
       include_examples 'not found', :patch, :update, model: 'Completion'
 
       context 'when the Completion is found' do
-        let(:completion) { create :completion, :member }
+        let(:completion) { create :completion }
         before(:each)    { patch :update, params: { id: completion.id, data: data } }
 
         context 'when the User does not have permission' do

@@ -16,6 +16,7 @@
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  password_updated_at    :datetime
+#  membership_type        :integer          default("applicant"), not null
 #
 # Indexes
 #
@@ -36,5 +37,7 @@ FactoryGirl.define do
     end
 
     trait(:claimed) { email { Faker::Internet.email } }
+
+    trait(:member) { membership_type :member }
   end
 end
