@@ -9,6 +9,7 @@
 #  points           :integer          default(0), not null
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
+#  status           :integer          default("pending"), not null
 #
 # Indexes
 #
@@ -25,5 +26,8 @@ FactoryGirl.define do
 
     trait(:applicant) { association :participation, :applicant }
     trait(:member)    { association :participation, :member }
+
+    trait(:approved) { status :approved }
+    trait(:declined) { status :declined }
   end
 end

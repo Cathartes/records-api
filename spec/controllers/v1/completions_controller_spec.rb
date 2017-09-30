@@ -129,6 +129,70 @@ RSpec.describe V1::CompletionsController, type: :controller do
       end
     end
 
+    context 'when "status" is passed' do
+      let(:user)                 { create :user, :admin }
+      let!(:pending_completion)  { create :completion, :member }
+      let!(:approved_completion) { create :completion, :member, :approved }
+      let!(:declined_completion) { create :completion, :member, :declined }
+
+      context 'when "status" is "pending"' do
+        before(:each) do
+          authenticate_user user
+          get :index, params: { status: 'pending' }
+        end
+
+        include_examples 'ok'
+
+        it 'is expected to return pending Completions' do
+          json = extract_response
+          expect(json['data'].length).to eq 1
+          json['data'].each do |completion|
+            expect(completion['type']).to eq 'completions'
+          end
+          completion_ids = json['data'].map { |completion| completion['id'] }
+          expect(completion_ids).to include pending_completion.id.to_s
+        end
+      end
+
+      context 'when "status" is "approved"' do
+        before(:each) do
+          authenticate_user user
+          get :index, params: { status: 'approved' }
+        end
+
+        include_examples 'ok'
+
+        it 'is expected to return approved Completions' do
+          json = extract_response
+          expect(json['data'].length).to eq 1
+          json['data'].each do |completion|
+            expect(completion['type']).to eq 'completions'
+          end
+          completion_ids = json['data'].map { |completion| completion['id'] }
+          expect(completion_ids).to include approved_completion.id.to_s
+        end
+      end
+
+      context 'when "status" is "declined"' do
+        before(:each) do
+          authenticate_user user
+          get :index, params: { status: 'declined' }
+        end
+
+        include_examples 'ok'
+
+        it 'is expected to return declined Completions' do
+          json = extract_response
+          expect(json['data'].length).to eq 1
+          json['data'].each do |completion|
+            expect(completion['type']).to eq 'completions'
+          end
+          completion_ids = json['data'].map { |completion| completion['id'] }
+          expect(completion_ids).to include declined_completion.id.to_s
+        end
+      end
+    end
+
     context 'when "participation_id" is passed' do
       let(:user)              { create :user, :admin }
       let!(:completion)       { create :completion, :member }

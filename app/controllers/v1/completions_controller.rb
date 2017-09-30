@@ -20,6 +20,17 @@ module V1
       authorize Completion
       scope = policy_scope Completion
 
+      scope = case params[:status]
+              when 'pending'
+                scope.pending
+              when 'approved'
+                scope.approved
+              when 'declined'
+                scope.declined
+              else
+                scope
+              end
+
       scope = scope.for_participation params[:participation_id] if params[:participation_id].present?
 
       scope = scope.for_user params[:user_id] if params[:user_id].present?

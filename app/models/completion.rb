@@ -9,6 +9,7 @@
 #  points           :integer          default(0), not null
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
+#  status           :integer          default("pending"), not null
 #
 # Indexes
 #
@@ -22,7 +23,9 @@ class Completion < ApplicationRecord
 
   has_one :user, through: :participation
 
-  validates :challenge, :participation, presence: true
+  enum status: { pending: 0, approved: 1, declined: 2 }
+
+  validates :challenge, :participation, :status, presence: true
   validates :rank, numericality: { greater_than: 0, less_than_or_equal_to: 100, only_integer: true }
   validates :points, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100, only_integer: true }
 

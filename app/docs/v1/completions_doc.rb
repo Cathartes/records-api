@@ -32,6 +32,7 @@ module V1
     doc_for :index do
       api! 'Get a list of completions'
       authentication_headers required: false
+      param :status, Completion.statuses.keys, 'Status to filter results by'
       param :participation_id, Integer, 'Participation ID to filter results by'
       param :user_id, Integer, 'User ID to filter results by'
       pagination_params
