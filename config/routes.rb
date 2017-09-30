@@ -6,6 +6,8 @@ Rails.application.routes.draw do
 
     resources :completions, except: :show
 
+    resources :moments, only: :index
+
     resources :participations
 
     resource :passwords, only: %i[create update]
