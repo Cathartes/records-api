@@ -2,13 +2,12 @@
 #
 # Table name: participations
 #
-#  id                 :integer          not null, primary key
-#  record_book_id     :integer          not null
-#  team_id            :integer          not null
-#  user_id            :integer          not null
-#  participation_type :integer          not null
-#  created_at         :datetime         not null
-#  updated_at         :datetime         not null
+#  id             :integer          not null, primary key
+#  record_book_id :integer          not null
+#  team_id        :integer          not null
+#  user_id        :integer          not null
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
 #
 # Indexes
 #
@@ -24,9 +23,7 @@ class Participation < ApplicationRecord
 
   has_many :completions, dependent: :destroy
 
-  enum participation_type: { member: 0, applicant: 1 }
-
-  validates :record_book, :team, :user, :participation_type, presence: true
+  validates :record_book, :team, :user, presence: true
 
   scope :for_record_book, (->(record_book_id) { where record_book_id: record_book_id })
   scope :for_team,        (->(team_id)        { where team_id: team_id })

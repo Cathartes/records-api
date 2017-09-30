@@ -15,7 +15,7 @@ RSpec.describe V1::ParticipationsController, type: :controller do
 
       context 'when the User does not have permission' do
         let(:user) { create :user, :claimed }
-        let(:data) { { attributes: { participation_type: :member } } }
+        let(:data) { { attributes: { record_book_id: -1 } } }
         include_examples 'forbidden'
       end
 
@@ -23,7 +23,7 @@ RSpec.describe V1::ParticipationsController, type: :controller do
         let(:user) { create :user, :admin }
 
         context 'when the Participation fails to save' do
-          let(:data) { { attributes: { participation_type: :member } } }
+          let(:data) { { attributes: { record_book_id: -1 } } }
           include_examples 'unprocessable entity'
         end
 
@@ -33,7 +33,6 @@ RSpec.describe V1::ParticipationsController, type: :controller do
           let(:data) do
             {
               attributes: {
-                participation_type: :member,
                 record_book_id: record_book.id,
                 team_id: team.id,
                 user_id: user.id
@@ -50,7 +49,6 @@ RSpec.describe V1::ParticipationsController, type: :controller do
           it 'is expected to return the Participation' do
             json = extract_response
             expect(json['data']['type']).to eq 'participations'
-            expect(json['data']['attributes']['participation_type']).to eq data[:attributes][:participation_type].to_s
           end
         end
       end
@@ -67,7 +65,7 @@ RSpec.describe V1::ParticipationsController, type: :controller do
       include_examples 'not found', :delete, :destroy, model: 'Participation'
 
       context 'when the Participation is found' do
-        let(:participation) { create :participation, :member }
+        let(:participation) { create :participation }
         before(:each)       { delete :destroy, params: { id: participation.id } }
 
         context 'when the User does not have permission' do
@@ -89,8 +87,8 @@ RSpec.describe V1::ParticipationsController, type: :controller do
 
   describe 'GET #index' do
     context 'when no params are passed' do
-      let!(:participation)       { create :participation, :member }
-      let!(:other_participation) { create :participation, :member }
+      let!(:participation)       { create :participation }
+      let!(:other_participation) { create :participation }
       before(:each)              { get :index }
 
       include_examples 'ok'
@@ -105,9 +103,9 @@ RSpec.describe V1::ParticipationsController, type: :controller do
     end
 
     context 'when "record_book_id" is passed' do
-      let!(:participation)       { create :participation, :member }
-      let!(:other_participation) { create :participation, :member }
-      before(:each)              { get :index, params: { record_book_id: participation.record_book_id } }
+      let!(:participation)       { create :participation }
+      let!(:other_participation) { create :participation }
+      before(:each)              { get :index, params: { record_book_id: participation.record_book_id.to_s } }
 
       include_examples 'ok'
 
@@ -121,8 +119,8 @@ RSpec.describe V1::ParticipationsController, type: :controller do
     end
 
     context 'when "team_id" is passed' do
-      let!(:participation)       { create :participation, :member }
-      let!(:other_participation) { create :participation, :member }
+      let!(:participation)       { create :participation }
+      let!(:other_participation) { create :participation }
       before(:each)              { get :index, params: { team_id: participation.team_id } }
 
       include_examples 'ok'
@@ -137,8 +135,8 @@ RSpec.describe V1::ParticipationsController, type: :controller do
     end
 
     context 'when "user_id" is passed' do
-      let!(:participation)       { create :participation, :member }
-      let!(:other_participation) { create :participation, :member }
+      let!(:participation)       { create :participation }
+      let!(:other_participation) { create :participation }
       before(:each)              { get :index, params: { user_id: participation.user_id } }
 
       include_examples 'ok'
@@ -151,48 +149,13 @@ RSpec.describe V1::ParticipationsController, type: :controller do
         end
       end
     end
-
-    context 'when "participation_type" is passed' do
-      let!(:member_participation)    { create :participation, :member }
-      let!(:applicant_participation) { create :participation, :applicant }
-
-      context 'when "participation_type" is "member"' do
-        before(:each) { get :index, params: { participation_type: :member } }
-
-        include_examples 'ok'
-
-        it 'is expected to return member Participations' do
-          json = extract_response
-          expect(json['data'].length).to eq 1
-          json['data'].each do |participation|
-            expect(participation['type']).to eq 'participations'
-            expect(participation['attributes']['participation_type']).to eq 'member'
-          end
-        end
-      end
-
-      context 'when "participation_type" is "applicant"' do
-        before(:each) { get :index, params: { participation_type: :applicant } }
-
-        include_examples 'ok'
-
-        it 'is expected to return applicant Participations' do
-          json = extract_response
-          expect(json['data'].length).to eq 1
-          json['data'].each do |participation|
-            expect(participation['type']).to eq 'participations'
-            expect(participation['attributes']['participation_type']).to eq 'applicant'
-          end
-        end
-      end
-    end
   end
 
   describe 'GET #show' do
     include_examples 'not found', :get, :show, model: 'Participation'
 
     context 'when the Participation is found' do
-      let(:participation) { create :participation, :member }
+      let(:participation) { create :participation }
       before(:each)       { get :show, params: { id: participation.id } }
 
       context 'when the User does not have permission' do
@@ -200,7 +163,7 @@ RSpec.describe V1::ParticipationsController, type: :controller do
       end
 
       context 'when the User has permission' do
-        let(:participation) { create :participation, :member, :published }
+        let(:participation) { create :participation, :published }
 
         include_examples 'ok'
 
@@ -223,7 +186,7 @@ RSpec.describe V1::ParticipationsController, type: :controller do
       include_examples 'not found', :patch, :update, model: 'Participation'
 
       context 'when the Participation is found' do
-        let(:participation) { create :participation, :member }
+        let(:participation) { create :participation }
         before(:each)       { patch :update, params: { id: participation.id, data: data } }
 
         context 'when the User does not have permission' do
@@ -235,30 +198,30 @@ RSpec.describe V1::ParticipationsController, type: :controller do
           let(:user) { create :user, :admin }
 
           context 'when the Participation fails to save' do
-            let(:data) { { attributes: { participation_type: nil } } }
+            let(:data) { { attributes: { record_book_id: -1 } } }
 
             include_examples 'unprocessable entity'
 
             it 'is expected to not update the Participation' do
-              participation_type = participation.participation_type
-              expect(participation.reload.participation_type).to eq participation_type
+              record_book_id = participation.record_book_id
+              expect(participation.reload.record_book_id).to eq record_book_id
             end
           end
 
           context 'when the Participation successfully saves' do
-            let(:data) { { attributes: { participation_type: :applicant } } }
+            let(:record_book) { create :record_book }
+            let(:data)        { { attributes: { record_book_id: record_book.id } } }
 
             include_examples 'ok'
 
             it 'is expected to update the Participation' do
-              expect(participation.reload.participation_type).to eq data[:attributes][:participation_type].to_s
+              expect(participation.reload.record_book_id).to eq data[:attributes][:record_book_id]
             end
 
             it 'is expected to return the Participation' do
               json = extract_response
               expect(json['data']['type']).to eq 'participations'
               expect(json['data']['id']).to eq participation.id.to_s
-              expect(json['data']['attributes']['participation_type']).to eq data[:attributes][:participation_type].to_s
             end
           end
         end

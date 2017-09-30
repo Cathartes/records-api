@@ -2,13 +2,12 @@
 #
 # Table name: participations
 #
-#  id                 :integer          not null, primary key
-#  record_book_id     :integer          not null
-#  team_id            :integer          not null
-#  user_id            :integer          not null
-#  participation_type :integer          not null
-#  created_at         :datetime         not null
-#  updated_at         :datetime         not null
+#  id             :integer          not null, primary key
+#  record_book_id :integer          not null
+#  team_id        :integer          not null
+#  user_id        :integer          not null
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
 #
 # Indexes
 #
@@ -33,7 +32,7 @@ RSpec.describe Participation, type: :model do
   end
 
   describe '.total_points' do
-    let(:completion) { create :completion, :member }
+    let(:completion) { create :completion }
 
     it 'is expected to return the total points the participant has' do
       expect(completion.participation.total_points).to eq completion.points

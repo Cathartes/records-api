@@ -16,6 +16,7 @@
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  password_updated_at    :datetime
+#  membership_type        :integer          default("applicant"), not null
 #
 # Indexes
 #
@@ -33,6 +34,9 @@ class User < ApplicationRecord
   has_many :authentication_tokens, dependent: :destroy
   has_many :participations, dependent: :destroy
 
+  enum membership_type: { applicant: 0, member: 1 }
+
+  validates :membership_type, presence: true
   validates :admin, boolean: true
   validates :discord_name, length: { minimum: 6, maximum: 72 }, uniqueness: true
   validates :email, format: /\A[^@\s]+@[^@\s]+\z/, uniqueness: true, allow_nil: true

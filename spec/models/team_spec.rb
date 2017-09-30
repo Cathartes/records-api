@@ -21,7 +21,7 @@ RSpec.describe Team, type: :model do
 
   describe '.total_points_for_record_book' do
     let(:team)          { create :team }
-    let(:participation) { create :participation, :member, team: team }
+    let(:participation) { create :participation, team: team }
     let!(:completion)   { create :completion, participation: participation }
 
     it 'is expected to return the total points the Team has' do

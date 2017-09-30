@@ -11,6 +11,7 @@ module V1
         param :discord_name, String, 'Discord name associated with the user', required: true, action_aware: true
         param :email, String, 'Unique email required for user login'
         param :password, String, 'Password required for user login'
+        param :membership_type, User.membership_types.keys, 'Type of member this user is'
       end
     end
 

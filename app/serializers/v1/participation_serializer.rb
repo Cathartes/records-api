@@ -4,6 +4,6 @@ module V1
     belongs_to :team
     belongs_to :user
 
-    attributes :participation_type, :total_points
+    attributes :total_points
   end
 end

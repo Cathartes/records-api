@@ -26,15 +26,6 @@ module V1
 
       scope = scope.for_user params[:user_id] if params[:user_id].present?
 
-      scope = case params[:participation_type]
-              when 'member'
-                scope.member
-              when 'applicant'
-                scope.applicant
-              else
-                scope
-              end
-
       @participations = scope.page(client_page_number).per client_page_size
       render json: @participations, meta: render_pagination_meta(@participations)
     end

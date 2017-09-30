@@ -16,6 +16,7 @@
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  password_updated_at    :datetime
+#  membership_type        :integer          default("applicant"), not null
 #
 # Indexes
 #
@@ -31,6 +32,10 @@ RSpec.describe User, type: :model do
   describe 'associations' do
     it { is_expected.to have_many(:authentication_tokens).dependent :destroy }
     it { is_expected.to have_many(:participations).dependent :destroy }
+  end
+
+  describe 'enums' do
+    it { should define_enum_for(:membership_type).with %i[applicant member] }
   end
 
   describe 'validations' do

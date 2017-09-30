@@ -12,8 +12,6 @@ module V1
               'ID of the record book this participation is a part of', required: true, action_aware: true
         param :team_id, Integer, 'ID of the team this participation is for', required: true, action_aware: true
         param :user_id, Integer, 'ID of the user participating in this record book', required: true, action_aware: true
-        param :participation_type, ::Participation.participation_types.keys,
-              'Type of participation', required: true, action_aware: true
       end
     end
 
@@ -35,7 +33,6 @@ module V1
       param :record_book_id, Integer, 'Record book ID to filter results by'
       param :team_id, Integer, 'Team ID to filter results by'
       param :user_id, Integer, 'User ID to filter results by'
-      param :participation_type, ::Participation.participation_types.keys, 'Participation type to filter results by'
       pagination_params
     end
 
