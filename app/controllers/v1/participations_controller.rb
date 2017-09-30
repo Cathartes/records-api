@@ -18,7 +18,7 @@ module V1
 
     def index
       authorize Participation
-      scope = Participation.all
+      scope = Participation.includes parse_includes
 
       scope = scope.for_record_book params[:record_book_id] if params[:record_book_id].present?
 
@@ -27,7 +27,7 @@ module V1
       scope = scope.for_user params[:user_id] if params[:user_id].present?
 
       @participations = scope.page(client_page_number).per client_page_size
-      render json: @participations, meta: render_pagination_meta(@participations)
+      render json: @participations, meta: render_pagination_meta(@participations), include: params[:include]
     end
 
     def show

@@ -31,6 +31,51 @@ module V1
       }, status: :bad_request
     end
 
+    def parse_includes(default_includes = [])
+      include_param = params[:include]
+      return default_includes if include_param.blank?
+
+      include_hash = {}
+      default_includes.each do |default|
+        if default.is_a? Hash
+          include_hash[default.keys.first.to_s] = default.values.first.map(&:to_s)
+          default.values.first.each do |value|
+            include_hash[value.to_s] = []
+          end
+        else
+          include_hash[default.to_s] = []
+        end
+      end
+
+      include_segments = include_param.split(',')
+      include_segments.each do |segment|
+        parent, *nested = segment.split('.')
+        include_hash[parent] ||= []
+
+        if nested.any?
+          include_segments.append nested.join('.')
+          include_hash[parent] << nested.first unless include_hash[parent].include? nested.first
+        end
+      end
+
+      reject_keys = []
+      include_hash.each do |_parent, child|
+        relations = child.dup
+        relations.each do |relation|
+          reject_keys << relation
+          child_relations = include_hash[relation]
+          next if child_relations.empty?
+          child.delete(relation)
+          child << { relation => child_relations }
+        end
+      end
+
+      include_hash.map do |k, v|
+        next if reject_keys.include? k
+        v.any? ? { k => v } : k
+      end.compact
+    end
+
     def pundit_denied(exception)
       policy_name = exception.policy.class.to_s.underscore
       locale_name = "#{policy_name}.#{exception.query}"
