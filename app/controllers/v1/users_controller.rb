@@ -14,6 +14,15 @@ module V1
       authorize User
       scope = User.all
 
+      scope = case params['membership_type']
+              when 'applicant'
+                scope.applicant
+              when 'member'
+                scope.member
+              else
+                scope
+              end
+
       @users = scope.page(client_page_number).per client_page_size
       render json: @users, meta: render_pagination_meta(@users)
     end

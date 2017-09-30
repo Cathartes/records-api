@@ -24,6 +24,7 @@ module V1
 
     doc_for :index do
       api! 'Get a list of users'
+      param :membership_type, User.membership_types.keys, 'Type of user to filter results by'
       pagination_params
     end
 
