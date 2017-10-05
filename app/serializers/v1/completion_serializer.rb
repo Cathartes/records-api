@@ -3,6 +3,6 @@ module V1
     belongs_to :challenge
     belongs_to :participation
 
-    attributes :points, :rank
+    attributes :points, :rank, :status
   end
 end
