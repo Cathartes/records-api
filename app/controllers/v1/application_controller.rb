@@ -96,14 +96,6 @@ module V1
       }, status: :not_found
     end
 
-    def set_current_user
-      @current_user = nil
-      email = request.headers['X-USER-UID']
-      return if email.blank?
-      user = User.find_by email: email
-      @current_user = user if user&.find_token(request.headers['X-USER-TOKEN']).present?
-    end
-
     def unprocessable_entity(model)
       render json: model, status: :unprocessable_entity, serializer: ActiveModel::Serializer::ErrorSerializer
     end
