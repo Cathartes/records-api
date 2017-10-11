@@ -28,6 +28,7 @@ RSpec.describe Moment, type: :model do
     it { is_expected.to validate_presence_of :moment_type }
     it { is_expected.to validate_presence_of :record_book }
     it { is_expected.to validate_presence_of :trackable }
+    it { is_expected.to validate_inclusion_of(:trackable_type).in_array %w[Completion User] }
   end
 
   describe 'enums' do

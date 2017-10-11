@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
+  mount GraphiQL::Rails::Engine, at: '/graphiql', graphql_path: '/graphql' if Rails.env.development?
+
   apipie
+
+  post '/graphql', to: 'graphql#execute'
 
   namespace :v1, defaults: { format: :json } do
     resources :challenges

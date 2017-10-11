@@ -32,6 +32,10 @@ RSpec.describe User, type: :model do
   describe 'associations' do
     it { is_expected.to have_many(:authentication_tokens).dependent :destroy }
     it { is_expected.to have_many(:participations).dependent :destroy }
+    it { is_expected.to have_many :completions }
+
+    it { is_expected.to have_one :active_participation }
+    it { is_expected.to have_one :active_record_book }
   end
 
   describe 'enums' do

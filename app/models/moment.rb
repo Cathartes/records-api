@@ -19,11 +19,14 @@
 class Moment < ApplicationRecord
   belongs_to :record_book
   belongs_to :trackable, polymorphic: true
+
   belongs_to :completion, foreign_key: :trackable_id, foreign_type: 'Completion', optional: true
+  belongs_to :user, foreign_key: :trackable_id, foreign_type: 'User', optional: true
 
   enum moment_type: { new_member: 0, completion: 1 }
 
   validates :moment_type, :record_book, :trackable, presence: true
+  validates :trackable_type, inclusion: %w[Completion User]
 
   scope :for_record_book, (->(record_book_id) { where record_book_id: record_book_id })
   scope :for_user, (lambda do |user_id|

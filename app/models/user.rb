@@ -35,6 +35,7 @@ class User < ApplicationRecord
 
   has_many :authentication_tokens, dependent: :destroy
   has_many :participations, dependent: :destroy
+  has_many :completions, through: :participations
 
   has_one :active_participation, (lambda do
     joins(:record_book).where 'start_time <= :now AND end_time >= :now', now: Time.zone.now
