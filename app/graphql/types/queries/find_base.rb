@@ -1,15 +1,19 @@
 module Types
   module Queries
     class FindBase < GraphQL::Function
-      def self.human_klass_name
-        name.split('Find').last.underscore.humanize.downcase
+      def self.human_model_name
+        model_name.underscore.humanize.downcase
       end
 
-      argument :id, !types.ID, "ID of the #{human_klass_name} to find"
-      description "Find a single #{human_klass_name} given an ID"
+      def self.model_name
+        name.split('Find').last
+      end
+
+      argument :id, !types.ID, "ID of the #{human_model_name} to find"
+      description "Find a single #{human_model_name} given an ID"
 
       def call(_obj, args, _ctx)
-        @klass.find args[:id]
+        self.class.model_name.constantize.find args[:id]
       rescue ActiveRecord::RecordNotFound => error
         GraphQL::ExecutionError.new error.message
       end

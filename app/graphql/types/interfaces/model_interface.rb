@@ -4,8 +4,12 @@ module Types
       name 'Model'
 
       field :id, !types.ID
-      field :createdAt, !types.String, property: :created_at
-      field :updatedAt, !types.String, property: :updated_at
+      field :createdAt, !types.String do
+        resolve ->(obj, _args, _ctx) { obj.created_at.iso8601 }
+      end
+      field :updatedAt, !types.String do
+        resolve ->(obj, _args, _ctx) { obj.updated_at.iso8601 }
+      end
     end
   end
 end

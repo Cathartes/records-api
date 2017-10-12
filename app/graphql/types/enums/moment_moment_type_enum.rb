@@ -4,8 +4,8 @@ module Types
       name 'MomentMomentType'
       description 'List of valid moment types'
 
-      value :new_member, 'Indicates a user gained membership status'
-      value :completion, 'Indicates a user has completed a challenge'
+      value 'new_member', 'Indicates a user gained membership status'
+      value 'completion', 'Indicates a user has completed a challenge'
     end
   end
 end

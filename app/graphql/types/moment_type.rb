@@ -6,11 +6,12 @@ module Types
     interfaces [Interfaces::ModelInterface]
 
     ## Attributes stored in the DB
-    field :momentType, !types[Enums::MomentMomentTypeEnum], property: :moment_type
+    field :momentType, !Enums::MomentMomentTypeEnum, property: :moment_type
 
     ## Belongs to associations
     field :recordBook, !RecordBookType, property: :record_book
     field :completion, CompletionType
+    field :participation, !ParticipationType
     field :user, UserType
   end
 end

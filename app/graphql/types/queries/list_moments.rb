@@ -1,7 +1,7 @@
 module Types
   module Queries
     class ListMoments < GraphQL::Function
-      argument :recordBookId, types.Int, 'ID of a record book to filter results by'
+      argument :recordBookId, types.ID, 'ID of a record book to filter results by'
 
       description 'List moments with various filters'
       type types[::Types::MomentType]

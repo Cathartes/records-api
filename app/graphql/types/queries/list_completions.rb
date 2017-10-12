@@ -1,9 +1,9 @@
 module Types
   module Queries
     class ListCompletions < GraphQL::Function
-      argument :participationId, types.Int, 'ID of a participation to filter results by'
+      argument :participationId, types.ID, 'ID of a participation to filter results by'
       argument :status, Types::Enums::CompletionStatusEnum, 'Type of completion to filter results by'
-      argument :userId, types.Int, 'ID of a user to filter results by'
+      argument :userId, types.ID, 'ID of a user to filter results by'
 
       description 'List completions with various filters'
       type types[::Types::CompletionType]

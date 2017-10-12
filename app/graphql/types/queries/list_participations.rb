@@ -1,9 +1,9 @@
 module Types
   module Queries
     class ListParticipations < GraphQL::Function
-      argument :recordBookId, types.Int, 'ID of a record book to filter results by'
-      argument :teamId, types.Int, 'ID of a team to filter results by'
-      argument :userId, types.Int, 'ID of a user to filter results by'
+      argument :recordBookId, types.ID, 'ID of a record book to filter results by'
+      argument :teamId, types.ID, 'ID of a team to filter results by'
+      argument :userId, types.ID, 'ID of a user to filter results by'
 
       description 'List participations with various filters'
       type types[::Types::ParticipationType]

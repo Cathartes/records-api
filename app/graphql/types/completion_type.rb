@@ -8,7 +8,7 @@ module Types
     ## Attributes stored in the DB
     field :rank, !types.Int
     field :points, !types.Int
-    field :status, !types[Enums::CompletionStatusEnum]
+    field :status, !Enums::CompletionStatusEnum
 
     ## Belongs to associations
     field :challenge, !ChallengeType

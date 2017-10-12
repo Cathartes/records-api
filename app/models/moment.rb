@@ -35,4 +35,12 @@ class Moment < ApplicationRecord
       .where 'moment_type = :new_member OR moment_type = :completion AND participations.user_id = :user_id',
              new_member: moment_types[:new_member], completion: moment_types[:completion], user_id: user_id
   end)
+
+  def participation
+    if new_member?
+      Participation.find_by record_book_id: record_book_id, user_id: trackable_id
+    elsif completion?
+      Participation.joins(:completions).find_by completions: { id: trackable_id }
+    end
+  end
 end
