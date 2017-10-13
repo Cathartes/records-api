@@ -9,6 +9,8 @@ module Types
     field :completion, function: Queries::FindCompletion.new
     field :completions, function: Queries::ListCompletions.new
 
+    field :currentUser, function: Queries::CurrentUser.new
+
     field :moment, function: Queries::FindMoment.new
     field :moments, function: Queries::ListMoments.new
 

@@ -9,11 +9,11 @@ module Types
 
       def call(_obj, args, _ctx)
         user = User.find_by! email: args[:email]
-        return OpenStruct.new token: nil, uid: nil unless user.authenticate args[:password]
+        return OpenStruct.new token: nil, uid: nil, user: user unless user.authenticate args[:password]
 
         token = user.authentication_tokens.create!
 
-        OpenStruct.new token: token.body, uid: user.email
+        OpenStruct.new token: token.body, uid: user.email, user: user
       end
     end
   end

@@ -5,5 +5,6 @@ module Types
 
     field :token, types.String
     field :uid, types.String
+    field :user, UserType
   end
 end
