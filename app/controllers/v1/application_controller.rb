@@ -2,15 +2,11 @@ module V1
   class ApplicationController < ::ApplicationController
     include PaginationHelpers
 
-    prepend_before_action :set_current_user
-
     rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
     rescue_from Apipie::ParamError, with: :bad_request
     rescue_from Pundit::NotAuthorizedError, with: :pundit_denied
 
     protected
-
-    attr_reader :current_user
 
     def authenticate_user!
       return if current_user.present?

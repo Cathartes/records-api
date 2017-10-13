@@ -1,7 +1,7 @@
 module Types
   QueryType = GraphQL::ObjectType.define do
     name 'Query'
-    description 'Root query to fetch information'
+    description 'Root query to fetch data'
 
     field :challenge, function: Queries::FindChallenge.new
     field :challenges, function: Queries::ListChallenges.new
