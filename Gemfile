@@ -22,6 +22,7 @@ gem 'rack-cors'
 
 gem 'active_model_serializers'
 gem 'apipie-rails'
+gem 'graphql'
 gem 'kaminari'
 gem 'pundit'
 gem 'validates_timeliness'
@@ -48,6 +49,7 @@ end
 
 group :development do
   gem 'annotate'
+  gem 'graphiql-rails'
   gem 'guard-rspec', require: false
   gem 'letter_opener'
   gem 'listen', '>= 3.0.5', '< 3.2'
