@@ -8,10 +8,18 @@ module Types
     ## Attributes stored in the DB
     field :name, !types.String
     field :published, !types.Boolean
-    field :startTime, types.String, property: :start_time
-    field :endTime, types.String, property: :end_time
-    field :rushStartTime, types.String, property: :rush_start_time
-    field :rushEndTime, types.String, property: :rush_end_time
+    field :startTime, types.String do
+      resolve ->(obj, _args, _ctx) { obj.start_time.iso8601 }
+    end
+    field :endTime, types.String do
+      resolve ->(obj, _args, _ctx) { obj.end_time.iso8601 }
+    end
+    field :rushStartTime, types.String do
+      resolve ->(obj, _args, _ctx) { obj.rush_start_time.iso8601 }
+    end
+    field :rushEndTime, types.String do
+      resolve ->(obj, _args, _ctx) { obj.rush_end_time.iso8601 }
+    end
 
     ## Has many associations
     field :challenges, types[!ChallengeType]
