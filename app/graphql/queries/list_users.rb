@@ -1,6 +1,6 @@
 module Queries
   class ListUsers < GraphQL::Function
-    argument :membershipType, Types::Enums::UserMembershipTypeEnum, 'Type of user to filter results by'
+    argument :membershipType, Types::Enums::UserMembershipTypeEnum, 'Type of user to filter results by', as: :membership_type
 
     description 'List users with various filters'
     type types[::Types::UserType]

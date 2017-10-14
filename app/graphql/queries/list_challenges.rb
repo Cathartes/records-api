@@ -1,6 +1,6 @@
 module Queries
   class ListChallenges < GraphQL::Function
-    argument :recordBookId, types.ID, 'ID of a record book to filter results by'
+    argument :recordBookId, types.ID, 'ID of a record book to filter results by', as: :record_book_id
 
     description 'List challenges with various filters'
     type types[::Types::ChallengeType]

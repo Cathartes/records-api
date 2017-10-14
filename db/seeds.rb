@@ -88,7 +88,7 @@ end)
 
 teams = Team.all
 User.all.each_with_index do |user, index|
-  next unless user.participations.for_record_book(season_one).any?
+  next if user.participations.for_record_book(season_one).any?
   Participation.create!(
     record_book:        season_one,
     team:               teams[index % 2],
