@@ -7,5 +7,7 @@ module Types
     field :createUser, function: ::Mutations::CreateUser.new
 
     field :login, function: ::Mutations::Login.new
+
+    field :updateRecordBook, function: ::Mutations::UpdateRecordBook.new
   end
 end
