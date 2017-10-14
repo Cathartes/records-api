@@ -5,7 +5,6 @@
 #  id              :integer          not null, primary key
 #  name            :string           not null
 #  published       :boolean          default(FALSE), not null
-#  time_zone       :string           default("UTC"), not null
 #  start_time      :datetime
 #  end_time        :datetime
 #  rush_start_time :datetime
@@ -17,7 +16,6 @@
 FactoryGirl.define do
   factory :record_book do
     name { Faker::Name.first_name }
-    time_zone 'UTC'
 
     trait(:published) { published true }
   end

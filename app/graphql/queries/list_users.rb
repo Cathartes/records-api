@@ -13,6 +13,8 @@ module Queries
                 scope.applicant
               when 'member'
                 scope.member
+              when 'retired'
+                scope.retired
               else
                 scope
               end

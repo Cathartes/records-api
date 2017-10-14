@@ -8,7 +8,6 @@ module Types
     ## Attributes stored in the DB
     field :name, !types.String
     field :published, !types.Boolean
-    field :timeZone, !types.String, property: :time_zone
     field :startTime, types.String, property: :start_time
     field :endTime, types.String, property: :end_time
     field :rushStartTime, types.String, property: :rush_start_time

@@ -4,7 +4,7 @@
 #
 #  id             :integer          not null, primary key
 #  record_book_id :integer          not null
-#  team_id        :integer          not null
+#  team_id        :integer
 #  user_id        :integer          not null
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
@@ -27,7 +27,6 @@ RSpec.describe Participation, type: :model do
 
   describe 'validations' do
     it { is_expected.to validate_presence_of :record_book }
-    it { is_expected.to validate_presence_of :team }
     it { is_expected.to validate_presence_of :user }
   end
 

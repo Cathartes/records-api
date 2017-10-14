@@ -59,7 +59,6 @@ unless RecordBook.exists? name: 'Season 1'
     rush_end_time:   2.weeks.from_now
   }
 end
-record_books << { name: 'Season 2' } unless RecordBook.exists? name: 'Season 2'
 RecordBook.create! record_books
 
 season_one        = RecordBook.find_by! name: 'Season 1'
@@ -88,12 +87,8 @@ end)
 
 teams = Team.all
 User.all.each_with_index do |user, index|
-  next if user.participations.for_record_book(season_one).any?
-  Participation.create!(
-    record_book:        season_one,
-    team:               teams[index % 2],
-    user:               user
-  )
+  participation = user.participations.for_record_book(season_one).first
+  participation.update team: teams[index % 2]
 end
 
 puts 'done'

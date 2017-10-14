@@ -43,7 +43,7 @@ RSpec.describe V1::ParticipationsController, type: :controller do
           include_examples 'created'
 
           it 'is expected to create the Participation' do
-            expect(Participation.count).to eq 1
+            expect(Participation.count).to eq 2
           end
 
           it 'is expected to return the Participation' do
@@ -78,7 +78,7 @@ RSpec.describe V1::ParticipationsController, type: :controller do
           include_examples 'no content'
 
           it 'is expected to destroy the Participation' do
-            expect(Participation.count).to eq 0
+            expect(Participation.count).to eq 1
           end
         end
       end
@@ -95,7 +95,7 @@ RSpec.describe V1::ParticipationsController, type: :controller do
 
       it 'is expected to return all Participations' do
         json = extract_response
-        expect(json['data'].length).to eq 2
+        expect(json['data'].length).to eq 3
         json['data'].each do |participation|
           expect(participation['type']).to eq 'participations'
         end
@@ -143,7 +143,7 @@ RSpec.describe V1::ParticipationsController, type: :controller do
 
       it 'is expected to return Participations for the User' do
         json = extract_response
-        expect(json['data'].length).to eq 1
+        expect(json['data'].length).to eq 2
         json['data'].each do |participation|
           expect(participation['type']).to eq 'participations'
         end

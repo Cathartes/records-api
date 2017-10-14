@@ -14,7 +14,6 @@ module V1
         param :end_time, :date_time, 'End time for challenges to be completed', allow_nil: true
         param :rush_start_time, :date_time, 'Start time of rush week', allow_nil: true
         param :rush_end_time, :date_time, 'End time of rush week', allow_nil: true
-        param :time_zone, String, 'Time zone dates are sent using'
       end
     end
 

@@ -6,8 +6,8 @@ module Types
     interfaces [Interfaces::ModelInterface]
 
     ## Belongs to associations
-    field :recordBook, !ParticipationType, property: :record_book
-    field :team, !TeamType
+    field :recordBook, !RecordBookType, property: :record_book
+    field :team, TeamType
     field :user, !UserType
 
     ## Has many associations

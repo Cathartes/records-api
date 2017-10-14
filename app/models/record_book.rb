@@ -5,7 +5,6 @@
 #  id              :integer          not null, primary key
 #  name            :string           not null
 #  published       :boolean          default(FALSE), not null
-#  time_zone       :string           default("UTC"), not null
 #  start_time      :datetime
 #  end_time        :datetime
 #  rush_start_time :datetime
@@ -21,11 +20,22 @@ class RecordBook < ApplicationRecord
 
   validates :name, length: { minimum: 2, maximum: 24 }
   validates :published, boolean: true
-  validates :time_zone, time_zone: true
   validates :start_time, :rush_start_time, timeliness: { type: :datetime }, allow_nil: true
   validates :end_time, timeliness: { type: :datetime, on_or_after: :start_time }, allow_nil: true
   validates :rush_end_time, timeliness: { type: :datetime, on_or_after: :rush_start_time }, allow_nil: true
 
+  after_create :import_active_users
+
+  scope :active,      (-> { where 'start_time <= :now AND end_time >= :now', now: Time.zone.now })
   scope :published,   (-> { where published: true })
   scope :unpublished, (-> { where published: false })
+
+  private
+
+  def import_active_users
+    User.active.find_each do |user|
+      participations.build user: user
+    end
+    save!
+  end
 end

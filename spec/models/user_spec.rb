@@ -39,7 +39,7 @@ RSpec.describe User, type: :model do
   end
 
   describe 'enums' do
-    it { should define_enum_for(:membership_type).with %i[applicant member] }
+    it { should define_enum_for(:membership_type).with %i[applicant member retired] }
   end
 
   describe 'validations' do

@@ -42,7 +42,7 @@ class User < ApplicationRecord
   end), class_name: 'Participation'
   has_one :active_record_book, through: :active_participation, source: :record_book
 
-  enum membership_type: { applicant: 0, member: 1 }
+  enum membership_type: { applicant: 0, member: 1, retired: 2 }
 
   validates :membership_type, presence: true
   validates :admin, boolean: true
@@ -52,7 +52,10 @@ class User < ApplicationRecord
 
   before_validation :set_password_updated_at, if: :password
 
-  scope :admin, (-> { where admin: true })
+  after_create :add_to_active_record_book
+
+  scope :active, (-> { where.not(membership_type: :retired) })
+  scope :admin,  (-> { where admin: true })
 
   def find_token(token_body)
     authentication_tokens.detect do |token|
@@ -71,6 +74,13 @@ class User < ApplicationRecord
   end
 
   private
+
+  def add_to_active_record_book
+    RecordBook.active.find_each do |record_book|
+      next if participations.for_record_book(record_book).any?
+      participations.create! record_book: record_book
+    end
+  end
 
   def on_update_moment
     return unless membership_type_changed? && member? && active_record_book.present?

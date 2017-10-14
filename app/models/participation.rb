@@ -4,7 +4,7 @@
 #
 #  id             :integer          not null, primary key
 #  record_book_id :integer          not null
-#  team_id        :integer          not null
+#  team_id        :integer
 #  user_id        :integer          not null
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
@@ -18,12 +18,12 @@
 
 class Participation < ApplicationRecord
   belongs_to :record_book
-  belongs_to :team
+  belongs_to :team, optional: true
   belongs_to :user
 
   has_many :completions, dependent: :destroy
 
-  validates :record_book, :team, :user, presence: true
+  validates :record_book, :user, presence: true
 
   scope :for_record_book, (->(record_book_id) { where record_book_id: record_book_id })
   scope :for_team,        (->(team_id)        { where team_id: team_id })

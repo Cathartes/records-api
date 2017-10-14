@@ -4,7 +4,7 @@
 #
 #  id             :integer          not null, primary key
 #  record_book_id :integer          not null
-#  team_id        :integer          not null
+#  team_id        :integer
 #  user_id        :integer          not null
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
