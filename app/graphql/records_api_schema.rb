@@ -2,8 +2,8 @@ RecordsApiSchema = GraphQL::Schema.define do
   mutation Types::MutationType
   query Types::QueryType
 
-  resolve_type(lambda do |obj, _ctx|
-    case obj
+  resolve_type(lambda do |type, _obj, _ctx|
+    case type
     when Challenge
       Types::ChallengeType
     when Completion
@@ -19,7 +19,7 @@ RecordsApiSchema = GraphQL::Schema.define do
     when User
       Types::UserType
     else
-      raise "GraphQL type of #{obj.class.name} not implemented."
+      raise "GraphQL type of #{type.class.name} not implemented."
     end
   end)
 end
