@@ -24,6 +24,7 @@ class Participation < ApplicationRecord
   has_many :completions, dependent: :destroy
 
   validates :record_book, :user, presence: true
+  validates :user_id, uniqueness: { scope: :record_book_id }
 
   scope :for_record_book, (->(record_book_id) { where record_book_id: record_book_id })
   scope :for_team,        (->(team_id)        { where team_id: team_id })

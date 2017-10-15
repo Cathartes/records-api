@@ -28,6 +28,11 @@ RSpec.describe Participation, type: :model do
   describe 'validations' do
     it { is_expected.to validate_presence_of :record_book }
     it { is_expected.to validate_presence_of :user }
+
+    context 'uniqueness' do
+      subject { build :participation }
+      it { is_expected.to validate_uniqueness_of(:user_id).scoped_to :record_book_id }
+    end
   end
 
   describe '.total_points' do
