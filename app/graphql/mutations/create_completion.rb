@@ -12,7 +12,7 @@ module Mutations
     def call(_obj, args, ctx)
       @completion = Completion.new
       @completion.assign_attributes completion_args args, ctx
-      @completion.save!
+      @completion.save
       @completion
     end
 
