@@ -20,6 +20,7 @@ require 'rails_helper'
 RSpec.describe Challenge, type: :model do
   describe 'associations' do
     it { is_expected.to belong_to :record_book }
+    it { is_expected.to have_many(:completions).dependent :destroy }
   end
 
   describe 'validations' do
@@ -29,6 +30,22 @@ RSpec.describe Challenge, type: :model do
     it do
       is_expected.to validate_numericality_of(:max_completions)
         .is_greater_than_or_equal_to(0).is_less_than_or_equal_to(100).only_integer
+    end
+  end
+
+  describe '.points_for_rank' do
+    let(:challenge) { Challenge.new points: { 0 => 20, 1 => 50 } }
+
+    context 'when "rank" does not exist' do
+      it 'should return points for rank 0' do
+        expect(challenge.points_for_rank(2)).to eq 20
+      end
+    end
+
+    context 'when "rank" exists' do
+      it 'should return the correct points' do
+        expect(challenge.points_for_rank(1)).to eq 50
+      end
     end
   end
 end

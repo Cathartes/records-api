@@ -6,7 +6,7 @@
 #  challenge_id     :integer          not null
 #  participation_id :integer          not null
 #  rank             :integer          not null
-#  points           :integer          default(0), not null
+#  points           :integer          not null
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #  status           :integer          default("pending"), not null
@@ -29,13 +29,26 @@ class Completion < ApplicationRecord
   enum status: { pending: 0, approved: 1, declined: 2 }
 
   validates :challenge, :participation, :status, presence: true
-  validates :rank, numericality: { greater_than: 0, less_than_or_equal_to: 100, only_integer: true }
-  validates :points, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100, only_integer: true }
+  validates :rank, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 3, only_integer: true }
+  validates :points, numericality: { greater_than_or_equal_to: 0, only_integer: true }
+
+  before_validation :assign_rank, on: :create, unless: :rank
+  before_validation :assign_points, on: :create, unless: :points
 
   scope :for_participation, (->(participation_id) { where participation_id: participation_id })
   scope :for_user,          (->(user_id)          { joins(:participation).where participations: { user_id: user_id } })
 
   private
+
+  def assign_points
+    self.points = challenge&.points_for_rank rank
+  end
+
+  def assign_rank
+    return if challenge.blank?
+    previous_rank = challenge.completions.order(:rank).last&.rank || 0
+    self.rank = previous_rank + 1
+  end
 
   def on_create_moment
     build_moment moment_type: :completion, record_book: record_book
