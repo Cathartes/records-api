@@ -8,7 +8,7 @@ module Queries
     def call(_obj, args, _ctx)
       scope = User.all
 
-      scope = case args[:membershipType]
+      scope = case args[:membership_type]
               when 'applicant'
                 scope.applicant
               when 'member'
