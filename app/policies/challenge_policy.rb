@@ -20,7 +20,7 @@ class ChallengePolicy < ApplicationPolicy
   end
 
   def permitted_attributes
-    %i[max_completions name record_book_id] + [points: {}]
+    %i[max_completions name points_completion points_first points_second points_third position record_book_id]
   end
 
   class Scope < Scope
