@@ -9,7 +9,7 @@ module Queries
     type types[::Types::CompletionType]
 
     def call(_obj, args, _ctx)
-      scope = Completion.all
+      scope = Completion.order :created_at
 
       scope = scope.for_participation args[:participation_id] if args[:participation_id].present?
 

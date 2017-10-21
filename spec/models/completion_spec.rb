@@ -34,7 +34,7 @@ RSpec.describe Completion, type: :model do
     it { is_expected.to validate_presence_of :challenge }
     it { is_expected.to validate_presence_of :participation }
     it { is_expected.to validate_presence_of :status }
-    it { is_expected.to validate_numericality_of(:rank).is_greater_than_or_equal_to(0).is_less_than_or_equal_to(3).only_integer }
     it { is_expected.to validate_numericality_of(:points).is_greater_than_or_equal_to(0).only_integer }
+    it { is_expected.to validate_numericality_of(:rank).is_greater_than_or_equal_to(0).only_integer }
   end
 end
