@@ -11,5 +11,6 @@ module Types
     field :login, function: ::Mutations::Login.new
 
     field :updateRecordBook, function: ::Mutations::UpdateRecordBook.new
+    field :updateUser, function: ::Mutations::UpdateUser.new
   end
 end
