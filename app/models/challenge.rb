@@ -2,13 +2,18 @@
 #
 # Table name: challenges
 #
-#  id              :integer          not null, primary key
-#  record_book_id  :integer          not null
-#  name            :string           not null
-#  points          :jsonb            not null
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
-#  max_completions :integer          not null
+#  id                :integer          not null, primary key
+#  record_book_id    :integer          not null
+#  name              :string           not null
+#  points            :jsonb            not null
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#  max_completions   :integer          not null
+#  points_completion :integer          not null
+#  points_first      :integer
+#  points_second     :integer
+#  points_third      :integer
+#  completions_count :integer          default(0), not null
 #
 # Indexes
 #
@@ -28,8 +33,6 @@ class Challenge < ApplicationRecord
   scope :published,       (->                 { joins(:record_book).where record_books: { published: true } })
 
   def points_for_rank(rank)
-    Rails.logger.debug points
-    Rails.logger.debug rank
-    points[rank.to_s] || points['0']
+    [points_completion, points_first, points_second, points_third][rank] || points_completion
   end
 end

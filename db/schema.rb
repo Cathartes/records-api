@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171016042514) do
+ActiveRecord::Schema.define(version: 20171021043604) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,6 +30,11 @@ ActiveRecord::Schema.define(version: 20171016042514) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "max_completions", null: false
+    t.integer "points_completion", null: false
+    t.integer "points_first"
+    t.integer "points_second"
+    t.integer "points_third"
+    t.integer "completions_count", default: 0, null: false
     t.index ["record_book_id"], name: "index_challenges_on_record_book_id"
   end
 

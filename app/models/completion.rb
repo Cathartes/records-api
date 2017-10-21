@@ -20,7 +20,7 @@
 class Completion < ApplicationRecord
   include Trackable
 
-  belongs_to :challenge
+  belongs_to :challenge, counter_cache: true
   belongs_to :participation
 
   has_one :record_book, through: :participation
