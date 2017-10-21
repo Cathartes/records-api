@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171021043604) do
+ActiveRecord::Schema.define(version: 20171021050317) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,17 +48,6 @@ ActiveRecord::Schema.define(version: 20171021043604) do
     t.integer "status", default: 0, null: false
     t.index ["challenge_id"], name: "index_completions_on_challenge_id"
     t.index ["participation_id"], name: "index_completions_on_participation_id"
-  end
-
-  create_table "moments", force: :cascade do |t|
-    t.bigint "record_book_id", null: false
-    t.string "trackable_type", null: false
-    t.bigint "trackable_id", null: false
-    t.integer "moment_type", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["record_book_id"], name: "index_moments_on_record_book_id"
-    t.index ["trackable_type", "trackable_id"], name: "index_moments_on_trackable_type_and_trackable_id"
   end
 
   create_table "participations", force: :cascade do |t|

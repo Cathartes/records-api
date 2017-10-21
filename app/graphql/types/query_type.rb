@@ -11,9 +11,6 @@ module Types
 
     field :currentUser, function: ::Queries::CurrentUser.new
 
-    field :moment, function: ::Queries::FindMoment.new
-    field :moments, function: ::Queries::ListMoments.new
-
     field :participation, function: ::Queries::FindParticipation.new
     field :participations, function: ::Queries::ListParticipations.new
 

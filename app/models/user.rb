@@ -27,8 +27,6 @@
 #
 
 class User < ApplicationRecord
-  include Trackable
-
   attr_accessor :reset_password_redirect_url
 
   has_secure_password validations: false
@@ -80,11 +78,6 @@ class User < ApplicationRecord
       next if participations.for_record_book(record_book).any?
       participations.create! record_book: record_book
     end
-  end
-
-  def on_update_moment
-    return unless membership_type_changed? && member? && active_record_book.present?
-    build_moment moment_type: :new_member, record_book: active_record_book
   end
 
   def set_password_updated_at

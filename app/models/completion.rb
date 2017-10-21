@@ -18,8 +18,6 @@
 #
 
 class Completion < ApplicationRecord
-  include Trackable
-
   belongs_to :challenge, counter_cache: true
   belongs_to :participation
 
@@ -38,6 +36,10 @@ class Completion < ApplicationRecord
   scope :for_participation, (->(participation_id) { where participation_id: participation_id })
   scope :for_user,          (->(user_id)          { joins(:participation).where participations: { user_id: user_id } })
 
+  scope :for_record_book, (lambda do |record_book_id|
+    joins(:participation).where participations: { record_book_id: record_book_id }
+  end)
+
   private
 
   def assign_points
@@ -48,9 +50,5 @@ class Completion < ApplicationRecord
     return if challenge.blank?
     previous_rank = challenge.completions.order(:rank).last&.rank || 0
     self.rank = previous_rank + 1
-  end
-
-  def on_create_moment
-    build_moment moment_type: :completion, record_book: record_book
   end
 end

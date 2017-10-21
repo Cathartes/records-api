@@ -1,6 +1,7 @@
 module Queries
   class ListCompletions < GraphQL::Function
     argument :participationId, types.ID, 'ID of a participation to filter results by', as: :participation_id
+    argument :recordBookId, types.ID, 'ID of a record book to filter results by', as: :record_book_id
     argument :status, Types::Enums::CompletionStatusEnum, 'Type of completion to filter results by'
     argument :userId, types.ID, 'ID of a user to filter results by', as: :user_id
 
@@ -11,6 +12,8 @@ module Queries
       scope = Completion.all
 
       scope = scope.for_participation args[:participation_id] if args[:participation_id].present?
+
+      scope = scope.for_record_book args[:record_book_id] if args[:record_book_id].present?
 
       scope = case args[:status]
               when 'pending'
