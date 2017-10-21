@@ -2,12 +2,13 @@
 #
 # Table name: participations
 #
-#  id             :integer          not null, primary key
-#  record_book_id :integer          not null
-#  team_id        :integer
-#  user_id        :integer          not null
-#  created_at     :datetime         not null
-#  updated_at     :datetime         not null
+#  id              :integer          not null, primary key
+#  record_book_id  :integer          not null
+#  team_id         :integer
+#  user_id         :integer          not null
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#  membership_type :integer          not null
 #
 # Indexes
 #
@@ -25,7 +26,12 @@ RSpec.describe Participation, type: :model do
     it { is_expected.to belong_to :user }
   end
 
+  describe 'enums' do
+    it { should define_enum_for(:membership_type).with %i[applicant member] }
+  end
+
   describe 'validations' do
+    it { is_expected.to validate_presence_of :membership_type }
     it { is_expected.to validate_presence_of :record_book }
     it { is_expected.to validate_presence_of :user }
 

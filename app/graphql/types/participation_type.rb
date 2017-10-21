@@ -5,6 +5,9 @@ module Types
 
     interfaces [Interfaces::ModelInterface]
 
+    ## Attributes stored in the DB
+    field :membershipType, !Enums::UserMembershipTypeEnum, property: :membership_type
+
     ## Belongs to associations
     field :recordBook, !RecordBookType, property: :record_book
     field :team, TeamType
