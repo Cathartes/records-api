@@ -6,8 +6,10 @@ module Types
     interfaces [Interfaces::ModelInterface]
 
     ## Attributes stored in the DB
-    field :rank, !types.Int
+    field :challengeId, !types.Int, property: :challenge_id
+    field :participationId, !types.Int, property: :participation_id
     field :points, !types.Int
+    field :rank, !types.Int
     field :status, !Enums::CompletionStatusEnum
 
     ## Belongs to associations
