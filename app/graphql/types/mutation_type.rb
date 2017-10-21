@@ -3,11 +3,13 @@ module Types
     name 'Mutation'
     description 'Root query to mutate data'
 
+    field :createCompletion, function: ::Mutations::CreateCompletion.new
     field :createChallenge, function: ::Mutations::Create::Challenge.new
     field :createCompletion, function: ::Mutations::Create::Completion.new
     field :createParticipation, function: ::Mutations::Create::Participation.new
     field :createRecordBook, function: ::Mutations::Create::RecordBook.new
     field :createUser, function: ::Mutations::Create::User.new
+    field :deleteMember, function: ::Mutations::DeleteMember.new
 
     field :login, function: ::Mutations::Login.new
 

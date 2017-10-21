@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171022212718) do
+ActiveRecord::Schema.define(version: 20171021063440) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -95,6 +95,7 @@ ActiveRecord::Schema.define(version: 20171022212718) do
     t.datetime "updated_at", null: false
     t.datetime "password_updated_at"
     t.integer "membership_type", default: 0, null: false
+    t.integer "current_user_status", default: 0, null: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["discord_name"], name: "index_users_on_discord_name", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
