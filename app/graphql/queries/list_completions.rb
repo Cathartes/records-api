@@ -8,8 +8,8 @@ module Queries
     description 'List completions with various filters'
     type types[::Types::CompletionType]
 
-    def call(_obj, args, _ctx)
-      scope = Completion.order :created_at
+    def call(_obj, args, ctx)
+      scope = ctx[:pundit].policy_scope Completion.order :created_at
 
       scope = scope.for_participation args[:participation_id] if args[:participation_id].present?
 

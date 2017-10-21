@@ -5,8 +5,8 @@ module Queries
     description 'List users with various filters'
     type types[::Types::UserType]
 
-    def call(_obj, args, _ctx)
-      scope = User.all
+    def call(_obj, args, ctx)
+      scope = ctx[:pundit].policy_scope User.all
 
       scope = case args[:membership_type]
               when 'applicant'
