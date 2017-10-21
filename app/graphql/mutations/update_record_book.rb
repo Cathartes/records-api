@@ -1,6 +1,6 @@
 module Mutations
   class UpdateRecordBook < GraphQL::Function
-    argument :id, !types.ID, 'ID of the record book to update'
+    argument :id, !types.Int, 'ID of the record book to update'
     argument :name, types.String, 'Name of the record book'
     argument :published, types.Boolean, 'Whether the Record Book is publically visible'
     argument :startTime, types.String, 'Start time of the first set of challenges', as: :start_time

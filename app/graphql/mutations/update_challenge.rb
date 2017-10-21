@@ -1,7 +1,7 @@
 module Mutations
   class UpdateChallenge < GraphQL::Function
-    argument :id, !types.ID, 'ID of the challenge to update'
-    argument :recordBookId, types.ID, 'ID of a record book the challenge is a part of', as: :record_book_id
+    argument :id, !types.Int, 'ID of the challenge to update'
+    argument :recordBookId, types.Int, 'ID of a record book the challenge is a part of', as: :record_book_id
     argument :maxCompletions, types.Int, 'Max number of times a member can complete this challenge', as: :max_completions
     argument :name, types.String, 'Name of the challenge'
     argument :pointsCompletion, types.Int, 'Minimum points given for completing the challenge', as: :points_completion

@@ -1,7 +1,7 @@
 module Mutations
   class CreateCompletion < GraphQL::Function
-    argument :challengeId, !types.ID, 'ID of a challenge the participant completed', as: :challenge_id
-    argument :participationId, !types.ID, 'ID of the participation completing the challenge', as: :participation_id
+    argument :challengeId, !types.Int, 'ID of a challenge the participant completed', as: :challenge_id
+    argument :participationId, !types.Int, 'ID of the participation completing the challenge', as: :participation_id
     argument :points, types.Int, 'Override the number of points given'
     argument :rank, types.Int, 'Override rank to assign points to this completion'
     argument :status, ::Types::Enums::CompletionStatusEnum, 'Status this completion is in'

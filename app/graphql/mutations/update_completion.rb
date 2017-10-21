@@ -1,6 +1,6 @@
 module Mutations
   class UpdateCompletion < GraphQL::Function
-    argument :id, !types.ID, 'ID of the record book to update'
+    argument :id, !types.Int, 'ID of the record book to update'
     argument :points, types.Int, 'Override the number of points given'
     argument :rank, types.Int, 'Override rank to assign points to this completion'
     argument :status, ::Types::Enums::CompletionStatusEnum, 'Status this completion is in'

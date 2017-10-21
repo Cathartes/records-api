@@ -1,6 +1,6 @@
 module Mutations
   class CreateChallenge < GraphQL::Function
-    argument :recordBookId, !types.ID, 'ID of a record book the challenge is a part of', as: :record_book_id
+    argument :recordBookId, !types.Int, 'ID of a record book the challenge is a part of', as: :record_book_id
     argument :maxCompletions, !types.Int, 'Max number of times a member can complete this challenge', as: :max_completions
     argument :name, !types.String, 'Name of the challenge'
     argument :pointsCompletion, !types.Int, 'Minimum points given for completing the challenge', as: :points_completion
