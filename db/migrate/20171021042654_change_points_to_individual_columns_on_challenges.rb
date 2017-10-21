@@ -1,5 +1,7 @@
 class ChangePointsToIndividualColumnsOnChallenges < ActiveRecord::Migration[5.1]
   def change
+    remove_column :challenges, :points, :jsonb, default: {}, null: false
+
     add_column :challenges, :points_completion, :integer
     add_column :challenges, :points_first, :integer
     add_column :challenges, :points_second, :integer

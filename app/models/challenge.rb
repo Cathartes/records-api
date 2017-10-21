@@ -5,7 +5,6 @@
 #  id                :integer          not null, primary key
 #  record_book_id    :integer          not null
 #  name              :string           not null
-#  points            :jsonb            not null
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
 #  max_completions   :integer          not null
@@ -25,9 +24,10 @@ class Challenge < ApplicationRecord
 
   has_many :completions, dependent: :destroy
 
-  validates :points, :record_book, presence: true
+  validates :record_book, presence: true
   validates :name, length: { minimum: 2, maximum: 24 }
   validates :max_completions, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100, only_integer: true }
+  validates :points_completion, numericality: { greater_than_or_equal_to: 0, only_integer: true }
 
   scope :for_record_book, (->(record_book_id) { where record_book_id: record_book_id })
   scope :published,       (->                 { joins(:record_book).where record_books: { published: true } })

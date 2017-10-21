@@ -26,7 +26,6 @@ ActiveRecord::Schema.define(version: 20171021050317) do
   create_table "challenges", force: :cascade do |t|
     t.bigint "record_book_id", null: false
     t.string "name", null: false
-    t.jsonb "points", default: {}, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "max_completions", null: false

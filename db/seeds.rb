@@ -73,15 +73,13 @@ member_challenges << 'First Exotic Power'     unless season_one.challenges.exist
 member_challenges << 'First Exotic Armor'     unless season_one.challenges.exists? name: 'First Exotic Armor'
 Challenge.create!(member_challenges.map do |challenge|
   {
-    record_book:     season_one,
-    name:            challenge,
-    max_completions: 1,
-    points: [
-      1 => 9,
-      2 => 6,
-      3 => 3,
-      0 => 1
-    ]
+    record_book:       season_one,
+    name:              challenge,
+    max_completions:   1,
+    points_completion: 1,
+    points_first:      9,
+    points_second:     6,
+    points_third:      3
   }
 end)
 
