@@ -4,7 +4,7 @@ class AddMembershipTypeToParticipations < ActiveRecord::Migration[5.1]
 
     Participation.reset_column_information
     Participation.includes(:user).find_each do |participation|
-      participation.update membership_type: user.membership_type
+      participation.update membership_type: participation.user.membership_type
     end
 
     change_column_null :participations, :membership_type, false
