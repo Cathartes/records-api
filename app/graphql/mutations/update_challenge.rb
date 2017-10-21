@@ -8,6 +8,7 @@ module Mutations
     argument :pointsFirst, types.Int, 'Points given to the first member to complete the challenge', as: :points_first
     argument :pointsSecond, types.Int, 'Points given to the second member to complete the challenge', as: :points_second
     argument :pointsThird, types.Int, 'Points given to the third member to complete the challenge', as: :points_third
+    argument :position, types.Int, 'Position to order challenges in display lists'
 
     description 'Update a single record book'
     type ::Types::ChallengeType

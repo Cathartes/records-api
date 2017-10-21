@@ -12,6 +12,7 @@ module Types
     field :pointsFirst, types.Int, property: :points_first
     field :pointsSecond, types.Int, property: :points_second
     field :pointsThird, types.Int, property: :points_third
+    field :position, !types.Int
 
     ## Belongs to associations
     field :recordBook, !RecordBookType, property: :record_book

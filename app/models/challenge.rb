@@ -13,6 +13,7 @@
 #  points_second     :integer
 #  points_third      :integer
 #  completions_count :integer          default(0), not null
+#  position          :integer          not null
 #
 # Indexes
 #
@@ -23,6 +24,8 @@ class Challenge < ApplicationRecord
   belongs_to :record_book
 
   has_many :completions, dependent: :destroy
+
+  acts_as_list scope: :record_book
 
   validates :record_book, presence: true
   validates :name, length: { minimum: 2, maximum: 24 }

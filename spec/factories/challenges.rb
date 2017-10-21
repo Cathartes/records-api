@@ -13,6 +13,7 @@
 #  points_second     :integer
 #  points_third      :integer
 #  completions_count :integer          default(0), not null
+#  position          :integer          not null
 #
 # Indexes
 #

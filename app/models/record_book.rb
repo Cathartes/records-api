@@ -14,7 +14,7 @@
 #
 
 class RecordBook < ApplicationRecord
-  has_many :challenges, dependent: :destroy
+  has_many :challenges, -> { order :position }, dependent: :destroy
   has_many :participations, dependent: :destroy
   has_many :teams, through: :participations
 
