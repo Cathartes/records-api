@@ -8,7 +8,6 @@ class ApplicationController < ActionController::API
   def index
     skip_authorization
     render json: {
-      jsonapi: { version: '1.0' },
       meta: {
         copyright: 'Copyright 2017 Cathartes',
         authors: [
