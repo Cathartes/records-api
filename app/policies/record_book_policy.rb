@@ -20,7 +20,7 @@ class RecordBookPolicy < ApplicationPolicy
   end
 
   def permitted_attributes
-    %i[end_time name published rush_end_time rush_start_time start_time]
+    %i[end_time name published rush_end_time rush_start_time rush_week_active start_time]
   end
 
   class Scope < Scope
