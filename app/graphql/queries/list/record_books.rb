@@ -6,7 +6,7 @@ module Queries
 
       def call(_obj, _args, ctx)
         super do
-          ctx[:pundit].policy_scope ::RecordBook.all
+          ctx[:pundit].policy_scope ::RecordBook.order :created_at
         end
       end
     end
