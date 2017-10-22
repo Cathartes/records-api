@@ -10,7 +10,7 @@ module Queries
 
       def call(_obj, args, ctx)
         super do
-          scope = ctx[:pundit].policy_scope ::Participation.all
+          scope = ctx[:pundit].policy_scope ::Participation.order :created_at
 
           scope = scope.for_record_book args[:record_book_id] if args[:record_book_id].present?
 
