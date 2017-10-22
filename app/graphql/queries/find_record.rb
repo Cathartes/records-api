@@ -1,5 +1,7 @@
 module Queries
   class FindRecord < GraphQL::Function
+    attr_reader :model
+
     def initialize(model)
       @model = model
 
@@ -14,10 +16,10 @@ module Queries
     end
 
     def call(_obj, args, ctx)
-      record = @model.find args[:id]
+      record = model.find args[:id]
       ctx[:pundit].authorize record, :show?
       record
-    rescue ActiveRecord::RecordNotFound, Pundit::NotAuthorizedError => error
+    rescue ActiveRecord::RecordNotFound => error
       GraphQL::ExecutionError.new error.message
     end
   end

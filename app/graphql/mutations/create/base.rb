@@ -3,6 +3,7 @@ module Mutations
     class Base < ::Mutations::Base
       def create_generic(record, args, ctx)
         record.assign_attributes record_args record, args, ctx
+        ctx[:pundit].authorize record, :create?
         record.save!
         record
       rescue ActiveRecord::RecordInvalid => error
