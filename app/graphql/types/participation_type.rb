@@ -7,6 +7,7 @@ module Types
 
     ## Attributes stored in the DB
     field :membershipType, !Enums::UserMembershipTypeEnum, property: :membership_type
+    field :teamId, types.Int, property: :team_id
 
     ## Belongs to associations
     field :recordBook, !RecordBookType, property: :record_book

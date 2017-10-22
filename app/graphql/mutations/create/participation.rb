@@ -9,7 +9,7 @@ module Mutations
       type ::Types::ParticipationType
 
       def call(_obj, args, ctx)
-        create_generic ::Participation, args, ctx
+        create_generic ::Participation.new, args, ctx
       end
     end
   end

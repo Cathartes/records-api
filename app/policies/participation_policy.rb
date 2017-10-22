@@ -20,6 +20,8 @@ class ParticipationPolicy < ApplicationPolicy
   end
 
   def permitted_attributes
-    record.persisted? ? [] : %i[record_book_id team_id user_id]
+    attrs = %i[team_id]
+    attrs += %i[record_book_id user_id] unless record.persisted?
+    attrs
   end
 end

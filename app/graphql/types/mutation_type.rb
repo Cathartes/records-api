@@ -13,6 +13,7 @@ module Types
 
     field :updateChallenge, function: ::Mutations::Update::Challenge.new
     field :updateCompletion, function: ::Mutations::Update::Completion.new
+    field :updateParticipation, function: ::Mutations::Update::Participation.new
     field :updateRecordBook, function: ::Mutations::Update::RecordBook.new
     field :updateUser, function: ::Mutations::Update::User.new
   end
