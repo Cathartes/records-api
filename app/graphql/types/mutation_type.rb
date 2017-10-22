@@ -11,9 +11,9 @@ module Types
 
     field :login, function: ::Mutations::Login.new
 
-    field :updateChallenge, function: ::Mutations::UpdateChallenge.new
-    field :updateCompletion, function: ::Mutations::UpdateCompletion.new
-    field :updateRecordBook, function: ::Mutations::UpdateRecordBook.new
-    field :updateUser, function: ::Mutations::UpdateUser.new
+    field :updateChallenge, function: ::Mutations::Update::Challenge.new
+    field :updateCompletion, function: ::Mutations::Update::Completion.new
+    field :updateRecordBook, function: ::Mutations::Update::RecordBook.new
+    field :updateUser, function: ::Mutations::Update::User.new
   end
 end
