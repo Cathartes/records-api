@@ -1,6 +1,6 @@
 module Queries
   module List
-    class RecordBooks < Base
+    class RecordBooks < ::Queries::List::Base
       description 'List record books with various filters'
       type types[::Types::RecordBookType]
 

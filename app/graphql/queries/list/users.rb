@@ -1,6 +1,6 @@
 module Queries
   module List
-    class Users < Base
+    class Users < ::Queries::List::Base
       argument :membershipType, Types::Enums::UserMembershipTypeEnum, 'Type of user to filter results by', as: :membership_type
 
       description 'List users with various filters'

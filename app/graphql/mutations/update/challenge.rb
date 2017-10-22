@@ -1,6 +1,6 @@
 module Mutations
   module Update
-    class Challenge < Base
+    class Challenge < ::Mutations::Update::Base
       argument :id, !types.Int, 'ID of the challenge to update'
       argument :recordBookId, types.Int, 'ID of a record book the challenge is a part of', as: :record_book_id
       argument :maxCompletions, types.Int, 'Max number of times a member can complete this challenge', as: :max_completions

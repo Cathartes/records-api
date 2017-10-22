@@ -1,6 +1,6 @@
 module Mutations
   module Create
-    class Completion < Base
+    class Completion < ::Mutations::Create::Base
       argument :challengeId, !types.Int, 'ID of a challenge the participant completed', as: :challenge_id
       argument :participationId, !types.Int, 'ID of the participation completing the challenge', as: :participation_id
       argument :points, types.Int, 'Override the number of points given'

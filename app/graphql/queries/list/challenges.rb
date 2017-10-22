@@ -1,6 +1,6 @@
 module Queries
   module List
-    class Challenges < Base
+    class Challenges < ::Queries::List::Base
       argument :recordBookId, types.Int, 'ID of a record book to filter results by', as: :record_book_id
 
       description 'List challenges with various filters'

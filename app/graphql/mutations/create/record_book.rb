@@ -1,6 +1,6 @@
 module Mutations
   module Create
-    class RecordBook < Base
+    class RecordBook < ::Mutations::Create::Base
       argument :name, !types.String, 'Name of the record book'
       argument :published, types.Boolean, 'Whether the Record Book is publically visible'
       argument :startTime, types.String, 'Start time of the first set of challenges', as: :start_time

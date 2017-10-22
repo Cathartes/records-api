@@ -1,6 +1,6 @@
 module Queries
   module List
-    class Completions < Base
+    class Completions < ::Queries::List::Base
       argument :participationId, types.Int, 'ID of a participation to filter results by', as: :participation_id
       argument :recordBookId, types.Int, 'ID of a record book to filter results by', as: :record_book_id
       argument :status, Types::Enums::CompletionStatusEnum, 'Type of completion to filter results by'

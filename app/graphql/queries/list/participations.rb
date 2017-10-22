@@ -1,6 +1,6 @@
 module Queries
   module List
-    class Participations < Base
+    class Participations < ::Queries::List::Base
       argument :recordBookId, types.Int, 'ID of a record book to filter results by', as: :record_book_id
       argument :teamId, types.Int, 'ID of a team to filter results by', as: :team_id
       argument :userId, types.Int, 'ID of a user to filter results by', as: :user_id

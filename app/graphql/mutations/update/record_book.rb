@@ -1,6 +1,6 @@
 module Mutations
   module Update
-    class RecordBook < Base
+    class RecordBook < ::Mutations::Update::Base
       argument :id, !types.Int, 'ID of the record book to update'
       argument :name, types.String, 'Name of the record book'
       argument :published, types.Boolean, 'Whether the Record Book is publically visible'

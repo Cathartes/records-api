@@ -3,6 +3,7 @@ module Types
     ModelInterface = GraphQL::InterfaceType.define do
       name 'Model'
 
+      field :uid, !types.ID, property: :id
       field :id, !types.Int
       field :createdAt, !types.String do
         resolve ->(obj, _args, _ctx) { obj.created_at.iso8601 }

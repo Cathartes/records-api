@@ -1,6 +1,6 @@
 module Mutations
   module Update
-    class User < Base
+    class User < ::Mutations::Update::Base
       argument :id, !types.Int, 'ID of the user to update'
       argument :discordName, types.String, 'Discord name associated with the user', as: :discord_name
       argument :email, types.String, 'Unique email required for user login'
@@ -11,7 +11,7 @@ module Mutations
       type ::Types::UserType
 
       def call(_obj, args, ctx)
-        user = User.find args[:id]
+        user = ::User.find args[:id]
         update_generic user, args, ctx
       end
     end
