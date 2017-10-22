@@ -2,15 +2,16 @@
 #
 # Table name: record_books
 #
-#  id              :integer          not null, primary key
-#  name            :string           not null
-#  published       :boolean          default(FALSE), not null
-#  start_time      :datetime
-#  end_time        :datetime
-#  rush_start_time :datetime
-#  rush_end_time   :datetime
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
+#  id               :integer          not null, primary key
+#  name             :string           not null
+#  published        :boolean          default(FALSE), not null
+#  start_time       :datetime
+#  end_time         :datetime
+#  rush_start_time  :datetime
+#  rush_end_time    :datetime
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  rush_week_active :boolean          default(FALSE), not null
 #
 
 require 'rails_helper'

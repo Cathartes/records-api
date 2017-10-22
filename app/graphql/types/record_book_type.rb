@@ -8,6 +8,7 @@ module Types
     ## Attributes stored in the DB
     field :name, !types.String
     field :published, !types.Boolean
+    field :rushWeekActive, !types.Boolean, property: :rush_week_active
     field :startTime, types.String do
       resolve ->(obj, _args, _ctx) { obj.start_time&.iso8601 }
     end
