@@ -42,7 +42,7 @@ class User < ApplicationRecord
   has_one :active_record_book, through: :active_participation, source: :record_book
 
   enum membership_type: { applicant: 0, member: 1, retired: 2 }
-  enum current_user_status: %w[active archived deleted]
+  enum status: { active: 0, archived: 1 }
 
   validates :membership_type, presence: true
   validates :admin, boolean: true

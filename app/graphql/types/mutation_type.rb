@@ -15,7 +15,8 @@ module Types
     field :updateCompletion, function: ::Mutations::Update::Completion.new
     field :updateParticipation, function: ::Mutations::Update::Participation.new
     field :updateRecordBook, function: ::Mutations::Update::RecordBook.new
-    field :deleteMember, function: ::Mutations::Update::UserDelete.new
     field :updateUser, function: ::Mutations::Update::User.new
+
+    field :destroyUser, function: ::Mutations::Destroy::User.new
   end
 end
