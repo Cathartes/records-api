@@ -20,7 +20,9 @@ class ChallengePolicy < ApplicationPolicy
   end
 
   def permitted_attributes
-    %i[max_completions name record_book_id] + [points: {}]
+    attrs = %i[max_completions name points_completion points_first points_second points_third position]
+    attrs += %i[record_book_id] unless record.persisted?
+    attrs
   end
 
   class Scope < Scope

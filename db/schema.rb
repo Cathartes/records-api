@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170830234824) do
+ActiveRecord::Schema.define(version: 20171022212718) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,10 +26,15 @@ ActiveRecord::Schema.define(version: 20170830234824) do
   create_table "challenges", force: :cascade do |t|
     t.bigint "record_book_id", null: false
     t.string "name", null: false
-    t.jsonb "points", default: {}, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "max_completions", null: false
+    t.integer "points_completion", null: false
+    t.integer "points_first"
+    t.integer "points_second"
+    t.integer "points_third"
+    t.integer "completions_count", default: 0, null: false
+    t.integer "position", null: false
     t.index ["record_book_id"], name: "index_challenges_on_record_book_id"
   end
 
@@ -37,20 +42,21 @@ ActiveRecord::Schema.define(version: 20170830234824) do
     t.bigint "challenge_id", null: false
     t.bigint "participation_id", null: false
     t.integer "rank", null: false
-    t.integer "points", default: 0, null: false
+    t.integer "points", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "status", default: 0, null: false
     t.index ["challenge_id"], name: "index_completions_on_challenge_id"
     t.index ["participation_id"], name: "index_completions_on_participation_id"
   end
 
   create_table "participations", force: :cascade do |t|
     t.bigint "record_book_id", null: false
-    t.bigint "team_id", null: false
+    t.bigint "team_id"
     t.bigint "user_id", null: false
-    t.integer "participation_type", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "membership_type", null: false
     t.index ["record_book_id"], name: "index_participations_on_record_book_id"
     t.index ["team_id"], name: "index_participations_on_team_id"
     t.index ["user_id"], name: "index_participations_on_user_id"
@@ -59,13 +65,13 @@ ActiveRecord::Schema.define(version: 20170830234824) do
   create_table "record_books", force: :cascade do |t|
     t.string "name", null: false
     t.boolean "published", default: false, null: false
-    t.string "time_zone", default: "UTC", null: false
     t.datetime "start_time"
     t.datetime "end_time"
     t.datetime "rush_start_time"
     t.datetime "rush_end_time"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "rush_week_active", default: false, null: false
   end
 
   create_table "teams", force: :cascade do |t|
@@ -88,6 +94,7 @@ ActiveRecord::Schema.define(version: 20170830234824) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "password_updated_at"
+    t.integer "membership_type", default: 0, null: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["discord_name"], name: "index_users_on_discord_name", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true

@@ -2,13 +2,13 @@
 #
 # Table name: participations
 #
-#  id                 :integer          not null, primary key
-#  record_book_id     :integer          not null
-#  team_id            :integer          not null
-#  user_id            :integer          not null
-#  participation_type :integer          not null
-#  created_at         :datetime         not null
-#  updated_at         :datetime         not null
+#  id              :integer          not null, primary key
+#  record_book_id  :integer          not null
+#  team_id         :integer
+#  user_id         :integer          not null
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#  membership_type :integer          not null
 #
 # Indexes
 #
@@ -19,14 +19,17 @@
 
 class Participation < ApplicationRecord
   belongs_to :record_book
-  belongs_to :team
+  belongs_to :team, optional: true
   belongs_to :user
 
   has_many :completions, dependent: :destroy
 
-  enum participation_type: { member: 0, applicant: 1 }
+  enum membership_type: { applicant: 0, member: 1 }
 
-  validates :record_book, :team, :user, :participation_type, presence: true
+  validates :membership_type, :record_book, :user, presence: true
+  validates :user_id, uniqueness: { scope: :record_book_id }
+
+  before_validation :set_membership_type, on: :create
 
   scope :for_record_book, (->(record_book_id) { where record_book_id: record_book_id })
   scope :for_team,        (->(team_id)        { where team_id: team_id })
@@ -34,5 +37,11 @@ class Participation < ApplicationRecord
 
   def total_points
     completions.sum :points
+  end
+
+  private
+
+  def set_membership_type
+    self.membership_type = user&.membership_type
   end
 end

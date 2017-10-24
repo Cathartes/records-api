@@ -2,13 +2,13 @@
 #
 # Table name: participations
 #
-#  id                 :integer          not null, primary key
-#  record_book_id     :integer          not null
-#  team_id            :integer          not null
-#  user_id            :integer          not null
-#  participation_type :integer          not null
-#  created_at         :datetime         not null
-#  updated_at         :datetime         not null
+#  id              :integer          not null, primary key
+#  record_book_id  :integer          not null
+#  team_id         :integer
+#  user_id         :integer          not null
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#  membership_type :integer          not null
 #
 # Indexes
 #
@@ -26,14 +26,23 @@ RSpec.describe Participation, type: :model do
     it { is_expected.to belong_to :user }
   end
 
+  describe 'enums' do
+    it { should define_enum_for(:membership_type).with %i[applicant member] }
+  end
+
   describe 'validations' do
+    it { is_expected.to validate_presence_of :membership_type }
     it { is_expected.to validate_presence_of :record_book }
-    it { is_expected.to validate_presence_of :team }
     it { is_expected.to validate_presence_of :user }
+
+    context 'uniqueness' do
+      subject { build :participation }
+      it { is_expected.to validate_uniqueness_of(:user_id).scoped_to :record_book_id }
+    end
   end
 
   describe '.total_points' do
-    let(:completion) { create :completion, :member }
+    let(:completion) { create :completion }
 
     it 'is expected to return the total points the participant has' do
       expect(completion.participation.total_points).to eq completion.points

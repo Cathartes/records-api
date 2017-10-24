@@ -16,7 +16,9 @@ class CompletionPolicy < ApplicationPolicy
   end
 
   def permitted_attributes
-    %i[challenge_id participation_id points rank]
+    attrs = %i[points status rank]
+    attrs += %i[challenge_id participation_id] unless record.persisted?
+    attrs
   end
 
   class Scope < Scope

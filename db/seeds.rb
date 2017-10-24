@@ -11,18 +11,20 @@ print 'Seeding Users...'
 users = []
 unless User.exists? discord_name: 'Agthor#8442'
   users << {
-    email:        'tybot204@gmail.com',
-    discord_name: 'Agthor#8442',
-    password:     'password',
-    admin:        true
+    email:           'tybot204@gmail.com',
+    discord_name:    'Agthor#8442',
+    password:        'password',
+    membership_type: :member,
+    admin:           true
   }
 end
 unless User.exists? discord_name: 'iDreamPixels#3186'
   users << {
-    email:        'justinrlaforge@gmail.com',
-    discord_name: 'iDreamPixels#3186',
-    password:     'password',
-    admin:        true
+    email:           'justinrlaforge@gmail.com',
+    discord_name:    'iDreamPixels#3186',
+    password:        'password',
+    membership_type: :member,
+    admin:           true
   }
 end
 users << { discord_name: 'Best 2hu#0550' }      unless User.exists? discord_name: 'Best 2hu#0550'
@@ -57,7 +59,6 @@ unless RecordBook.exists? name: 'Season 1'
     rush_end_time:   2.weeks.from_now
   }
 end
-record_books << { name: 'Season 2' } unless RecordBook.exists? name: 'Season 2'
 RecordBook.create! record_books
 
 season_one        = RecordBook.find_by! name: 'Season 1'
@@ -72,27 +73,20 @@ member_challenges << 'First Exotic Power'     unless season_one.challenges.exist
 member_challenges << 'First Exotic Armor'     unless season_one.challenges.exists? name: 'First Exotic Armor'
 Challenge.create!(member_challenges.map do |challenge|
   {
-    record_book:     season_one,
-    name:            challenge,
-    max_completions: 1,
-    points: [
-      1 => 9,
-      2 => 6,
-      3 => 3,
-      0 => 1
-    ]
+    record_book:       season_one,
+    name:              challenge,
+    max_completions:   1,
+    points_completion: 1,
+    points_first:      9,
+    points_second:     6,
+    points_third:      3
   }
 end)
 
 teams = Team.all
 User.all.each_with_index do |user, index|
-  next unless user.participations.for_record_book(season_one).any?
-  Participation.create!(
-    record_book:        season_one,
-    team:               teams[index % 2],
-    user:               user,
-    participation_type: :member
-  )
+  participation = user.participations.for_record_book(season_one).first
+  participation.update team: teams[index % 2]
 end
 
 puts 'done'

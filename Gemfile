@@ -20,9 +20,8 @@ gem 'bcrypt', '~> 3.1.11'
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 gem 'rack-cors'
 
-gem 'active_model_serializers'
-gem 'apipie-rails'
-gem 'kaminari'
+gem 'acts_as_list'
+gem 'graphql'
 gem 'pundit'
 gem 'validates_timeliness'
 
@@ -48,6 +47,7 @@ end
 
 group :development do
   gem 'annotate'
+  gem 'graphiql-rails'
   gem 'guard-rspec', require: false
   gem 'letter_opener'
   gem 'listen', '>= 3.0.5', '< 3.2'

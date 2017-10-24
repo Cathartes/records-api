@@ -2,13 +2,13 @@
 #
 # Table name: participations
 #
-#  id                 :integer          not null, primary key
-#  record_book_id     :integer          not null
-#  team_id            :integer          not null
-#  user_id            :integer          not null
-#  participation_type :integer          not null
-#  created_at         :datetime         not null
-#  updated_at         :datetime         not null
+#  id              :integer          not null, primary key
+#  record_book_id  :integer          not null
+#  team_id         :integer
+#  user_id         :integer          not null
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#  membership_type :integer          not null
 #
 # Indexes
 #
@@ -22,9 +22,8 @@ FactoryGirl.define do
     record_book
     team
     user
+    membership_type :member
 
-    trait(:member)    { participation_type :member }
-    trait(:applicant) { participation_type :applicant }
     trait(:published) { association :record_book, :published }
   end
 end
