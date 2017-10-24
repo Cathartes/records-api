@@ -41,7 +41,7 @@ RSpec.describe User, type: :model do
 
   describe 'enums' do
     it { should define_enum_for(:membership_type).with %i[applicant member retired] }
-    it { should define_enum_for(:current_user_status).with %i[active archived deleted] }
+    it { should define_enum_for(:status).with %i[active archived] }
   end
 
   describe 'validations' do

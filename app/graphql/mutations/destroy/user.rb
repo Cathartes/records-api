@@ -10,8 +10,10 @@ module Mutations
         user = ::User.find args[:id]
         if user.participations.empty?
           destroy_generic user, args, ctx
+          user = nil
         else
-          update_status_generic user, args, ctx
+          record.update(status: 1)
+          save_attributes record, args, ctx, type: :update?
         end
         user
       end
