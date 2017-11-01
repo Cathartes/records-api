@@ -11,10 +11,8 @@ module Mutations
         if user.participations.empty?
           destroy_generic user, args, ctx
           user = nil
-        else
-          record.update(status: 1)
-          save_attributes record, args, ctx, type: :update?
         end
+        raise Pundit::NotAuthorizedError, "Can't remove someone that have participated!"
         user
       end
     end

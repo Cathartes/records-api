@@ -17,7 +17,7 @@
 #  updated_at             :datetime         not null
 #  password_updated_at    :datetime
 #  membership_type        :integer          default("applicant"), not null
-#  status                 :integer          default("active"), not null
+#  status                 :integer          default(0), not null
 #
 # Indexes
 #
@@ -42,7 +42,6 @@ class User < ApplicationRecord
   has_one :active_record_book, through: :active_participation, source: :record_book
 
   enum membership_type: { applicant: 0, member: 1, retired: 2 }
-  enum status: { active: 0, archived: 1 }
 
   validates :membership_type, presence: true
   validates :admin, boolean: true

@@ -14,7 +14,6 @@ module Types
     field :unconfirmedEmail, types.String, property: :unconfirmed_email
     field :admin, !types.Boolean
     field :passwordUpdatedAt, types.String, property: :password_updated_at
-    field :status, !Enums::UserStatusEnumType, property: :status
     field :membershipType, !Enums::UserMembershipTypeEnum, property: :membership_type
 
     ## Has many associations
