@@ -10,9 +10,15 @@ module Types
     field :teamId, types.Int, property: :team_id
 
     ## Belongs to associations
-    field :recordBook, !RecordBookType, property: :record_book
-    field :team, TeamType
-    field :user, !UserType
+    field :recordBook, !RecordBookType do
+      resolve ->(obj, _args, _ctx) { RecordLoader.for(RecordBook).load obj.record_book_id }
+    end
+    field :team, TeamType do
+      resolve ->(obj, _args, _ctx) { RecordLoader.for(Team).load obj.team_id }
+    end
+    field :user, !UserType do
+      resolve ->(obj, _args, _ctx) { RecordLoader.for(User).load obj.user_id }
+    end
 
     ## Has many associations
     field :completions, types[!CompletionType]

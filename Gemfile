@@ -22,6 +22,7 @@ gem 'rack-cors'
 
 gem 'acts_as_list'
 gem 'graphql'
+gem 'graphql-batch'
 gem 'pundit'
 gem 'validates_timeliness'
 

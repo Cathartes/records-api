@@ -13,8 +13,12 @@ module Types
     field :status, !Enums::CompletionStatusEnum
 
     ## Belongs to associations
-    field :challenge, !ChallengeType
-    field :participation, !ParticipationType
+    field :challenge, !ChallengeType do
+      resolve ->(obj, _args, _ctx) { RecordLoader.for(Challenge).load obj.challenge_id }
+    end
+    field :participation, !ParticipationType do
+      resolve ->(obj, _args, _ctx) { RecordLoader.for(Participation).load obj.participation_id }
+    end
 
     ## Has one associations
     field :record_book, !RecordBookType
