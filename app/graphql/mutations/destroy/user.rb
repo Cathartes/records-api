@@ -13,7 +13,6 @@ module Mutations
           user = nil
         end
         raise Pundit::NotAuthorizedError, "Can't remove someone that have participated!"
-        user
       end
     end
   end
