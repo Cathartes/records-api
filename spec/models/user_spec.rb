@@ -17,7 +17,6 @@
 #  updated_at             :datetime         not null
 #  password_updated_at    :datetime
 #  membership_type        :integer          default("applicant"), not null
-#  status                 :integer          default(0), not null
 #
 # Indexes
 #
@@ -41,7 +40,6 @@ RSpec.describe User, type: :model do
 
   describe 'enums' do
     it { should define_enum_for(:membership_type).with %i[applicant member retired] }
-    it { should define_enum_for(:status).with %i[active archived] }
   end
 
   describe 'validations' do

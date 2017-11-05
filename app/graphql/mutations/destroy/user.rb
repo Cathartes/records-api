@@ -8,9 +8,7 @@ module Mutations
 
       def call(_, args, ctx)
         user = ::User.find args[:id]
-        if user.participations.empty?
-          destroy_generic user, args, ctx
-        end
+        destroy_generic user, args, ctx if user.participations.empty?
         raise Pundit::NotAuthorizedError, "Can't remove someone that have participated!"
       end
     end
