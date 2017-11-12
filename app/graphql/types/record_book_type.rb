@@ -23,8 +23,18 @@ module Types
     end
 
     ## Has many associations
-    field :challenges, types[!ChallengeType]
-    field :participations, types[!ParticipationType]
-    field :teams, types[!TeamType]
+    field :challenges, types[!ChallengeType] do
+      resolve ->(obj, _args, _ctx) { ForeignKeyLoader.for(Challenge, :record_book_id).load([obj.id]) }
+    end
+    field :participations, types[!ParticipationType] do
+      resolve ->(obj, _args, _ctx) { ForeignKeyLoader.for(Participation, :record_book_id).load([obj.id]) }
+    end
+    field :teams, types[!TeamType] do
+      resolve(lambda do |obj, _args, _ctx|
+        ForeignKeyLoader.for(Participation, :record_book_id).load([obj.id]).then do |participations|
+          ForeignKeyLoader.for(Team, :id).load(participations.map(&:team_id))
+        end
+      end)
+    end
   end
 end
