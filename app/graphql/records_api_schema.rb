@@ -2,6 +2,8 @@ RecordsApiSchema = GraphQL::Schema.define do
   mutation Types::MutationType
   query Types::QueryType
 
+  use GraphQL::Batch
+
   rescue_from Pundit::NotAuthorizedError, &:message
 
   resolve_type(lambda do |type, _obj, _ctx|

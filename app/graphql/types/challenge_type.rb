@@ -15,7 +15,9 @@ module Types
     field :position, !types.Int
 
     ## Belongs to associations
-    field :recordBook, !RecordBookType, property: :record_book
+    field :recordBook, !RecordBookType do
+      resolve ->(obj, _args, _ctx) { RecordLoader.for(RecordBook).load obj.record_book_id }
+    end
 
     ## Has many associations
     field :completions, types[!CompletionType]
