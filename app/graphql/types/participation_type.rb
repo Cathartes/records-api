@@ -11,16 +11,18 @@ module Types
 
     ## Belongs to associations
     field :recordBook, !RecordBookType do
-      resolve ->(obj, _args, _ctx) { RecordLoader.for(RecordBook).load obj.record_book_id }
+      resolve ->(obj, _args, _ctx) { FindLoader.for(RecordBook).load obj.record_book_id }
     end
     field :team, TeamType do
-      resolve ->(obj, _args, _ctx) { RecordLoader.for(Team).load obj.team_id }
+      resolve ->(obj, _args, _ctx) { FindLoader.for(Team).load obj.team_id }
     end
     field :user, !UserType do
-      resolve ->(obj, _args, _ctx) { RecordLoader.for(User).load obj.user_id }
+      resolve ->(obj, _args, _ctx) { FindLoader.for(User).load obj.user_id }
     end
 
     ## Has many associations
-    field :completions, types[!CompletionType]
+    field :completions, types[!CompletionType] do
+      resolve ->(obj, _args, _ctx) { ForeignKeyLoader.for(Completion, :participation_id).load([obj.id]) }
+    end
   end
 end

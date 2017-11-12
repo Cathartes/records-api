@@ -1,4 +1,4 @@
-class RecordLoader < GraphQL::Batch::Loader
+class FindLoader < GraphQL::Batch::Loader
   def initialize(model)
     @model = model
   end

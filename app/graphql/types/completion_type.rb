@@ -14,10 +14,10 @@ module Types
 
     ## Belongs to associations
     field :challenge, !ChallengeType do
-      resolve ->(obj, _args, _ctx) { RecordLoader.for(Challenge).load obj.challenge_id }
+      resolve ->(obj, _args, _ctx) { FindLoader.for(Challenge).load obj.challenge_id }
     end
     field :participation, !ParticipationType do
-      resolve ->(obj, _args, _ctx) { RecordLoader.for(Participation).load obj.participation_id }
+      resolve ->(obj, _args, _ctx) { FindLoader.for(Participation).load obj.participation_id }
     end
 
     ## Has one associations

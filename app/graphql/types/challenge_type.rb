@@ -16,17 +16,17 @@ module Types
 
     ## Belongs to associations
     field :recordBook, !RecordBookType do
-      resolve ->(obj, _args, _ctx) { RecordLoader.for(RecordBook).load obj.record_book_id }
+      resolve ->(obj, _args, _ctx) { FindLoader.for(RecordBook).load obj.record_book_id }
     end
 
     ## Has many associations
-    field :completions, types[!CompletionType]
+    field :completions, types[!CompletionType] do
+      resolve ->(obj, _args, _ctx) { ForeignKeyLoader.for(Completion, :challenge_id).load([obj.id]) }
+    end
 
     ## Custom attributes
     field :completionsCount, !types.Int do
-      resolve(lambda do |obj, _args, _ctx|
-        obj.completions.size
-      end)
+      resolve ->(obj, _args, _ctx) { obj.completions.size }
     end
   end
 end
