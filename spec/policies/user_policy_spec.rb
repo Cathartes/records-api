@@ -10,6 +10,7 @@ RSpec.describe UserPolicy, type: :policy do
     let(:user) { nil }
 
     it { is_expected.to forbid_action :create }
+    it { is_expected.to forbid_action :destroy }
     it { is_expected.to permit_action :index }
     it { is_expected.to forbid_action :update }
   end
@@ -19,6 +20,7 @@ RSpec.describe UserPolicy, type: :policy do
       let(:user) { User.new }
 
       it { is_expected.to forbid_action :create }
+      it { is_expected.to forbid_action :destroy }
       it { is_expected.to permit_action :index }
       it { is_expected.to forbid_action :update }
     end
@@ -27,6 +29,7 @@ RSpec.describe UserPolicy, type: :policy do
       let(:user) { other_user }
 
       it { is_expected.to forbid_action :create }
+      it { is_expected.to forbid_action :destroy }
       it { is_expected.to permit_action :index }
       it { is_expected.to permit_action :update }
     end
@@ -35,6 +38,7 @@ RSpec.describe UserPolicy, type: :policy do
       let(:user) { User.new admin: true }
 
       it { is_expected.to permit_action :create }
+      it { is_expected.to permit_action :destroy }
       it { is_expected.to permit_action :index }
       it { is_expected.to permit_action :update }
     end
