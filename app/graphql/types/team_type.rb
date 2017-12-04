@@ -9,6 +9,8 @@ module Types
     field :name, !types.String
 
     ## Has many associations
-    field :participations, types[!ParticipationType]
+    field :participations, types[!ParticipationType] do
+      resolve ->(obj, _args, _ctx) { ForeignKeyLoader.for(Participation, :team_id).load([obj.id]) }
+    end
   end
 end

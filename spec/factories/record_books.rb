@@ -14,7 +14,7 @@
 #  rush_week_active :boolean          default(FALSE), not null
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :record_book do
     name { Faker::Name.first_name }
 
