@@ -7,7 +7,7 @@ module Types
 
     ## Attributes stored in the DB
     field :name, !types.String
-    field :maxCompletions, !types.Int, property: :max_completions
+    field :challengeType, !Enums::ChallengeTypeEnum, property: :challenge_type
     field :pointsCompletion, !types.Int, property: :points_completion
     field :pointsFirst, types.Int, property: :points_first
     field :pointsSecond, types.Int, property: :points_second

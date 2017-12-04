@@ -7,13 +7,13 @@
 #  name              :string           not null
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
-#  max_completions   :integer          not null
 #  points_completion :integer          not null
 #  points_first      :integer
 #  points_second     :integer
 #  points_third      :integer
 #  completions_count :integer          default(0), not null
 #  position          :integer          not null
+#  challenge_type    :integer          not null
 #
 # Indexes
 #
@@ -25,11 +25,12 @@ class Challenge < ApplicationRecord
 
   has_many :completions, dependent: :destroy
 
+  enum challenge_type: { everyone: 0, applicant: 1, member: 2 }
+
   acts_as_list scope: :record_book
 
-  validates :record_book, presence: true
+  validates :challenge_type, :record_book, presence: true
   validates :name, length: { minimum: 2, maximum: 24 }
-  validates :max_completions, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100, only_integer: true }
   validates :points_completion, numericality: { greater_than_or_equal_to: 0, only_integer: true }
 
   scope :for_record_book, (->(record_book_id) { where record_book_id: record_book_id })
