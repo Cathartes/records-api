@@ -20,7 +20,7 @@
 #  index_challenges_on_record_book_id  (record_book_id)
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :challenge do
     record_book
     name { Faker::Name.first_name }

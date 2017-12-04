@@ -17,7 +17,7 @@
 #  index_completions_on_participation_id  (participation_id)
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :completion do
     challenge
     participation
