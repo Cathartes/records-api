@@ -26,7 +26,7 @@
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :user do
     discord_name { Faker::Name.name }
     password     { Faker::Internet.password 6, 72 }
