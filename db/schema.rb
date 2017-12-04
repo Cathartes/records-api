@@ -95,7 +95,6 @@ ActiveRecord::Schema.define(version: 20171022212718) do
     t.datetime "updated_at", null: false
     t.datetime "password_updated_at"
     t.integer "membership_type", default: 0, null: false
-    t.integer "status", default: 0, null: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["discord_name"], name: "index_users_on_discord_name", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true

@@ -3,6 +3,10 @@ class UserPolicy < ApplicationPolicy
     user&.admin?
   end
 
+  def destroy?
+    user&.admin? && record&.completions&.empty?
+  end
+
   def index?
     true
   end

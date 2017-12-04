@@ -17,7 +17,6 @@
 #  updated_at             :datetime         not null
 #  password_updated_at    :datetime
 #  membership_type        :integer          default("applicant"), not null
-#  status                 :integer          default(0), not null
 #
 # Indexes
 #

@@ -6,10 +6,9 @@ module Mutations
       description 'Update a member status'
       type ::Types::UserType
 
-      def call(_, args, ctx)
+      def call(_obj, args, ctx)
         user = ::User.find args[:id]
-        destroy_generic user, args, ctx if user.participations.empty?
-        raise Pundit::NotAuthorizedError, "Can't remove someone that have participated!"
+        destroy_generic user, ctx
       end
     end
   end
