@@ -75,7 +75,7 @@ Challenge.create!(member_challenges.map do |challenge|
   {
     record_book:       season_one,
     name:              challenge,
-    max_completions:   1,
+    challenge_type:    :member,
     points_completion: 1,
     points_first:      9,
     points_second:     6,
