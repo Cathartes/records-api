@@ -1,7 +1,7 @@
 AllCops:
   Exclude:
     - "db/schema.rb"
-  TargetRubyVersion: 2.3
+  TargetRubyVersion: 2.5
 Metrics/AbcSize:
   Enabled: false
 Metrics/BlockLength:
@@ -29,8 +29,6 @@ Style/AndOr:
   EnforcedStyle: conditionals
 Style/Documentation:
   Enabled: false
-Style/IfUnlessModifier:
-  MaxLineLength: 100
 
 ## TODO: In upgrading to Ruby 3.0, this will need to be enabled
 Style/FrozenStringLiteralComment:
