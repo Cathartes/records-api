@@ -7,8 +7,11 @@ jobs:
     docker:
       - image: circleci/ruby:2.5.0-node
         environment:
+          BUNDLE_JOBS: 3
+          BUNDLE_PATH: vendor/bundle
+          BUNDLE_RETRY: 3
           RAILS_ENV: test
-      - image: circleci/postgres:9.6
+      - image: circleci/postgres:9.10-alpine
 
     steps:
       - checkout
@@ -18,22 +21,26 @@ jobs:
           - records-api-
       - run:
           name: Install Ruby Dependencies
-          command: bundle check --path=vendor/bundle || bundle install --path=vendor/bundle --jobs=4 --retry=3
+          command: bundle check || bundle install
       - save_cache:
           key: records-api-{{ checksum "Gemfile.lock" }}
           paths:
             - vendor/bundle
       - run:
-          name: Create Database
-          command: bundle exec rake db:create
-      - run:
           name: Load Database Schema
-          command: bundle exec rake db:schema:load
+          command: bundle exec rake db:create db:schema:load
+      - run:
+          name: Setup Code Climate Test Reporter
+          command: |
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+            chmod +x ./cc-test-reporter
       - run:
           name: Run RSpec Test Suite
           command: |
+            ./cc-test-reporter before-build
             TESTFILES=$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
-            bundle exec rspec --profile 10 --format RspecJunitFormatter --out /tmp/test-results/rspec.xml --format progress -- ${TESTFILES}
+            bundle exec rspec -p 10 -f RspecJunitFormatter -o /tmp/test-results/rspec.xml -f progress -- ${TESTFILES}
+            ./cc-test-reporter after-build --exit-code $?
       - store_test_results:
           path: /tmp/test-results
       - store_artifacts:
@@ -50,12 +57,14 @@ jobs:
       - run:
           name: Setup Heroku Connection
           command: bash .circleci/setup-heroku.sh
+      - add_ssh_keys:
+          fingerprints:
+            - "27:c5:85:df:45:b3:ec:89:3b:c3:ac:f2:c8:3e:07:f6"
       - deploy:
           name: Deploy "develop" to Heorku Application "records-api-staging"
           command: |
             heroku maintenance:on --app records-api-staging
-            [[ ! -s \"$(git rev-parse --git-dir)/shallow\" ]] || git fetch --unshallow
-            git push heroku ${CIRCLE_BRANCH}:master
+            git push -f git@heroku.com:records-api-staging.git HEAD:refs/heads/master
             heroku run rake db:migrate --app records-api-staging
             heroku restart --app records-api-staging
             heroku maintenance:off --app records-api-staging
@@ -71,12 +80,14 @@ jobs:
       - run:
           name: Setup Heroku Connection
           command: bash .circleci/setup-heroku.sh
+      - add_ssh_keys:
+          fingerprints:
+            - "27:c5:85:df:45:b3:ec:89:3b:c3:ac:f2:c8:3e:07:f6"
       - deploy:
           name: Deploy "develop" to Heorku Application "records-api-production"
           command: |
             heroku maintenance:on --app records-api-production
-            [[ ! -s \"$(git rev-parse --git-dir)/shallow\" ]] || git fetch --unshallow
-            git push heroku ${CIRCLE_BRANCH}:master
+            git push -f git@heroku.com:records-api-production.git HEAD:refs/heads/master
             heroku run rake db:migrate --app records-api-production
             heroku restart --app records-api-production
             heroku maintenance:off --app records-api-production
