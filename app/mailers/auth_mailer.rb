@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AuthMailer < ApplicationMailer
   def reset_password_instructions(user, redirect_url)
     @user         = user

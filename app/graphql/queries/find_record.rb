@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Queries
   class FindRecord < GraphQL::Function
     attr_reader :model

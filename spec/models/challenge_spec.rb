@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: challenges
@@ -29,7 +31,7 @@ RSpec.describe Challenge, type: :model do
   end
 
   describe 'enums' do
-    it { should define_enum_for(:challenge_type).with %i[everyone applicant member] }
+    it { is_expected.to define_enum_for(:challenge_type).with %i[everyone applicant member] }
   end
 
   describe 'validations' do
@@ -43,13 +45,13 @@ RSpec.describe Challenge, type: :model do
     let(:challenge) { Challenge.new points_completion: 20, points_first: 50 }
 
     context 'when "rank" does not exist' do
-      it 'should return points for rank 0' do
+      it 'returns points for rank 0' do
         expect(challenge.points_for_rank(2)).to eq 20
       end
     end
 
     context 'when "rank" exists' do
-      it 'should return the correct points' do
+      it 'returns the correct points' do
         expect(challenge.points_for_rank(1)).to eq 50
       end
     end

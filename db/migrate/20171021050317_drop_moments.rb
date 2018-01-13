@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DropMoments < ActiveRecord::Migration[5.1]
   def change
     drop_table :moments do |t|

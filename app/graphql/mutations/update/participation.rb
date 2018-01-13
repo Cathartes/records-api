@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Mutations
   module Update
     class Participation < ::Mutations::Update::Base

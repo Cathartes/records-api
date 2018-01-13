@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class FindLoader < GraphQL::Batch::Loader
   def initialize(model)
     @model = model

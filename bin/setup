@@ -1,4 +1,8 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
+
+# rubocop:disable Style/MixinUsage
+
 require 'pathname'
 require 'fileutils'
 include FileUtils
@@ -32,3 +36,5 @@ chdir APP_ROOT do
   puts "\n== Restarting application server =="
   system! 'bin/rails restart'
 end
+
+# rubocop:enable Style/MixinUsage

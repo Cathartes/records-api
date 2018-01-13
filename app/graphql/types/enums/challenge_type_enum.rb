@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Types
   module Enums
     ChallengeTypeEnum = GraphQL::EnumType.define do

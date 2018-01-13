@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Types
   TeamType = GraphQL::ObjectType.define do
     name 'Team'

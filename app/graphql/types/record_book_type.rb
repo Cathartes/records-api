@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Types
   RecordBookType = GraphQL::ObjectType.define do
     name 'RecordBook'

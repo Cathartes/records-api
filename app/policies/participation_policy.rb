@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ParticipationPolicy < ApplicationPolicy
   def create?
     user&.admin?

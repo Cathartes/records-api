@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Types
   CompletionType = GraphQL::ObjectType.define do
     name 'Completion'

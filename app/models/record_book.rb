@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: record_books
@@ -15,7 +17,7 @@
 #
 
 class RecordBook < ApplicationRecord
-  has_many :challenges, -> { order :position }, dependent: :destroy
+  has_many :challenges, -> { order :position }, dependent: :destroy, inverse_of: :record_book
   has_many :participations, dependent: :destroy
   has_many :teams, through: :participations
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Mutations
   class Base < GraphQL::Function
     def record_args(record, args, ctx)

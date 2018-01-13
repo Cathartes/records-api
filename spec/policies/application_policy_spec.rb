@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 require 'pundit/matchers'
 
@@ -14,8 +16,10 @@ RSpec.describe ApplicationPolicy, type: :policy do
   it { is_expected.to forbid_action :update }
 
   describe '.scope' do
+    let(:application_policy) { described_class.new user, record }
+
     it 'raises an error' do
-      expect { subject.scope }.to raise_error Pundit::NotDefinedError
+      expect { application_policy.scope }.to raise_error Pundit::NotDefinedError
     end
   end
 

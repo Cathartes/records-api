@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Mutations
   module Create
     class User < ::Mutations::Create::Base

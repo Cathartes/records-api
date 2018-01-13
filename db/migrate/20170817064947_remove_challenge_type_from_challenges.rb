@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RemoveChallengeTypeFromChallenges < ActiveRecord::Migration[5.1]
   def change
     remove_column :challenges, :challenge_type, :integer

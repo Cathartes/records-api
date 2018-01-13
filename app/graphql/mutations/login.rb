@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Mutations
   class Login < GraphQL::Function
     argument :email, !types.String, 'Email of the user logging in'
