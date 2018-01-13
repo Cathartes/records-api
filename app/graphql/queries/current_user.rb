@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Queries
   class CurrentUser < GraphQL::Function
     description 'Return the current user'

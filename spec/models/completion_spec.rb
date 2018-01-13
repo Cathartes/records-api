@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: completions
@@ -27,7 +29,7 @@ RSpec.describe Completion, type: :model do
   end
 
   describe 'enums' do
-    it { should define_enum_for(:status).with %i[pending approved declined] }
+    it { is_expected.to define_enum_for(:status).with %i[pending approved declined] }
   end
 
   describe 'validations' do

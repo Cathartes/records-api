@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddChallengeTypeToChallenges < ActiveRecord::Migration[5.1]
   def change
     add_column :challenges, :challenge_type, :integer

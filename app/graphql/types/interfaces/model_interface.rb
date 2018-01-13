@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Types
   module Interfaces
     ModelInterface = GraphQL::InterfaceType.define do

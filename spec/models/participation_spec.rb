@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: participations
@@ -27,7 +29,7 @@ RSpec.describe Participation, type: :model do
   end
 
   describe 'enums' do
-    it { should define_enum_for(:membership_type).with %i[applicant member] }
+    it { is_expected.to define_enum_for(:membership_type).with %i[applicant member] }
   end
 
   describe 'validations' do
@@ -35,8 +37,9 @@ RSpec.describe Participation, type: :model do
     it { is_expected.to validate_presence_of :record_book }
     it { is_expected.to validate_presence_of :user }
 
-    context 'uniqueness' do
+    context 'when uniqueness' do
       subject { build :participation }
+
       it { is_expected.to validate_uniqueness_of(:user_id).scoped_to :record_book_id }
     end
   end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Types
   UserType = GraphQL::ObjectType.define do
     name 'User'

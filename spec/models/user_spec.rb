@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: users
@@ -39,13 +41,13 @@ RSpec.describe User, type: :model do
   end
 
   describe 'enums' do
-    it { should define_enum_for(:membership_type).with %i[applicant member retired] }
+    it { is_expected.to define_enum_for(:membership_type).with %i[applicant member retired] }
   end
 
   describe 'validations' do
     it { is_expected.to validate_length_of(:discord_name).is_at_least(6).is_at_most 72 }
     it { is_expected.to allow_value('email@email.com').for :email }
-    it { is_expected.to_not allow_value('fake').for :email }
+    it { is_expected.not_to allow_value('fake').for :email }
     it { is_expected.to validate_length_of(:password).is_at_least(6).is_at_most 72 }
   end
 
@@ -69,13 +71,13 @@ RSpec.describe User, type: :model do
   describe '.send_reset_password_instructions!' do
     let(:user) { create :user, :claimed }
 
-    before(:each) do
+    before do
       AuthMailer.expects(:reset_password_instructions).with(user, nil).returns stub deliver: true
       Timecop.freeze
       user.send_reset_password_instructions!
     end
 
-    after(:each) { Timecop.return }
+    after { Timecop.return }
 
     it 'is expected to create a reset password token' do
       expect(user.reset_password_token).to be_present

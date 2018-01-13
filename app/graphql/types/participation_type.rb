@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Types
   ParticipationType = GraphQL::ObjectType.define do
     name 'Participation'

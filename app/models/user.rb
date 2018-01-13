@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: users
@@ -37,7 +39,7 @@ class User < ApplicationRecord
 
   has_one :active_participation, (lambda do
     joins(:record_book).where 'start_time <= :now AND end_time >= :now', now: Time.zone.now
-  end), class_name: 'Participation'
+  end), class_name: 'Participation', inverse_of: :user
   has_one :active_record_book, through: :active_participation, source: :record_book
 
   enum membership_type: { applicant: 0, member: 1, retired: 2 }
