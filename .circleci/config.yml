@@ -6,11 +6,6 @@ jobs:
 
     docker:
       - image: circleci/ruby:2.5.0-node
-        environment:
-          BUNDLE_JOBS: 3
-          BUNDLE_PATH: vendor/bundle
-          BUNDLE_RETRY: 3
-          RAILS_ENV: test
       - image: circleci/postgres:10-alpine
 
     steps:
@@ -21,7 +16,7 @@ jobs:
           - records-api-
       - run:
           name: Install Ruby Dependencies
-          command: bundle check || bundle install
+          command: bundle check --path=vendor/bundle || bundle install --path=vendor/bundle --jobs=4 --retry=3
       - save_cache:
           key: records-api-{{ checksum "Gemfile.lock" }}
           paths:
