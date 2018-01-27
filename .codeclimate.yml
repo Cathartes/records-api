@@ -1,4 +1,4 @@
-version: "2"
+version: 2
 plugins:
   brakeman:
     enabled: true
@@ -8,12 +8,12 @@ plugins:
     enabled: true
     config:
       languages:
-      - ruby:
+        - ruby:
     exclude_patterns:
-    - "spec/**/*"
+      - spec/**/*
   fixme:
     enabled: true
   rubocop:
     enabled: true
 exclude_patterns:
-- "**/vendor/**/*"
+  - "**/vendor/**/*"

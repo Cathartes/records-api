@@ -1,8 +1,29 @@
 version: 2
+defaults: &defaults
+  working_directory: ~/records-api
+
 jobs:
+  build:
+    <<: *defaults
+
+    docker:
+      - image: circleci/ruby:2.5.0
+
+    steps:
+      - run:
+          name: Setup Code Climate Test Reporter
+          command: |
+            mkdir -p tmp/
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./tmp/cc-test-reporter
+            chmod +x ./tmp/cc-test-reporter
+      - persist_to_workspace:
+          root: tmp
+          paths:
+            - cc-test-reporter
+
   test:
+    <<: *defaults
     parallelism: 2
-    working_directory: ~/records-api
 
     docker:
       - image: circleci/ruby:2.5.0-node
@@ -10,13 +31,15 @@ jobs:
 
     steps:
       - checkout
+      - attach_workspace:
+          at: ~/records-api/tmp
       - restore_cache:
           keys:
           - records-api-{{ checksum "Gemfile.lock" }}
-          - records-api-
+          - records-api
       - run:
           name: Install Ruby Dependencies
-          command: bundle check --path=vendor/bundle || bundle install --path=vendor/bundle --jobs=4 --retry=3
+          command: bundle check --path vendor/bundle || bundle install --path vendor/bundle --jobs 4 --retry 3
       - save_cache:
           key: records-api-{{ checksum "Gemfile.lock" }}
           paths:
@@ -25,27 +48,38 @@ jobs:
           name: Load Database Schema
           command: bundle exec rake db:create db:schema:load
       - run:
-          name: Setup Code Climate Test Reporter
-          command: |
-            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-            chmod +x ./cc-test-reporter
-      - run:
           name: Run RSpec Test Suite
           command: |
-            ./cc-test-reporter before-build
             TESTFILES=$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
             bundle exec rspec -p 10 -f RspecJunitFormatter -o /tmp/test-results/rspec.xml -f progress -- ${TESTFILES}
-            ./cc-test-reporter after-build --exit-code $?
+            ./tmp/cc-test-reporter format-coverage -o tmp/coverage/codeclimate-$CIRCLE_NODE_INDEX.json
+      - persist_to_workspace:
+          root: tmp
+          paths:
+            - coverage
       - store_test_results:
           path: /tmp/test-results
-      - store_artifacts:
-          path: /tmp/test-results
 
-  deploy_staging:
-    working_directory: ~/records-api
+  upload:
+    <<: *defaults
 
     docker:
-      - image: ruby:2.5.0
+      - image: circleci/ruby:2.5.0
+
+    steps:
+      - attach_workspace:
+          at: ~/found_money_admin/tmp
+      - run:
+          name: Upload Coverage to Code Climate
+          command: |
+            ./tmp/cc-test-reporter sum-coverage tmp/coverage/codeclimate-*.json -o tmp/coverage/codeclimate.total.json
+            ./tmp/cc-test-reporter upload-coverage -i tmp/coverage/codeclimate.total.json
+
+  deploy_staging:
+    <<: *defaults
+
+    docker:
+      - image: circleci/ruby:2.5.0
 
     steps:
       - checkout
@@ -65,10 +99,10 @@ jobs:
             heroku maintenance:off --app records-api-staging
 
   deploy_production:
-    working_directory: ~/records-api
+    <<: *defaults
 
     docker:
-      - image: ruby:2.5.0
+      - image: circleci/ruby:2.5.0
 
     steps:
       - checkout
@@ -91,7 +125,13 @@ workflows:
   version: 2
   test_deploy:
     jobs:
-      - test
+      - build
+      - test:
+          requires:
+            - build
+      - upload:
+          requires:
+            - test
       - deploy_staging:
           requires:
             - test
