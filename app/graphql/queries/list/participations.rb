@@ -8,7 +8,7 @@ module Queries
       argument :userId, types.Int, 'ID of a user to filter results by', as: :user_id
 
       description 'List participations with various filters'
-      type types[::Types::ParticipationType]
+      type !types[::Types::ParticipationType]
 
       def call(_obj, args, ctx)
         super do

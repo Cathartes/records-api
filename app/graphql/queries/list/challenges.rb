@@ -6,7 +6,7 @@ module Queries
       argument :recordBookId, types.Int, 'ID of a record book to filter results by', as: :record_book_id
 
       description 'List challenges with various filters'
-      type types[::Types::ChallengeType]
+      type !types[::Types::ChallengeType]
 
       def call(_obj, args, ctx)
         super do

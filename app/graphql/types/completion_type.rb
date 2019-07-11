@@ -23,7 +23,7 @@ module Types
     end
 
     ## Has one associations
-    field :record_book, !RecordBookType
+    field :recordBook, !RecordBookType
     field :user, !UserType
   end
 end

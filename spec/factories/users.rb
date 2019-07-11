@@ -40,6 +40,8 @@ FactoryBot.define do
 
     trait(:claimed) { email { Faker::Internet.email } }
 
-    trait(:member) { membership_type :member }
+    trait(:applicant) { membership_type :applicant }
+    trait(:member)    { membership_type :member }
+    trait(:retired)   { membership_type :retired }
   end
 end

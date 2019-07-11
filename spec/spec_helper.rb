@@ -19,7 +19,10 @@
 require 'simplecov'
 SimpleCov.start 'rails'
 SimpleCov.add_group 'Channels', 'app/channels'
+SimpleCov.add_group 'Mutations', 'app/graphql/mutations'
 SimpleCov.add_group 'Policies', 'app/policies'
+SimpleCov.add_group 'Queries', 'app/graphql/queries'
+SimpleCov.add_group 'Types', 'app/graphql/types'
 SimpleCov.add_group 'Validators', 'app/validators'
 
 RSpec.configure do |config|

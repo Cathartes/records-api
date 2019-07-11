@@ -19,7 +19,7 @@ module Types
     field :membershipType, !Enums::UserMembershipTypeEnum, property: :membership_type
 
     ## Has many associations
-    field :participations, types[!ParticipationType] do
+    field :participations, !types[ParticipationType] do
       resolve ->(obj, _args, _ctx) { ForeignKeyLoader.for(Participation, :user_id).load([obj.id]) }
     end
   end

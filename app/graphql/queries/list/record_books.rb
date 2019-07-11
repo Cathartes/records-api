@@ -4,7 +4,7 @@ module Queries
   module List
     class RecordBooks < ::Queries::List::Base
       description 'List record books with various filters'
-      type types[::Types::RecordBookType]
+      type !types[::Types::RecordBookType]
 
       def call(_obj, _args, ctx)
         super do

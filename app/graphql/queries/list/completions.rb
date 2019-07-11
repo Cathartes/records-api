@@ -9,7 +9,7 @@ module Queries
       argument :userId, types.Int, 'ID of a user to filter results by', as: :user_id
 
       description 'List completions with various filters'
-      type types[::Types::CompletionType]
+      type !types[::Types::CompletionType]
 
       def call(_obj, args, ctx)
         super do

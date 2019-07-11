@@ -4,7 +4,7 @@ module Queries
   module List
     class Teams < ::Queries::List::Base
       description 'List teams with various filters'
-      type types[::Types::TeamType]
+      type !types[::Types::TeamType]
 
       def call(_obj, _args, ctx)
         super do

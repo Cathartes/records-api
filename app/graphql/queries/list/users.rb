@@ -6,7 +6,7 @@ module Queries
       argument :membershipType, Types::Enums::UserMembershipTypeEnum, 'Type of user to filter results by', as: :membership_type
 
       description 'List users with various filters'
-      type types[::Types::UserType]
+      type !types[::Types::UserType]
 
       def call(_obj, args, ctx)
         super do

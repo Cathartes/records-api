@@ -23,7 +23,7 @@ module Types
     end
 
     ## Has many associations
-    field :completions, types[!CompletionType] do
+    field :completions, !types[CompletionType] do
       resolve ->(obj, _args, _ctx) { ForeignKeyLoader.for(Completion, :participation_id).load([obj.id]) }
     end
   end

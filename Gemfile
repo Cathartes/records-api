@@ -41,7 +41,8 @@ end
 group :test do
   gem 'database_cleaner'
   gem 'mocha'
-  gem 'pundit-matchers'
+  gem 'pundit-matchers', require: false
+  gem 'rspec-graphql_matchers', require: false
   gem 'rspec_junit_formatter'
   gem 'shoulda-matchers'
   gem 'simplecov', require: false
